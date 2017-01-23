@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_placeOrder"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Place Order" />
+        <item
+            android:id="@+id/drawer_myOrder"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Orders" />
+        <item
+            android:id="@+id/drawer_profile"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Profile" />
+
+        <item
+            android:id="@+id/drawer_type"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Become Rider" />
+        <item
+            android:id="@+id/drawer_logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
+    </group>
+
+    <!--<item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>-->
+
+</menu>
