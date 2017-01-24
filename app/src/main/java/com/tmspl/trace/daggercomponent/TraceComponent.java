@@ -4,6 +4,7 @@ import com.tmspl.trace.activity.TraceActivity;
 import com.tmspl.trace.api.API;
 import com.tmspl.trace.daggermodel.ApiModule;
 import com.tmspl.trace.daggermodel.AppModule;
+import com.tmspl.trace.fragment.addaddress.FragmentAddNewAddress;
 
 import javax.inject.Singleton;
 
@@ -19,4 +20,6 @@ public interface TraceComponent {
     API api();
 
     void inject(TraceActivity activity);
+
+    void inject(FragmentAddNewAddress addNewAddress);
 }

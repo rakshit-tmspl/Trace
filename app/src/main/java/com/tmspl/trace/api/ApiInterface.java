@@ -17,4 +17,5 @@ public interface ApiInterface {
     @POST("login_authentiocation")
     Call<LoginResponse> getLoginResponse(@Field("auth") String auth, @Field("email") String email,
                                          @Field("password") String password);
+
 }

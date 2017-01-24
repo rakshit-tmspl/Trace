@@ -26,7 +26,7 @@ public class API {
         apiService = retrofit.create(ApiInterface.class);
     }
 
-    public void loginUser(final Context context,final String auth, final String email, final String password,
+    public void loginUser(final Context context, final String auth, final String email, final String password,
                           final RetrofitCallbacks<LoginResponse> callback) {
 
         Call<LoginResponse> loginResponseCall = apiService.getLoginResponse(auth, email, password);
@@ -34,5 +34,6 @@ public class API {
         loginResponseCall.enqueue(callback);
 
     }
+
 
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawableLeft="@drawable/pin"
+    android:paddingLeft="5dp"
+    android:background="@color/white"
+    android:drawablePadding="3dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="3dp"
+    android:gravity="center_vertical"
+    android:textColor="#000"
+    android:minHeight="30dp"
+    android:paddingBottom="3dp"/>
