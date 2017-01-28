@@ -3,13 +3,11 @@ package com.tmspl.trace.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,27 +33,26 @@ import java.util.Date;
 
 import dmax.dialog.SpotsDialog;
 
-public class AcceptedDeliveriesActivity extends AppCompatActivity {
+public class InvoiceActivity extends Activity {
 
-    public static String  logo,rider_image;
     public static LinearLayout from_add, to_add_1, to_add_2, to_add_3;
     public static TextView txt_from_add, txt_to_add_1, txt_to_add_2, txt_to_add_3;
-    public static ImageView parcel_img, accepted_make_call;
-    public static ImageView done1, done2, done3, iv_next;
+    public static TextView txt_invoice_name,txt_invoice_order_id,txt_invoice_order_date,txt_invoice_total_distance,txt_invoice_total_bill,txt_invoice_paid;
+    public static ImageView parcel_img;
+    public static ImageView done1, done2, done3;
     public static Activity context;
 
-    public static String rider_name, rider_vehicle_name, rider_vehicle_number, secret_code, order_track_id;
+    public static String rider_name, secret_code, order_track_id;
 
     public static String to_id, to_rs, to_count, to_address;
 
 
-    public static Button btn_track_order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accepted_deliveries);
-        context = AcceptedDeliveriesActivity.this;
+        setContentView(R.layout.invoice_deliveries);
+        context = InvoiceActivity.this;
 
         if(Constants.order_id==null)
         {
@@ -72,13 +69,19 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         txt_to_add_1 = (TextView) findViewById(R.id.accepted_to_address_1);
         txt_to_add_2 = (TextView) findViewById(R.id.accepted_to_address_2);
         txt_to_add_3 = (TextView) findViewById(R.id.accepted_to_address_3);
+        txt_invoice_name = (TextView) findViewById(R.id.txt_invoice_name);
+        txt_invoice_order_id = (TextView) findViewById(R.id.txt_invoice_order_id);
+        txt_invoice_order_date = (TextView) findViewById(R.id.txt_invoice_order_date);
+        txt_invoice_total_distance = (TextView) findViewById(R.id.txt_invoice_total_distance);
+        txt_invoice_total_bill = (TextView) findViewById(R.id.txt_invoice_total_bill);
+        txt_invoice_paid = (TextView) findViewById(R.id.txt_invoice_paid);
 
         done1 = (ImageView) findViewById(R.id.accept_img_1);
         done2 = (ImageView) findViewById(R.id.accept_img_2);
         done3 = (ImageView) findViewById(R.id.accept_img_3);
 
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        iv_back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -86,16 +89,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         });
 
         parcel_img = (ImageView) findViewById(R.id.accepted_parcel_img);
-        accepted_make_call = (ImageView) findViewById(R.id.accepted_make_call);
-        iv_next = (ImageView) findViewById(R.id.iv_next);
-
-        btn_track_order = (Button) findViewById(R.id.btn_track_order);
 
 
-        if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
-            iv_next.setVisibility(View.INVISIBLE);
-            btn_track_order.setText("Track Destination");
-        }
+
 
         if (NetworkUtil.isInternetConnencted(context)) {
             new view_order_detail(context).execute();
@@ -184,99 +180,50 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                     .into(parcel_img);
 
                         }
-                        logo=object_to_1.getString("image");
 
 
 
-
-
-
-
-
-                        if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
-                            accepted_make_call.setVisibility(View.VISIBLE);
-                        } else {
-                            accepted_make_call.setVisibility(View.GONE);
-                        }
-                        accepted_make_call.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View arg0) {
-                                // TODO Auto-generated method stub
-                                Uri number;
-                                try {
-                                    number = Uri.parse("tel:" +
-                                            object_to_1.getString("umobile"));
-                                    Intent dial = new Intent(
-                                            Intent.ACTION_DIAL, number);
-                                    startActivity(dial);
-                                } catch (JSONException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
-                        if (object_to_1.getString("hasrider").equals("0") || Constants.isSignCom==0) {
-                            iv_next.setVisibility(View.INVISIBLE);
-                        }
-                        iv_next.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View arg0) {
-                                // TODO Auto-generated method stub
-                                try {
-                                    if (object_to_1.getString("hasrider").equals("0")) {
-                                        iv_next.setVisibility(View.INVISIBLE);
-                                    } else {
-                                        rider_name = object_to_1.getString("rider_name");
-                                        rider_image = object_to_1.getString("rider_image");
-                                        rider_vehicle_name = object_to_1.getString("vehicle_name");
-                                        rider_vehicle_number = object_to_1.getString("vehicle_number");
-
-                                        if(Constants.isCompleted==1)
-                                        {
-                                            startActivity(new Intent(context, InvoiceActivity.class));
-                                        }
-                                        else {
-                                            startActivity(new Intent(context, Rider_details.class));
-                                        }
-
-                                    }
-                                } catch (JSONException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
                         secret_code = object_to_1.getString("secret_code");
                         order_track_id = object_to_1.getString("order_track_id");
 
-                        String deliverydate=object_to_1.getString("pickup_date_time");
+                        if(Preferences.getSavedPreferences(context,"usertype").equals("2")) {
+                            txt_invoice_name.setText(Preferences.getSavedPreferences(context,"company_name"));
+                        }else
+                        {
+                            txt_invoice_name.setText(Preferences.getSavedPreferences(context,"first_name")+" "+Preferences.getSavedPreferences(context,"last_name"));
+                        }
+                        txt_invoice_order_id.setText(order_track_id);
+
+                        String deliverydate=object_to_1.getString("order_date_time");
                         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date=sdf.parse(deliverydate);
+                        sdf=new SimpleDateFormat("dd-MM-yyyy");
+
+                        txt_invoice_order_date.setText(sdf.format(date));
+                        txt_invoice_total_distance.setText(Math.round(Double.parseDouble(object_to_1.getString("total_km")))+" km");
+                        txt_invoice_total_bill.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount")))+" Rs.");
+                        txt_invoice_paid.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount")))+" Rs.");
+
+                        deliverydate=object_to_1.getString("pickup_date_time");
+                        sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        date=sdf.parse(deliverydate);
                         sdf=new SimpleDateFormat("HH:mm");
                         String strFrom="";
                         if(object_to_1.getString("payment_method").equals("1"))
                         {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Collect Money From Pickup Location!";
+                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done by Cash!";
                         }
                         else
                         {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done!";
+                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done by Paytm!";
                         }
 
                         txt_from_add.setText(strFrom);
 
                         txt_to_add_1.setText(object_to_1.getString("to_address"));
-                        btn_track_order.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                context.startActivity(new Intent(context, Track_Order.class));
-                            }
-                        });
+
                         if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_1.getString("status").equals("2") == false) {
-                            to_add_1.setOnClickListener(new View.OnClickListener() {
+                            to_add_1.setOnClickListener(new OnClickListener() {
 
                                 @Override
                                 public void onClick(View arg0) {
@@ -295,7 +242,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             });
                         }
                         if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_1.getString("status").equals("2")) {
-                            to_add_1.setOnClickListener(new View.OnClickListener() {
+                            to_add_1.setOnClickListener(new OnClickListener() {
 
                                 @Override
                                 public void onClick(View arg0) {
@@ -307,7 +254,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                         // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
-                                    // startActivity(new Intent(context, Rider_Complite.class));
+                                   // startActivity(new Intent(context, Rider_Complite.class));
                                 }
                             });
                         }
@@ -342,7 +289,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             }
 
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_2.getString("status").equals("2") == false) {
-                                to_add_2.setOnClickListener(new View.OnClickListener() {
+                                to_add_2.setOnClickListener(new OnClickListener() {
 
                                     @Override
                                     public void onClick(View arg0) {
@@ -361,14 +308,14 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 });
                             }
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_2.getString("status").equals("2")) {
-                                to_add_2.setOnClickListener(new View.OnClickListener() {
+                                to_add_2.setOnClickListener(new OnClickListener() {
 
                                     @Override
                                     public void onClick(View arg0) {
                                         // TODO Auto-generated method stub
                                         try {
                                             to_id = object_to_2.getString("to_id");
-                                            //  startActivity(new Intent(context, Rider_Complite.class));
+                                           // startActivity(new Intent(context, Rider_Complite.class));
                                         } catch (JSONException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
@@ -394,7 +341,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 txt_to_add_3.setText(txt_to_add_3.getText()+"\nDelivery Time : "+sdf.format(date));
                             }
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_3.getString("status").equals("2") == false) {
-                                to_add_3.setOnClickListener(new View.OnClickListener() {
+                                to_add_3.setOnClickListener(new OnClickListener() {
 
                                     @Override
                                     public void onClick(View arg0) {
@@ -413,14 +360,14 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 });
                             }
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false && object_to_3.getString("status").equals("2")) {
-                                to_add_3.setOnClickListener(new View.OnClickListener() {
+                                to_add_3.setOnClickListener(new OnClickListener() {
 
                                     @Override
                                     public void onClick(View arg0) {
                                         // TODO Auto-generated method stub
                                         try {
                                             to_id = object_to_3.getString("to_id");
-                                            // startActivity(new Intent(context, Rider_Complite.class));
+                                          //  startActivity(new Intent(context, Rider_Complite.class));
                                         } catch (JSONException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
@@ -429,6 +376,8 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 });
                             }
                         }
+
+
 
                     } else {
                         Alert.ShowAlert(context,
@@ -447,9 +396,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (Preferences.getSavedPreferences(AcceptedDeliveriesActivity.this, "usertype").equals("3")) {
+        if (Preferences.getSavedPreferences(InvoiceActivity.this, "usertype").equals("3")) {
             if (Constants.flgDelivery == 1) {
-                startActivity(new Intent(AcceptedDeliveriesActivity.this, RiderHomeActivity.class));
+                startActivity(new Intent(InvoiceActivity.this, RiderHomeActivity.class));
 
             } else {
                 Constants.flgDelivery = 0;

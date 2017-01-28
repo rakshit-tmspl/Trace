@@ -67,17 +67,23 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <service android:name=".extra.LocationService" />
 
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.UserHomeActivity" />
-        <activity android:name=".activity.RiderHomeActivity" />
         <activity
             android:name=".activity.homeactivity.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.CaptureActivity" />
-        <activity android:name=".activity.AcceptedDeliveriesActivity"></activity>
+        <activity android:name=".activity.AcceptedDeliveriesActivity" />
+        <activity
+            android:name=".activity.ridersactivity.RiderHomeActivity"
+            android:label="@string/title_activity_rider_home"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.ridersactivity.DeliveryDetails" />
+        <activity android:name=".activity.CompleteDeliveryActivity"></activity>
     </application>
 
 </manifest>

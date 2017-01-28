@@ -10,4 +10,5 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
       AIzaSyCQGprubPjOM4niXv8a7y7LvIuRQED7GeY
     </string>
+    <string name="title_activity_rider_home">RiderHomeActivity</string>
 </resources>

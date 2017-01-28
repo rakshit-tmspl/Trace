@@ -1,9 +1,5 @@
 package com.tmspl.trace.apimodel;
 
-/**
- * Created by rakshit.sathwara on 1/23/2017.
- */
-
 import com.google.android.gms.maps.model.LatLng;
 
 public class maps_bean {

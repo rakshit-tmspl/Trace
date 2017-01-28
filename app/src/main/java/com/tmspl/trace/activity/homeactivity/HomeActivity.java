@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.tmspl.trace.R;
 import com.tmspl.trace.fragment.FragmentMap;
+import com.tmspl.trace.fragment.manageorder.FragmentManageOrder;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,7 +87,7 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.drawer_placeOrder) {
             fragment = FragmentMap.newInstance(0, this);
         } else if (id == R.id.drawer_myOrder) {
-
+            fragment = FragmentManageOrder.newInstance(1, this);
         } else if (id == R.id.drawer_profile) {
 
         } else if (id == R.id.drawer_type) {

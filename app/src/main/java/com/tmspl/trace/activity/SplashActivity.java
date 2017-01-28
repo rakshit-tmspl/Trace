@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tmspl.trace.R;
+import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.extra.Preferences;
 
 public class SplashActivity extends AppCompatActivity {

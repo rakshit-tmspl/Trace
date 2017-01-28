@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#CCC"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="DELIVERIES"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.21"
+                android:gravity="center">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/delivery_delivery_parcel_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:src="@drawable/delivery"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="2dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.49"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="3dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/delivery_delivery_start_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/current_location"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="2dp"
+                        android:text=""
+                        android:textColor="@android:color/black"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/delivery_delivery_end_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/pin"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:text=""
+                        android:textColor="@android:color/black"
+                        android:textSize="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="10dp">
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/dots" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="fill_parent" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/delivery_delivery_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.13"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.37"
+                        android:gravity="center"
+                        android:text="Deliveries"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/delivery_delivery_rs"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="fill_parent"
+                android:background="#CCC" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/delivery_accept_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/accept_small"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Accept"
+                    android:textColor="@android:color/holo_green_dark" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#CCC" />
+
+                <TextView
+                    android:id="@+id/delivery_calcel_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/cancle"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Cancel"
+                    android:textColor="@android:color/holo_red_dark" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dp"
+            android:background="#CCC" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f4f4f4"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!--            <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/gray" />
+
+                        <LinearLayout
+                            android:id="@+id/from_address"
+                            android:layout_width="fill_parent"
+                            android:layout_height="70dp"
+                            android:background="@android:color/white"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.2"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/current_location" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.8"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/accepted_from_address"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:autoLink="all"
+                                    android:gravity="center_vertical"
+                                    android:text="Near Snehkum bus stand,paldi,Near Snehkum bus stand,paldi,"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/gray" />
+
+                        <LinearLayout
+                            android:id="@+id/to_address_1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="70dp"
+                            android:background="@android:color/white"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.2"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/locations" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.8"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/accepted_to_address_1"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:autoLink="all"
+                                    android:gravity="center_vertical"
+                                    android:text="Near Snehkum bus stand,paldi,Near Snehkum bus stand,paldi,"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/gray" />
+
+                        <LinearLayout
+                            android:id="@+id/to_address_2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="70dp"
+                            android:background="@android:color/white"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.2"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/locations" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.8"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/accepted_to_address_2"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:autoLink="all"
+                                    android:gravity="center_vertical"
+                                    android:text="Near Snehkum bus stand,paldi,Near Snehkum bus stand,paldi,"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/gray" />
+
+                        <LinearLayout
+                            android:id="@+id/to_address_3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="70dp"
+                            android:background="@android:color/white"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.2"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/locations" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.8"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/accepted_to_address_3"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:autoLink="all"
+                                    android:gravity="center_vertical"
+                                    android:text="Near Snehkum bus stand,paldi,Near Snehkum bus stand,paldi,"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/gray" />
+                    </LinearLayout>-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"></LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/delivery_delivery_start_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_my_location_black_48dp"
+                android:padding="5dp"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="250dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:background="#CCC" />
+
+            <TextView
+                android:id="@+id/delivery_delivery_end_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_add_location_black_48dp"
+                android:padding="5dp"
+                android:textSize="14sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Deliveries"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rs."
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_red_dark"
+                    android:text="Reject"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_green_dark"
+                    android:text="Accept"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
+
+
+
