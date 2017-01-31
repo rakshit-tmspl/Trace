@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tmspl.trace.R;
+import com.tmspl.trace.activity.homeactivity.HomeActivity;
 import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
@@ -37,7 +38,7 @@ import dmax.dialog.SpotsDialog;
 
 public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
-    public static String  logo,rider_image;
+    public static String logo, rider_image;
     public static LinearLayout from_add, to_add_1, to_add_2, to_add_3;
     public static TextView txt_from_add, txt_to_add_1, txt_to_add_2, txt_to_add_3;
     public static ImageView parcel_img, accepted_make_call;
@@ -57,10 +58,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_accepted_deliveries);
         context = AcceptedDeliveriesActivity.this;
 
-        if(Constants.order_id==null)
-        {
+        if (Constants.order_id == null) {
             finish();
-            startActivity(new Intent(this,UserHomeActivity.class));
+            startActivity(new Intent(this, UserHomeActivity.class));
         }
 
         from_add = (LinearLayout) findViewById(R.id.from_address);
@@ -82,6 +82,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                startActivity(new Intent(AcceptedDeliveriesActivity.this, HomeActivity.class));
             }
         });
 
@@ -117,7 +118,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Fetching Addresses..");
+            pd = new SpotsDialog(context, "Fetching Addresses..");
             pd.show();
             pd.setCancelable(false);
 
@@ -169,7 +170,6 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                         final JSONObject object_to_1 = detailArray.getJSONObject(0);
 
 
-
                         if (object_to_1.getString("image").equals("noimage.jpg") || object_to_1.getString("image").length() == 0) {
                             Picasso.with(context)
                                     .load(R.drawable.photo)
@@ -184,13 +184,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                     .into(parcel_img);
 
                         }
-                        logo=object_to_1.getString("image");
-
-
-
-
-
-
+                        logo = object_to_1.getString("image");
 
 
                         if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
@@ -217,7 +211,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
                             }
                         });
-                        if (object_to_1.getString("hasrider").equals("0") || Constants.isSignCom==0) {
+                        if (object_to_1.getString("hasrider").equals("0") || Constants.isSignCom == 0) {
                             iv_next.setVisibility(View.INVISIBLE);
                         }
                         iv_next.setOnClickListener(new View.OnClickListener() {
@@ -234,11 +228,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                         rider_vehicle_name = object_to_1.getString("vehicle_name");
                                         rider_vehicle_number = object_to_1.getString("vehicle_number");
 
-                                        if(Constants.isCompleted==1)
-                                        {
+                                        if (Constants.isCompleted == 1) {
                                             startActivity(new Intent(context, InvoiceActivity.class));
-                                        }
-                                        else {
+                                        } else {
                                             startActivity(new Intent(context, Rider_details.class));
                                         }
 
@@ -252,18 +244,15 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                         secret_code = object_to_1.getString("secret_code");
                         order_track_id = object_to_1.getString("order_track_id");
 
-                        String deliverydate=object_to_1.getString("pickup_date_time");
-                        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date=sdf.parse(deliverydate);
-                        sdf=new SimpleDateFormat("HH:mm");
-                        String strFrom="";
-                        if(object_to_1.getString("payment_method").equals("1"))
-                        {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Collect Money From Pickup Location!";
-                        }
-                        else
-                        {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done!";
+                        String deliverydate = object_to_1.getString("pickup_date_time");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = sdf.parse(deliverydate);
+                        sdf = new SimpleDateFormat("HH:mm");
+                        String strFrom = "";
+                        if (object_to_1.getString("payment_method").equals("1")) {
+                            strFrom = object_to_1.getString("from_address") + "\nPickup Time : " + sdf.format(date) + "\n" + "Collect Money From Pickup Location!";
+                        } else {
+                            strFrom = object_to_1.getString("from_address") + "\nPickup Time : " + sdf.format(date) + "\n" + "Payment has been done!";
                         }
 
                         txt_from_add.setText(strFrom);
@@ -294,7 +283,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                        if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_1.getString("status").equals("2")) {
+                        if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false && object_to_1.getString("status").equals("2")) {
                             to_add_1.setOnClickListener(new View.OnClickListener() {
 
                                 @Override
@@ -313,14 +302,12 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                         }
                         if (object_to_1.getString("status").equals("2") == false) {
                             done1.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            deliverydate=object_to_1.getString("delivery_date_time");
-                            sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            date=sdf.parse(deliverydate);
-                            sdf=new SimpleDateFormat("HH:mm");
-                            txt_to_add_1.setText(txt_to_add_1.getText()+"\nDelivery Time : "+sdf.format(date));
+                        } else {
+                            deliverydate = object_to_1.getString("delivery_date_time");
+                            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            date = sdf.parse(deliverydate);
+                            sdf = new SimpleDateFormat("HH:mm");
+                            txt_to_add_1.setText(txt_to_add_1.getText() + "\nDelivery Time : " + sdf.format(date));
                         }
 
                         if (detailArray.length() > 1) {
@@ -331,14 +318,12 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             if (object_to_2.getString("status").equals("2") == false) {
                                 done2.setVisibility(View.GONE);
 
-                            }
-                            else
-                            {
-                                deliverydate=object_to_2.getString("delivery_date_time");
-                                sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                date=sdf.parse(deliverydate);
-                                sdf=new SimpleDateFormat("HH:mm");
-                                txt_to_add_2.setText(txt_to_add_2.getText()+"\nDelivery Time : "+sdf.format(date));
+                            } else {
+                                deliverydate = object_to_2.getString("delivery_date_time");
+                                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                date = sdf.parse(deliverydate);
+                                sdf = new SimpleDateFormat("HH:mm");
+                                txt_to_add_2.setText(txt_to_add_2.getText() + "\nDelivery Time : " + sdf.format(date));
                             }
 
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_2.getString("status").equals("2") == false) {
@@ -360,7 +345,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                            if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_2.getString("status").equals("2")) {
+                            if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false && object_to_2.getString("status").equals("2")) {
                                 to_add_2.setOnClickListener(new View.OnClickListener() {
 
                                     @Override
@@ -384,14 +369,12 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             txt_to_add_3.setText(object_to_3.getString("to_address"));
                             if (object_to_3.getString("status").equals("2") == false) {
                                 done3.setVisibility(View.GONE);
-                            }
-                            else
-                            {
-                                deliverydate=object_to_3.getString("delivery_date_time");
-                                sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                date=sdf.parse(deliverydate);
-                                sdf=new SimpleDateFormat("HH:mm");
-                                txt_to_add_3.setText(txt_to_add_3.getText()+"\nDelivery Time : "+sdf.format(date));
+                            } else {
+                                deliverydate = object_to_3.getString("delivery_date_time");
+                                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                date = sdf.parse(deliverydate);
+                                sdf = new SimpleDateFormat("HH:mm");
+                                txt_to_add_3.setText(txt_to_add_3.getText() + "\nDelivery Time : " + sdf.format(date));
                             }
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_3.getString("status").equals("2") == false) {
                                 to_add_3.setOnClickListener(new View.OnClickListener() {

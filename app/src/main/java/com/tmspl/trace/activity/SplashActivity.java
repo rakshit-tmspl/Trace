@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tmspl.trace.R;
+import com.tmspl.trace.activity.homeactivity.HomeActivity;
 import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.extra.Preferences;
 
@@ -34,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                     if (Preferences.getSavedPreferences(SplashActivity.this, "usertype").equals("1") ||
                             Preferences.getSavedPreferences(SplashActivity.this, "usertype").equals("2")) {
-                        startActivity(new Intent(SplashActivity.this, UserHomeActivity.class));
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
 
                     } else if (Preferences.getSavedPreferences(SplashActivity.this, "usertype").equals("3")) {
                         startActivity(new Intent(SplashActivity.this, RiderHomeActivity.class));

@@ -34,7 +34,9 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="User name"
+                android:digits="1234567890"
+                android:hint="Contact Number"
+                android:inputType="number"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white" />
 
@@ -55,6 +57,17 @@
                 android:textColorHint="@android:color/white" />
 
         </android.support.design.widget.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/tv_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:text="Forgot password?"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
 
         <Button

@@ -1,5 +1,6 @@
 package com.tmspl.trace.activity.homeactivity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,13 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.tmspl.trace.R;
+import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.fragment.FragmentMap;
 import com.tmspl.trace.fragment.manageorder.FragmentManageOrder;
 
+import java.util.ArrayList;
+
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PermissionListener {
 
     FragmentMap map;
     FragmentTransaction ft;
@@ -36,12 +43,15 @@ public class HomeActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        new TedPermission(this)
+                .setPermissionListener(this)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, FragmentMap.newInstance(0, this));
-        ft.commit();
     }
 
     @Override
@@ -85,6 +95,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.drawer_placeOrder) {
+            Preferences.savePreferences(this, "SFLG", "1");
             fragment = FragmentMap.newInstance(0, this);
         } else if (id == R.id.drawer_myOrder) {
             fragment = FragmentManageOrder.newInstance(1, this);
@@ -107,5 +118,17 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, FragmentMap.newInstance(0, this));
+        ft.commit();
+    }
+
+    @Override
+    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+        Toast.makeText(this, "Permission Denided", Toast.LENGTH_SHORT).show();
     }
 }

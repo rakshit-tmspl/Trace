@@ -11,9 +11,10 @@ import java.util.ArrayList;
  */
 
 public class Constants {
-    public static final String API_BASE_URL = "http://demo.tmsys.co.in:9092/dockier/api_mobile/";
-    public static final String API_BASE_URL_TRACE = "http://demo.tmsys.co.in:9092/trace/api_mobile/";
+    public static final String API_BASE_URL = "http://demo.tmsys.co.in:9092/trace/api_mobile/";
+//    public static final String API_BASE_URL_TRACE = "http://demo.tmsys.co.in:9092/trace/api_mobile/";
     public static final String AUTH = "4JW*BNtp2nX6AbJCAoksWi/1DHoJJGYw";
+    public static final String AUTH_TOKEN = "Authtoken";
     public static String FCM_INSTANCE_ID;
     public static String MATERIAL_TYPE_ID;
     public static String ADDRESS_FLAG;

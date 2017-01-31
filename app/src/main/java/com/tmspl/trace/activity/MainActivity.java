@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.tmspl.trace.R;
-import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +28,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                startActivity(new Intent(MainActivity.this, RiderHomeActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                //startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            }
+        });
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
     }

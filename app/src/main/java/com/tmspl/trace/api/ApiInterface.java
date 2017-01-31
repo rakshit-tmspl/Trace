@@ -1,6 +1,6 @@
 package com.tmspl.trace.api;
 
-import com.tmspl.trace.apimodel.LoginResponse;
+import com.tmspl.trace.apimodel.LoginNewResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,7 +15,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("login_authentiocation")
-    Call<LoginResponse> getLoginResponse(@Field("auth") String auth, @Field("email") String email,
-                                         @Field("password") String password);
+    Call<LoginNewResponse> getLoginResponse(@Field("auth") String auth, @Field("mobile") String email,
+                                            @Field("password") String password);
 
 }

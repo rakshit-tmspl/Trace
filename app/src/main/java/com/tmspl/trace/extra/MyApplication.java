@@ -1,6 +1,8 @@
 package com.tmspl.trace.extra;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -9,10 +11,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.tmspl.trace.daggercomponent.DaggerTraceComponent;
-import com.tmspl.trace.daggercomponent.TraceComponent;
-import com.tmspl.trace.daggermodel.ApiModule;
-import com.tmspl.trace.daggermodel.AppModule;
 
 /**
  * Created by rakshit.sathwara on 1/18/2017.
@@ -24,12 +22,12 @@ public class MyApplication extends MultiDexApplication {
 
     private static final String TAG = APP_TAG + MyApplication.class.getSimpleName();
 
-    private TraceComponent traceComponent;
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
     private static MyApplication mInstance;
+
 
     @Override
     public void onCreate() {
@@ -37,10 +35,10 @@ public class MyApplication extends MultiDexApplication {
 
         mInstance = this;
 
-        traceComponent = DaggerTraceComponent.builder()
+      /*  traceComponent = DaggerTraceComponent.builder()
                 .appModule(new AppModule(this))
-                .apiModule(new ApiModule(Constants.API_BASE_URL))
-                .build();
+                .apiModule(new ApiModule(Constants.API_BASE_URL_TRACE))
+                .build();*/
     }
 
     public static synchronized MyApplication getInstance() {
@@ -81,13 +79,19 @@ public class MyApplication extends MultiDexApplication {
         }
     }
 
-    public TraceComponent getTraceComponent() {
-        return traceComponent;
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static boolean hasNetwork() {
+        return mInstance.checkIfHasNetwork();
+    }
+
+    public boolean checkIfHasNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

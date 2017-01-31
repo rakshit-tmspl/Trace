@@ -85,7 +85,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
         view = inflater.inflate(R.layout.fragment_set_destination, container, false);
 
 
-       // ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Set Location");
+        // ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Set Location");
         Constants.order_to_address.add(new Order_Detail_bean());
         Constants.order_to_address.add(new Order_Detail_bean());
         Constants.order_to_address.add(new Order_Detail_bean());

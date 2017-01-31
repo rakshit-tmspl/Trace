@@ -48,6 +48,8 @@ import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
 
+import static android.content.ContentValues.TAG;
+
 public class Fragment_From_To_Address extends Fragment {
 
     public static Activity context;
@@ -72,6 +74,10 @@ public class Fragment_From_To_Address extends Fragment {
         flg = 1;
         context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_from_existing, container, false);
+
+        String value = Preferences.getSavedPreferences(context, "user_id");
+
+        Log.e(TAG, "onCreateView: VALUE" + value);
 
         btnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         btnDone = (Button) rootView.findViewById(R.id.btnDone);

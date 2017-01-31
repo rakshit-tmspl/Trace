@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +41,7 @@ import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.GeocodeAddressIntentService;
 import com.tmspl.trace.extra.MyApplication;
+import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.extra.ServiceHandler;
 import com.tmspl.trace.fragment.addaddress.FragmentSetDestination;
 
@@ -68,7 +68,8 @@ import static java.lang.StrictMath.toDegrees;
  * Created by rakshit.sathwara on 1/23/2017.
  */
 
-public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleMap.OnCameraChangeListener, GoogleMap.OnCameraIdleListener {
+public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleMap.OnCameraChangeListener,
+        GoogleMap.OnCameraIdleListener {
     private static final String TAG = MyApplication.APP_TAG + FragmentMap.class.getSimpleName();
     final Handler mHandler = new Handler();
     private final GetAddressFromIntentService addressFromIntentService =
@@ -537,7 +538,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
         iv_fragile.setBackgroundResource(R.drawable.ic_fragile);
         iv_parcle.setBackgroundResource(R.drawable.ic_parcel);
 
-        Constants.MATERIAL_TYPE_ID = "";
+        Constants.material_type_id = "";
 
         ll_boxes.setOnClickListener(new View.OnClickListener() {
 
@@ -549,14 +550,14 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                     ll_boxes.setBackgroundColor(getActivity().getResources().getColor(android.R.color.darker_gray));
                     isBoxes = true;
 
-                    Constants.MATERIAL_TYPE_ID += "1,";
+                    Constants.material_type_id += "1,";
 
-                    if (Constants.MATERIAL_TYPE_ID.length() != 0) {
+                    if (Constants.material_type_id.length() != 0) {
                         isParcel = false;
                         isDocument = false;
                         isFragile = false;
                         isBoxes = false;
-                        Toast.makeText(context, "Box", Toast.LENGTH_SHORT).show();
+                        Preferences.savePreferences(getActivity(), "SFLG", "1");
                         Fragment fragmentS1 = new FragmentSetDestination();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentS1).addToBackStack(null).commit();
                     } else {
@@ -586,14 +587,14 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                     ll_document.setBackgroundColor(getActivity().getResources().getColor(android.R.color.darker_gray));
                     isDocument = true;
 
-                    Constants.MATERIAL_TYPE_ID += "2,";
+                    Constants.material_type_id += "2,";
 
-                    if (Constants.MATERIAL_TYPE_ID.length() != 0) {
+                    if (Constants.material_type_id.length() != 0) {
                         isParcel = false;
                         isDocument = false;
                         isFragile = false;
                         isBoxes = false;
-                        Toast.makeText(context, "Document", Toast.LENGTH_SHORT).show();
+                        Preferences.savePreferences(getActivity(), "SFLG", "1");
                         Fragment fragmentS1 = new FragmentSetDestination();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentS1).addToBackStack(null).commit();
                     } else {
@@ -647,16 +648,16 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                     ll_parcel.setBackgroundColor(getActivity().getResources().getColor(android.R.color.darker_gray));
                     isParcel = true;
 
-                    Constants.MATERIAL_TYPE_ID += "20,";
+                    Constants.material_type_id += "20,";
 
-                    if (Constants.MATERIAL_TYPE_ID.length() != 0) {
+                    if (Constants.material_type_id.length() != 0) {
                         isParcel = false;
                         isDocument = false;
                         isFragile = false;
                         isBoxes = false;
-                        Toast.makeText(context, "Parcel", Toast.LENGTH_SHORT).show();
-//                        Fragment fragmentS1 = new Fragment_Set_Location();
-//                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentS1).addToBackStack(null).commit();
+                        Preferences.savePreferences(getActivity(), "SFLG", "1");
+                        Fragment fragmentS1 = new FragmentSetDestination();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentS1).addToBackStack(null).commit();
                     } else {
                         Alert.ShowAlert(getActivity(), "Please Select Material Type!");
                     }

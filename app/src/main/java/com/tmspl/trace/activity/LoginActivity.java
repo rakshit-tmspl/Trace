@@ -1,49 +1,50 @@
 package com.tmspl.trace.activity;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.tmspl.trace.R;
+import com.tmspl.trace.activity.homeactivity.HomeActivity;
+import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.api.API;
 import com.tmspl.trace.api.RetrofitCallbacks;
-import com.tmspl.trace.apimodel.LoginResponse;
+import com.tmspl.trace.apimodel.LoginNewResponse;
 import com.tmspl.trace.extra.Constants;
+import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.MyApplication;
 import com.tmspl.trace.extra.Preferences;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class LoginActivity extends TraceActivity implements Validator.ValidationListener {
+public class LoginActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     private static final String TAG = MyApplication.APP_TAG + LoginActivity.class.getSimpleName();
 
-    @Inject
-    API api;
-
     @NotEmpty
-    @Email
     @BindView(R.id.et_username)
     EditText etUsername;
 
     @NotEmpty
+    @Password
     @BindView(R.id.et_password)
     EditText etPassword;
 
@@ -51,11 +52,11 @@ public class LoginActivity extends TraceActivity implements Validator.Validation
     Button btnSignIn;
 
     Validator validator;
+    @BindView(R.id.tv_forgot_password)
+    TextView tvForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        api = ((MyApplication) getApplicationContext()).getTraceComponent().api();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -71,6 +72,13 @@ public class LoginActivity extends TraceActivity implements Validator.Validation
             }
         });
 
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
     }
 
     /**
@@ -81,7 +89,88 @@ public class LoginActivity extends TraceActivity implements Validator.Validation
         String email = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        api.loginUser(LoginActivity.this, Constants.AUTH, email, password, new OtpVerificationCallback(LoginActivity.this));
+        API.getInstance().loginUser(LoginActivity.this, Constants.AUTH, email, password, new RetrofitCallbacks<LoginNewResponse>(LoginActivity.this) {
+            @Override
+            public void onResponse(Call<LoginNewResponse> call, Response<LoginNewResponse> response) {
+                super.onResponse(call, response);
+
+                if (response.isSuccessful()) {
+
+                    if (response.body() == null) {
+                        Toast.makeText(LoginActivity.this, "Null", Toast.LENGTH_SHORT).show();
+                    } else {
+                        LoginNewResponse.ResponseJsonBean responseJsonBean = response.body().getResponseJson();
+
+                        int user = responseJsonBean.getUserUsertype();
+//                        int rider = responseJsonBean.getRiderUsertype();
+//
+//                        Log.e(TAG, "onResponse: " + rider);
+
+                        List<LoginNewResponse.ResponseJsonBean.UserQueryResultBean> userList = responseJsonBean
+                                .getUserQueryResult();
+
+                        List<LoginNewResponse.ResponseJsonBean.RiderQueryResultBean> riderList = responseJsonBean
+                                .getRiderQueryResult();
+
+                        Preferences.savePreferences(LoginActivity.this, "usertype", String.valueOf(user));
+
+                        if (user == 1) {
+                            for (LoginNewResponse.ResponseJsonBean.UserQueryResultBean user1 : userList) {
+                                Log.e(TAG, "onResponse: user_id : " + user1.getUserId());
+                                Preferences.savePreferences(LoginActivity.this, "first_name", user1.getFirstName());
+                                Preferences.savePreferences(LoginActivity.this, "last_name", user1.getLastName());
+                                Preferences.savePreferences(LoginActivity.this, "email", user1.getEmail());
+                                Preferences.savePreferences(LoginActivity.this, "mobile", user1.getMobile());
+                                Preferences.savePreferences(LoginActivity.this, "user_id", user1.getUserId());
+                            }
+                            Preferences.savePreferences(LoginActivity.this, "usertype", "1");
+                            finish();
+                        } else if (user == 3) {
+                            for (LoginNewResponse.ResponseJsonBean.RiderQueryResultBean rider : riderList) {
+                                Log.e(TAG, "onResponse: RIDER_ID " + rider.getRiderId());
+                                Preferences.savePreferences(LoginActivity.this, "rider_id", rider.getRiderId());
+                                Preferences.savePreferences(LoginActivity.this, "first_name", rider.getFirstName());
+                                Preferences.savePreferences(LoginActivity.this, "last_name", rider.getFirstName());
+                                Preferences.savePreferences(LoginActivity.this, "mobile", rider.getMobile());
+                                Preferences.savePreferences(LoginActivity.this, "email", rider.getEmail());
+                                Preferences.savePreferences(LoginActivity.this, "rider_id", rider.getRiderId());
+                            }
+
+                            Preferences.savePreferences(LoginActivity.this, "usertype", "3");
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+//                            if (record.getString("rider_image").equals("noimage.jpg")) {
+//                                logo = BitmapFactory.decodeResource(getResources(), R.drawable.rider_name);
+//                            } else {
+//                                logo = MyImageLoader.getImageFromUrl(context, Constant.Image_IP + record.getString("rider_image"));
+//                            }
+
+                            //  Preferences.savePreferences(context, "r_image", Utility.encodeTobase64(logo));
+
+
+                            startService();
+                        }
+                        finish();
+
+                        Constants.isLogin = 1;
+                        if (Preferences.getSavedPreferences(LoginActivity.this, "usertype").equals("3") == false) {
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                        } else if (Preferences.getSavedPreferences(LoginActivity.this, "usertype").equals("3")) {
+                            startActivity(new Intent(LoginActivity.this, RiderHomeActivity.class));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginNewResponse> call, Throwable t) {
+                super.onFailure(call, t);
+
+                Log.i(TAG, t.toString());
+                Log.i(TAG, call.toString());
+                Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -105,51 +194,7 @@ public class LoginActivity extends TraceActivity implements Validator.Validation
         }
     }
 
-    private class OtpVerificationCallback extends RetrofitCallbacks<LoginResponse> {
-        public OtpVerificationCallback(Context loginActivity) {
-            super();
-        }
-
-        @Override
-        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-            super.onResponse(call, response);
-
-            if (response.isSuccessful()) {
-
-                LoginResponse.ResponseJsonBean responseJsonBean = new LoginResponse.ResponseJsonBean();
-
-                int userId = responseJsonBean.getUsertype();
-
-                LoginResponse.ResponseJsonBean.QueryResultBean bean = new LoginResponse.ResponseJsonBean.QueryResultBean();
-
-                Preferences.savePreferences(LoginActivity.this, "userType", String.valueOf(userId));
-                Preferences.savePreferences(LoginActivity.this, "password", bean.getPassword());
-
-                if (userId == 1) {
-                    Preferences.savePreferences(LoginActivity.this, "firstName", bean.getFirstName());
-                    Preferences.savePreferences(LoginActivity.this, "lastName", bean.getLastName());
-                    Preferences.savePreferences(LoginActivity.this, "email", bean.getEmail());
-                    Preferences.savePreferences(LoginActivity.this, "mobile", bean.getMobile());
-                    Preferences.savePreferences(LoginActivity.this, "userId", String.valueOf(userId));
-                    Preferences.savePreferences(LoginActivity.this, "userType", "1");
-                    finish();
-                }
-
-                Toast.makeText(LoginActivity.this, "Login", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(LoginActivity.this, "something wrong", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onFailure(Call<LoginResponse> call, Throwable t) {
-            super.onFailure(call, t);
-
-            Log.i(TAG, "ERROR ON login");
-            Log.i(TAG, "call.toString(): " + call.toString());
-            Log.i(TAG, "t.toString(): " + t.toString());
-
-            Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_SHORT).show();
-        }
+    public void startService() {
+        startService(new Intent(this, LocationService.class));
     }
 }

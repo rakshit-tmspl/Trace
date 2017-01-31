@@ -22,13 +22,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.MainActivity"></activity>
 
         <receiver android:name=".extra.NetworkConnectionDetector">
             <intent-filter>
@@ -70,7 +64,13 @@
         <service android:name=".extra.LocationService" />
 
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.SplashActivity" />
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.UserHomeActivity" />
         <activity
             android:name=".activity.homeactivity.HomeActivity"
@@ -83,7 +83,13 @@
             android:label="@string/title_activity_rider_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.ridersactivity.DeliveryDetails" />
-        <activity android:name=".activity.CompleteDeliveryActivity"></activity>
+        <activity android:name=".activity.CompleteDeliveryActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.RiderRegistrationActivity" />
+        <activity android:name=".activity.UserRegistrationActivity" />
+        <activity android:name=".activity.OtpVerificationActivity" />
+        <activity android:name=".activity.GenerateNewPasswordActivity" />
+        <activity android:name=".activity.ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>
