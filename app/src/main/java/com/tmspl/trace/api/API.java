@@ -2,6 +2,7 @@ package com.tmspl.trace.api;
 
 import android.content.Context;
 
+import com.tmspl.trace.apimodel.AddData;
 import com.tmspl.trace.apimodel.LoginNewResponse;
 import com.tmspl.trace.extra.MyApplication;
 
@@ -19,14 +20,12 @@ public class API {
     private ApiInterface apiService;
 
 
-    private API()
-    {
+    private API() {
         apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     //Get the only object available
-    public static API getInstance()
-    {
+    public static API getInstance() {
         return instance;
     }
 
@@ -37,6 +36,13 @@ public class API {
 
         loginResponseCall.enqueue(callback);
 
+    }
+
+    public void addData(final Context context, final String auth, final String fName, final String email,
+                        final String contact, final String password, final String isValid, final String image,
+                        final RetrofitCallbacks callback) {
+        Call<AddData> addDataCall = apiService.ADD_DATA_CALL(fName, email, contact, auth, password,image, isValid);
+        addDataCall.enqueue(callback);
     }
 
 

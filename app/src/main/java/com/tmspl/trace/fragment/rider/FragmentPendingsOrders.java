@@ -20,7 +20,6 @@ import com.tmspl.trace.adapter.Adapter_Deliveries;
 import com.tmspl.trace.apimodel.PendingOrderBean;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
-import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.MemoryCache;
 import com.tmspl.trace.extra.NetworkUtil;
 import com.tmspl.trace.extra.Preferences;
@@ -149,8 +148,9 @@ public class FragmentPendingsOrders extends Fragment {
 
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
-                nameValuePairs.add(new BasicNameValuePair("lat_long", LocationService.rider_lat_long));
-                nameValuePairs.add(new BasicNameValuePair("rider_id", Preferences.getSavedPreferences(context, "rider_id")));
+//                nameValuePairs.add(new BasicNameValuePair("lat_long", LocationService.rider_lat_long));
+                nameValuePairs.add(new BasicNameValuePair("lat_long", "23.0326956,72.5590835"));
+                nameValuePairs.add(new BasicNameValuePair("rider_id", "2"));
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
                                 + "pending_order_list", ServiceHandler.POST,
                         nameValuePairs);
