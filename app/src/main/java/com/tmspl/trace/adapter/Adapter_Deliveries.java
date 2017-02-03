@@ -74,8 +74,8 @@ public class Adapter_Deliveries extends BaseAdapter {
             viewHolder.amount = (TextView) convertView.findViewById(R.id.delivery_delivery_rs);
             viewHolder.count = (TextView) convertView.findViewById(R.id.delivery_delivery_txt);
             viewHolder.parcel_img = (ImageView) convertView.findViewById(R.id.delivery_delivery_parcel_img);
-            viewHolder.delivery_accept_txt=(TextView)convertView.findViewById(R.id.delivery_accept_txt);
-            viewHolder.delivery_calcel_txt=(TextView)convertView.findViewById(R.id.delivery_calcel_txt);
+            viewHolder.delivery_accept_txt = (TextView) convertView.findViewById(R.id.delivery_accept_txt);
+            viewHolder.delivery_calcel_txt = (TextView) convertView.findViewById(R.id.delivery_calcel_txt);
 
             convertView.setTag(viewHolder);
 
@@ -87,7 +87,7 @@ public class Adapter_Deliveries extends BaseAdapter {
         if (eventBean.getParcel_img().equals("noimage.jpg") || eventBean.getParcel_img().length() == 0) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-           // Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
+            // Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
             Picasso.with(context)
                     .load(R.drawable.photo)
                     .placeholder(R.drawable.photo)
@@ -96,7 +96,7 @@ public class Adapter_Deliveries extends BaseAdapter {
         } else {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-       //     Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
+            //     Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
             Picasso.with(context)
                     .load(Constants.Image_IP + eventBean.getParcel_img())
                     .placeholder(R.drawable.photo)
@@ -112,18 +112,18 @@ public class Adapter_Deliveries extends BaseAdapter {
         viewHolder.delivery_accept_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Constants.order_id=eventBean.getOrder_id();
-                new accept_order(context,position).execute();
+                Constants.order_id = eventBean.getOrder_id();
+                new accept_order(context, position).execute();
             }
         });
         viewHolder.delivery_calcel_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Constants.order_id=eventBean.getOrder_id();
-                new cancel_order(context,position).execute();
+                Constants.order_id = eventBean.getOrder_id();
+                new cancel_order(context, position).execute();
 
-                Preferences.savePreferences(context,"rejected",eventBean.getOrder_id()+",");
+                Preferences.savePreferences(context, "rejected", eventBean.getOrder_id() + ",");
 
             }
         });
@@ -131,7 +131,7 @@ public class Adapter_Deliveries extends BaseAdapter {
     }
 
     class ViewHolder {
-        TextView start, end, amount, count,delivery_accept_txt,delivery_calcel_txt;
+        TextView start, end, amount, count, delivery_accept_txt, delivery_calcel_txt;
         ImageView parcel_img;
 
     }
@@ -141,13 +141,15 @@ public class Adapter_Deliveries extends BaseAdapter {
         Activity context;
         AlertDialog pd;
         int position;
+
         public accept_order(Activity context, int position) {
-            this.context = context; this.position=position;
+            this.context = context;
+            this.position = position;
         }
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Updating Order..");
+            pd = new SpotsDialog(context, "Updating Order..");
             pd.show();
             pd.setCancelable(false);
 
@@ -190,7 +192,7 @@ public class Adapter_Deliveries extends BaseAdapter {
                     Alert.ShowAlert(context, jobj1.getString("error"));
                 } else {
                     if (jobj1.getInt("status") == 1) {
-                        FragmentPendingsOrders.flg=0;
+                        FragmentPendingsOrders.flg = 0;
                         FragmentPendingsOrders.listBean.remove(position);
                         FragmentPendingsOrders.adapter_deliveries.notifyDataSetChanged();
                         Alert.showAlertWithPause(context, "Thank You for accepting order!\nOrder is placed under \"Orders\"!");
@@ -218,14 +220,15 @@ public class Adapter_Deliveries extends BaseAdapter {
         Activity context;
         AlertDialog pd;
         int position;
+
         public cancel_order(Activity context, int position) {
             this.context = context;
-            this.position=position;
+            this.position = position;
         }
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Updating Order..");
+            pd = new SpotsDialog(context, "Updating Order..");
             pd.show();
             pd.setCancelable(false);
 
@@ -268,7 +271,7 @@ public class Adapter_Deliveries extends BaseAdapter {
                     Alert.ShowAlert(context, jobj1.getString("error"));
                 } else {
                     if (jobj1.getInt("status") == 1) {
-                        FragmentPendingsOrders.flg=0;
+                        FragmentPendingsOrders.flg = 0;
                         FragmentPendingsOrders.listBean.remove(position);
                         FragmentPendingsOrders.adapter_deliveries.notifyDataSetChanged();
 

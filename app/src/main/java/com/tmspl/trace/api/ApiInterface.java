@@ -1,5 +1,6 @@
 package com.tmspl.trace.api;
 
+import com.tmspl.trace.apimodel.AddData;
 import com.tmspl.trace.apimodel.LoginNewResponse;
 
 import retrofit2.Call;
@@ -17,5 +18,11 @@ public interface ApiInterface {
     @POST("login_authentiocation")
     Call<LoginNewResponse> getLoginResponse(@Field("auth") String auth, @Field("mobile") String email,
                                             @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("add_data")
+    Call<AddData> ADD_DATA_CALL(@Field("first_name") String fName, @Field("email") String email,
+                                @Field("mobile") String contact, @Field("auth") String auth, @Field("image") String image,
+                                @Field("password") String password, @Field("is_validate_user") String isValid);
 
 }

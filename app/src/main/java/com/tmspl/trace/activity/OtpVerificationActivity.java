@@ -10,11 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.homeactivity.HomeActivity;
+import com.tmspl.trace.api.API;
+import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.apimodel.AddData;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
+import com.tmspl.trace.extra.MyApplication;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.extra.ServiceHandler;
 
@@ -23,10 +28,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class OtpVerificationActivity extends AppCompatActivity {
+
+    private static final String TAG = MyApplication.APP_TAG + LoginActivity.class.getSimpleName();
 
     EditText txt_enter_code;
     Button btn_verify;
@@ -62,7 +72,59 @@ public class OtpVerificationActivity extends AppCompatActivity {
                             finish();
                             startActivity(new Intent(context, GenerateNewPasswordActivity.class));
                         } else {
-                            new register_entity(context).execute();
+
+                            API.getInstance().addData(OtpVerificationActivity.this, Constants.AUTH, Constants.rfitst_name,
+                                    Constants.remail, Constants.rmobile, Constants.rpassword, "y", Constants.rphoto,
+                                    new RetrofitCallbacks(OtpVerificationActivity.this) {
+                                        @Override
+                                        public void onResponse(Call call, Response response) {
+                                            super.onResponse(call, response);
+
+                                            if (response.isSuccessful()) {
+                                                if (response.body() == null) {
+                                                    Toast.makeText(OtpVerificationActivity.this, "Something wrong!",
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+
+                                                    AddData addData = (AddData) response.body();
+                                                    Log.e(TAG, "onResponse: " + addData.getResponseMessage());
+
+                                                    AddData.ResponseJsonBean responseJsonBean = ((AddData) response.body()).getResponseJson();
+                                                    List<AddData.ResponseJsonBean.RiderQueryResultBean> riderQueryResultBeen = responseJsonBean.getRiderQueryResult();
+                                                    List<AddData.ResponseJsonBean.UserQueryResultBean> userQueryResultBeen = responseJsonBean.getUserQueryResult();
+
+                                                    if (Constants.ut == 1) {
+                                                        for (AddData.ResponseJsonBean.UserQueryResultBean user : userQueryResultBeen) {
+                                                            Log.e(TAG, "onResponse: " + user.getUserId());
+                                                            Preferences.savePreferences(context, "usertype", "1");
+                                                            Preferences.savePreferences(context, "first_name", user.getFirstName());
+                                                            Preferences.savePreferences(context, "email", user.getEmail());
+                                                            Preferences.savePreferences(context, "mobile", user.getMobile());
+                                                            Preferences.savePreferences(context, "user_id", user.getUserId());
+                                                            Preferences.savePreferences(context, "password", Constants.rpassword);
+                                                            finish();
+                                                            startActivity(new Intent(context, HomeActivity.class));
+                                                        }
+                                                    } else if (Constants.ut == 3) {
+                                                        Alert.showAlertWithFinish(context, "Please contact head office and complete your physical verification process !!");
+                                                    } else {
+                                                        Toast.makeText(OtpVerificationActivity.this, "Something Wrong!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call call, Throwable t) {
+                                            super.onFailure(call, t);
+                                            Log.i(TAG, t.toString());
+                                            Log.i(TAG, call.toString());
+                                            Toast.makeText(OtpVerificationActivity.this, "Something went wrong",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                            //new register_entity(context).execute();
                         }
                     } else {
                         Alert.ShowAlert(context, "Please Enter valid OTP!");

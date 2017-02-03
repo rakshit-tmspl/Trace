@@ -139,7 +139,6 @@ public class FragmentPendingOrders extends Fragment {
                                 }
                             }
 
-
                             adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, PendingList);
                             lst_deliveries.setAdapter(adapter_deliveries);
                             lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -164,8 +163,4 @@ public class FragmentPendingOrders extends Fragment {
             }
         }
     }
-
 }
-
-
-
