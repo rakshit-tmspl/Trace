@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     RadioGroup rgUserType;
 
     public static String type;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     @Override
     public void onValidationSucceeded() {
         String email = etUsername.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+        password = etPassword.getText().toString().trim();
 
 
         //Login Api
@@ -149,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                                 Preferences.savePreferences(LoginActivity.this, "email", userBean.getEmail());
                                 Preferences.savePreferences(LoginActivity.this, "mobile", userBean.getMobile());
                                 Preferences.savePreferences(LoginActivity.this, "user_id", userBean.getUserId());
+                                Preferences.savePreferences(LoginActivity.this, "password", password);
                             }
 
                             finish();

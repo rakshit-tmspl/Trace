@@ -1,7 +1,11 @@
 package com.tmspl.trace.activity.homeactivity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,17 +22,31 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.tmspl.trace.R;
+import com.tmspl.trace.activity.LoginActivity;
+import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
+import com.tmspl.trace.api.API;
+import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.apimodel.LoginNewResponse;
+import com.tmspl.trace.extra.Constants;
+import com.tmspl.trace.extra.MemoryCache;
+import com.tmspl.trace.extra.MyApplication;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.fragment.FragmentMap;
 import com.tmspl.trace.fragment.manageorder.FragmentManageOrder;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PermissionListener {
 
     FragmentMap map;
     FragmentTransaction ft;
+
+    private static final String TAG = MyApplication.APP_TAG + HomeActivity.class.getSimpleName();
 
 
     @Override
@@ -102,9 +121,89 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.drawer_profile) {
 
         } else if (id == R.id.drawer_type) {
+            //Become Rider clear SharedPreferences and memory and set user data.
+            try {
 
+                String contact = Preferences.getSavedPreferences(HomeActivity.this, "mobile");
+                String password = Preferences.getSavedPreferences(HomeActivity.this, "password");
+
+                Log.e(TAG, "onNavigationItemSelected: contact" + contact);
+                Log.e(TAG, "onNavigationItemSelected: password" + password);
+
+                API.getInstance().loginUser(HomeActivity.this, Constants.AUTH, contact, password,
+                        new RetrofitCallbacks<LoginNewResponse>(HomeActivity.this) {
+                            @Override
+                            public void onResponse(Call<LoginNewResponse> call, Response<LoginNewResponse> response) {
+                                super.onResponse(call, response);
+
+                                if (response.isSuccessful()) {
+
+                                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.clear();
+                                    editor.commit();
+
+                                    MemoryCache memoryCache = new MemoryCache();
+                                    memoryCache.clear();
+
+
+                                    LoginNewResponse.ResponseJsonBean responseJsonBean = response.body().getResponseJson();
+                                    int user = responseJsonBean.getRiderUsertype();
+
+                                    List<LoginNewResponse.ResponseJsonBean.RiderQueryResultBean> userList = responseJsonBean
+                                            .getRiderQueryResult();
+
+                                    Preferences.savePreferences(HomeActivity.this, "usertype", String.valueOf(user));
+
+                                    for (LoginNewResponse.ResponseJsonBean.RiderQueryResultBean riderBean : userList) {
+                                        Log.e(TAG, "onResponse: USER-ID" + riderBean.getRiderId());
+
+                                        Preferences.savePreferences(HomeActivity.this, "first_name", riderBean.getFirstName());
+                                        Preferences.savePreferences(HomeActivity.this, "last_name", riderBean.getLastName());
+                                        Preferences.savePreferences(HomeActivity.this, "email", riderBean.getEmail());
+                                        Preferences.savePreferences(HomeActivity.this, "mobile", riderBean.getMobile());
+                                        Preferences.savePreferences(HomeActivity.this, "user_id", riderBean.getRiderId());
+                                        Preferences.savePreferences(HomeActivity.this, "password", riderBean.getPassword());
+                                    }
+
+                                    finish();
+                                    startActivity(new Intent(HomeActivity.this, RiderHomeActivity.class));
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginNewResponse> call, Throwable t) {
+                                super.onFailure(call, t);
+                                Log.i(TAG, t.toString());
+                                Log.i(TAG, call.toString());
+                                Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (id == R.id.drawer_logout) {
+            try {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
 
+                MemoryCache memoryCache = new MemoryCache();
+                memoryCache.clear();
+
+                if (Integer.valueOf(Build.VERSION.SDK_INT) > 16) {
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             map = FragmentMap.newInstance(0, this);
         }
