@@ -12,7 +12,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -353,7 +353,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.connect();
-                java.io.InputStream stream = connection.getInputStream();
+                InputStream stream = connection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
                 String line = null;
