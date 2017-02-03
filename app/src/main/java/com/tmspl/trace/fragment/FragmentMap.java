@@ -1,5 +1,15 @@
 package com.tmspl.trace.fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,15 +36,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.MapWrapperLayout;
 import com.tmspl.trace.apimodel.maps_bean;
@@ -205,17 +207,15 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
         mMap.setOnCameraIdleListener(this);
 
-        // new getTrackData(getActivity()).execute();
+        new getTrackData(getActivity()).execute();
 
-/*        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener()
-        {
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
-            public void onMyLocationChange(Location location)
-            {
+            public void onMyLocationChange(Location location) {
                 mMap.animateCamera(CameraUpdateFactory
                         .newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
             }
-        });*/
+        });
 
 
     }
@@ -443,8 +443,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                                 bean.setLatlong(new LatLng(lat, longi));
                                 storelist.add(bean);
 
+                                addItemsToMap(storelist);
                             }
-                            addItemsToMap(storelist);
+
                         }
                     } else {
                         Alert.showAlertWithFinish(context, jobj1.getString("responseMessage"));
