@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.tmspl.trace.apimodel.PendingOrderBean;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.MemoryCache;
+import com.tmspl.trace.extra.MyApplication;
 import com.tmspl.trace.extra.NetworkUtil;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.extra.ServiceHandler;
@@ -42,12 +44,15 @@ public class FragmentPendingsOrders extends Fragment {
 
     private Activity context;
 
+    private static final String TAG = MyApplication.APP_TAG + FragmentPendingsOrders.class.getSimpleName();
+
     View rootView;
     ListView lst_deliveries;
     public static Adapter_Deliveries adapter_deliveries;
     public static ArrayList<PendingOrderBean> listBean;
     public static int flg = 1;
     public static int position = 0;
+    String riderId;
 
     public static FragmentPendingsOrders newInstance(int index, Activity context) {
         FragmentPendingsOrders fragmentMap = new FragmentPendingsOrders();
@@ -66,6 +71,9 @@ public class FragmentPendingsOrders extends Fragment {
 
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
+
+        riderId = Preferences.getSavedPreferences(getActivity(), "rider_id");
+        Log.e(TAG, "onCreateView:  riderId ->" + riderId);
 
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -97,6 +105,29 @@ public class FragmentPendingsOrders extends Fragment {
 
         if (NetworkUtil.isInternetConnencted(context)) {
             new pending_order_list(context).execute();
+//            API.getInstance().riderPendingOrder(getActivity(), Constants.AUTH, "23.0326956,72.5590835", riderId,
+//                    new RetrofitCallbacks<RiderPendingOrderResponse>(context) {
+//                        @Override
+//                        public void onResponse(Call<RiderPendingOrderResponse> call, Response<RiderPendingOrderResponse> response) {
+//                            super.onResponse(call, response);
+//                            if (response.isSuccessful()) {
+//                                if (response.body() == null) {
+//                                    Toast.makeText(getActivity(), "Something Wrong!", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    List<RiderPendingOrderResponse.ResponseJsonBean> responseJsonBean = response.body()
+//                                            .getResponseJson();
+//                                    //adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, responseJsonBean);
+//                                    lst_deliveries.setAdapter(adapter_deliveries);
+//
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<RiderPendingOrderResponse> call, Throwable t) {
+//                            super.onFailure(call, t);
+//                        }
+//                    });
         }
 
 
@@ -105,8 +136,6 @@ public class FragmentPendingsOrders extends Fragment {
 
     private void MappingID() {
         lst_deliveries = (ListView) rootView.findViewById(R.id.lst_deliveries);
-
-
     }
 
     @Override
@@ -150,7 +179,7 @@ public class FragmentPendingsOrders extends Fragment {
 
 //                nameValuePairs.add(new BasicNameValuePair("lat_long", LocationService.rider_lat_long));
                 nameValuePairs.add(new BasicNameValuePair("lat_long", "23.0326956,72.5590835"));
-                nameValuePairs.add(new BasicNameValuePair("rider_id", "2"));
+                nameValuePairs.add(new BasicNameValuePair("rider_id", riderId));
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
                                 + "pending_order_list", ServiceHandler.POST,
                         nameValuePairs);
