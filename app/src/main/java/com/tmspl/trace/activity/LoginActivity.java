@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                 } else {
                     type = "rider";
                 }
+
             }
         });
 

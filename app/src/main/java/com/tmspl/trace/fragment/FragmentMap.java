@@ -207,7 +207,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
         mMap.setOnCameraIdleListener(this);
 
-        new getTrackData(getActivity()).execute();
+        //new getTrackData(getActivity()).execute();
 
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
