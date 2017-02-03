@@ -73,7 +73,7 @@ public class Adapter_Deliveries extends BaseAdapter {
             viewHolder.end = (TextView) convertView.findViewById(R.id.delivery_delivery_end_location);
             viewHolder.amount = (TextView) convertView.findViewById(R.id.delivery_delivery_rs);
             viewHolder.count = (TextView) convertView.findViewById(R.id.delivery_delivery_txt);
-            viewHolder.parcel_img = (ImageView) convertView.findViewById(R.id.delivery_delivery_parcel_img);
+//            viewHolder.parcel_img = (ImageView) convertView.findViewById(R.id.delivery_delivery_parcel_img);
             viewHolder.delivery_accept_txt = (TextView) convertView.findViewById(R.id.delivery_accept_txt);
             viewHolder.delivery_calcel_txt = (TextView) convertView.findViewById(R.id.delivery_calcel_txt);
 
@@ -83,27 +83,27 @@ public class Adapter_Deliveries extends BaseAdapter {
 
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.parcel_img.setTag(Constants.Image_IP + eventBean.getParcel_img());
-        if (eventBean.getParcel_img().equals("noimage.jpg") || eventBean.getParcel_img().length() == 0) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            // Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
-            Picasso.with(context)
-                    .load(R.drawable.photo)
-                    .placeholder(R.drawable.photo)
-                    .error(R.drawable.photo)
-                    .into(viewHolder.parcel_img);
-        } else {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            //     Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
-            Picasso.with(context)
-                    .load(Constants.Image_IP + eventBean.getParcel_img())
-                    .placeholder(R.drawable.photo)
-                    .error(R.drawable.photo)
-                    .into(viewHolder.parcel_img);
-
-        }
+//        viewHolder.parcel_img.setTag(Constants.Image_IP + eventBean.getParcel_img());
+//        if (eventBean.getParcel_img().equals("noimage.jpg") || eventBean.getParcel_img().length() == 0) {
+//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//            StrictMode.setThreadPolicy(policy);
+//            // Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
+//            Picasso.with(context)
+//                    .load(R.drawable.photo)
+//                    .placeholder(R.drawable.photo)
+//                    .error(R.drawable.photo)
+//                    .into(viewHolder.parcel_img);
+//        } else {
+//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//            StrictMode.setThreadPolicy(policy);
+//            //     Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
+//            Picasso.with(context)
+//                    .load(Constants.Image_IP + eventBean.getParcel_img())
+//                    .placeholder(R.drawable.photo)
+//                    .error(R.drawable.photo)
+//                    .into(viewHolder.parcel_img);
+//
+//        }
 
         viewHolder.start.setText(eventBean.getStart());
         viewHolder.end.setText(eventBean.getEnd());

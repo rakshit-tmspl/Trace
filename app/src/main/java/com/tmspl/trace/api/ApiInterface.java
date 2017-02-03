@@ -2,6 +2,7 @@ package com.tmspl.trace.api;
 
 import com.tmspl.trace.apimodel.AddData;
 import com.tmspl.trace.apimodel.LoginNewResponse;
+import com.tmspl.trace.apimodel.RiderPendingOrderResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -25,4 +26,9 @@ public interface ApiInterface {
                                 @Field("mobile") String contact, @Field("auth") String auth, @Field("image") String image,
                                 @Field("password") String password, @Field("is_validate_user") String isValid);
 
+    @FormUrlEncoded
+    @POST("pending_order_list")
+    Call<RiderPendingOrderResponse> RIDER_PENDING_ORDER_RESPONSE_CALL(@Field("auth") String auth,
+                                                                      @Field("lat_long") String latlan,
+                                                                      @Field("rider_id") String riderId);
 }
