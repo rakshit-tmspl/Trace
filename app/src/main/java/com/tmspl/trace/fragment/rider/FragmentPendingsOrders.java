@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.ridersactivity.DeliveryDetails;
@@ -53,6 +55,8 @@ public class FragmentPendingsOrders extends Fragment {
     public static int flg = 1;
     public static int position = 0;
     String riderId;
+
+    private TextView tvNothing;
 
     public static FragmentPendingsOrders newInstance(int index, Activity context) {
         FragmentPendingsOrders fragmentMap = new FragmentPendingsOrders();
@@ -97,7 +101,7 @@ public class FragmentPendingsOrders extends Fragment {
             }
         });
 
-//        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Pending Orders");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Pending Orders");
         listBean = new ArrayList<PendingOrderBean>();
         listBean.removeAll(listBean);
         MappingID();
@@ -105,29 +109,6 @@ public class FragmentPendingsOrders extends Fragment {
 
         if (NetworkUtil.isInternetConnencted(context)) {
             new pending_order_list(context).execute();
-//            API.getInstance().riderPendingOrder(getActivity(), Constants.AUTH, "23.0326956,72.5590835", riderId,
-//                    new RetrofitCallbacks<RiderPendingOrderResponse>(context) {
-//                        @Override
-//                        public void onResponse(Call<RiderPendingOrderResponse> call, Response<RiderPendingOrderResponse> response) {
-//                            super.onResponse(call, response);
-//                            if (response.isSuccessful()) {
-//                                if (response.body() == null) {
-//                                    Toast.makeText(getActivity(), "Something Wrong!", Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    List<RiderPendingOrderResponse.ResponseJsonBean> responseJsonBean = response.body()
-//                                            .getResponseJson();
-//                                    //adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, responseJsonBean);
-//                                    lst_deliveries.setAdapter(adapter_deliveries);
-//
-//                                }
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<RiderPendingOrderResponse> call, Throwable t) {
-//                            super.onFailure(call, t);
-//                        }
-//                    });
         }
 
 
@@ -220,16 +201,25 @@ public class FragmentPendingsOrders extends Fragment {
                                         listBean.add(obj);
                                     }
                                 }
-                                adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, listBean);
-                                lst_deliveries.setAdapter(adapter_deliveries);
-                                lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Constants.order_id = listBean.get(position).getOrder_id();
-                                        FragmentPendingsOrders.position = position;
-                                        context.startActivity(new Intent(context, DeliveryDetails.class));
-                                    }
-                                });
+
+                                if (listBean.size() > 0) {
+                                    tvNothing.setVisibility(View.GONE);
+                                    lst_deliveries.setVisibility(View.VISIBLE);
+                                    adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, listBean);
+                                    lst_deliveries.setAdapter(adapter_deliveries);
+                                    lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            Constants.order_id = listBean.get(position).getOrder_id();
+                                            FragmentPendingsOrders.position = position;
+                                            context.startActivity(new Intent(context, DeliveryDetails.class));
+                                        }
+                                    });
+                                } else {
+                                    lst_deliveries.setVisibility(View.GONE);
+                                    tvNothing.setVisibility(View.VISIBLE);
+                                }
+
 
                             }
                         } else {

@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tmspl.trace.R;
-import com.tmspl.trace.activity.homeactivity.HomeActivity;
 import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
@@ -42,8 +41,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
     public static LinearLayout from_add, to_add_1, to_add_2, to_add_3;
     public static TextView txt_from_add, txt_to_add_1, txt_to_add_2, txt_to_add_3;
     public static ImageView parcel_img, accepted_make_call;
-    public static ImageView done1, done2, done3, iv_next;
+    public static ImageView done2, done3, iv_next;
     public static Activity context;
+    public static ImageView done1;
 
     public static String rider_name, rider_vehicle_name, rider_vehicle_number, secret_code, order_track_id;
 
@@ -51,6 +51,9 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
 
     public static Button btn_track_order;
+
+    //view Details from rider
+    TextView tvViewDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,24 +68,24 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
         from_add = (LinearLayout) findViewById(R.id.from_address);
         to_add_1 = (LinearLayout) findViewById(R.id.to_address_1);
-        to_add_2 = (LinearLayout) findViewById(R.id.to_address_2);
-        to_add_3 = (LinearLayout) findViewById(R.id.to_address_3);
+//        to_add_2 = (LinearLayout) findViewById(R.id.to_address_2);
+//        to_add_3 = (LinearLayout) findViewById(R.id.to_address_3);
 
         txt_from_add = (TextView) findViewById(R.id.accepted_from_address);
         txt_to_add_1 = (TextView) findViewById(R.id.accepted_to_address_1);
-        txt_to_add_2 = (TextView) findViewById(R.id.accepted_to_address_2);
-        txt_to_add_3 = (TextView) findViewById(R.id.accepted_to_address_3);
+//        txt_to_add_2 = (TextView) findViewById(R.id.accepted_to_address_2);
+//        txt_to_add_3 = (TextView) findViewById(R.id.accepted_to_address_3);
 
         done1 = (ImageView) findViewById(R.id.accept_img_1);
         done2 = (ImageView) findViewById(R.id.accept_img_2);
         done3 = (ImageView) findViewById(R.id.accept_img_3);
+
 
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(AcceptedDeliveriesActivity.this, HomeActivity.class));
             }
         });
 
