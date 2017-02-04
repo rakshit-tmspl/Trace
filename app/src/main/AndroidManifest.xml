@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tmspl.trace">
+        package="com.tmspl.trace">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,15 +12,15 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".extra.MyApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+            android:name=".extra.MyApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key" />
 
         <activity android:name=".activity.MainActivity"></activity>
 
@@ -32,9 +32,9 @@
         </receiver>
 
         <service
-            android:name=".extra.GeocodeAddressIntentService"
-            android:enabled="true"
-            android:exported="true" />
+                android:name=".extra.GeocodeAddressIntentService"
+                android:enabled="true"
+                android:exported="true" />
         <service android:name=".fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -46,15 +46,15 @@
      See README(https://goo.gl/l4GJaQ) for more.
         -->
         <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/trace_bg" />
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/trace_bg" />
         <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
         <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/colorAccent" />
 
         <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -73,15 +73,20 @@
         </activity>
         <activity android:name=".activity.UserHomeActivity" />
         <activity
-            android:name=".activity.homeactivity.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
+                android:name=".activity.homeactivity.HomeActivity"
+                android:label="@string/title_activity_home"
+                android:theme="@style/AppTheme" />
         <activity android:name=".activity.CaptureActivity" />
         <activity android:name=".activity.AcceptedDeliveriesActivity" />
         <activity
-            android:name=".activity.ridersactivity.RiderHomeActivity"
-            android:label="@string/title_activity_rider_home"
-            android:theme="@style/AppTheme" />
+                android:name=".activity.ridersactivity.RiderHomeActivity"
+                android:label="@string/title_activity_rider_home"
+                android:theme="@style/AppTheme" />
+
+        <activity
+                android:name=".activity.Return_Parcel"
+                android:label="Return Parcel" />
+
         <activity android:name=".activity.ridersactivity.DeliveryDetails" />
         <activity android:name=".activity.CompleteDeliveryActivity" />
         <activity android:name=".activity.RegisterActivity" />

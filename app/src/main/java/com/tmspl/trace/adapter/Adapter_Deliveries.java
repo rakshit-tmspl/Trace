@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.StrictMode;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.AcceptedDeliveriesActivity;
 import com.tmspl.trace.apimodel.PendingOrderBean;
@@ -76,6 +75,7 @@ public class Adapter_Deliveries extends BaseAdapter {
 //            viewHolder.parcel_img = (ImageView) convertView.findViewById(R.id.delivery_delivery_parcel_img);
             viewHolder.delivery_accept_txt = (TextView) convertView.findViewById(R.id.delivery_accept_txt);
             viewHolder.delivery_calcel_txt = (TextView) convertView.findViewById(R.id.delivery_calcel_txt);
+            viewHolder.cardPendingOrder = (CardView) convertView.findViewById(R.id.card_pending_order);
 
             convertView.setTag(viewHolder);
 
@@ -108,7 +108,7 @@ public class Adapter_Deliveries extends BaseAdapter {
         viewHolder.start.setText(eventBean.getStart());
         viewHolder.end.setText(eventBean.getEnd());
         viewHolder.amount.setText("Rs. " + Math.round(Float.valueOf(eventBean.getAmount())));
-        viewHolder.count.setText(eventBean.getCount());
+        viewHolder.count.setText(eventBean.getCount() + "Delivery");
         viewHolder.delivery_accept_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +133,7 @@ public class Adapter_Deliveries extends BaseAdapter {
     class ViewHolder {
         TextView start, end, amount, count, delivery_accept_txt, delivery_calcel_txt;
         ImageView parcel_img;
-
+        CardView cardPendingOrder;
     }
 
     public class accept_order extends AsyncTask<String, String, String> {

@@ -488,6 +488,7 @@
     </LinearLayout>-->
 
     <android.support.v7.widget.CardView
+            android:id="@+id/card_pending_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -504,13 +505,13 @@
                 >
 
 
-            <TextView
+            <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/delivery_delivery_start_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_my_location_black_48dp"
                     android:padding="5dp"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     />
 
             <View
@@ -520,14 +521,14 @@
                     android:background="#CCC"
                     />
 
-            <TextView
+            <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/delivery_delivery_end_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:drawableLeft="@drawable/ic_add_location_black_48dp"
                     android:padding="5dp"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     />
 
 
@@ -540,21 +541,21 @@
                     >
 
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                         android:id="@+id/delivery_delivery_txt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Deliveries"
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         />
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Rs."
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:id="@+id/delivery_delivery_rs"
                         />
 
