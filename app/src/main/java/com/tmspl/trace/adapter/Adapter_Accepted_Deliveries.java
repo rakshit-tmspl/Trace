@@ -23,7 +23,8 @@ public class Adapter_Accepted_Deliveries extends ArrayAdapter<PendingOrderBean> 
 
     Context context;
     List<PendingOrderBean> orderBeans;
-    ViewHolder viewHolder ;
+    ViewHolder viewHolder;
+
     public Adapter_Accepted_Deliveries(Context context, int resource, List<PendingOrderBean> beans) {
         super(context, resource, beans);
         this.context = context;
@@ -53,7 +54,7 @@ public class Adapter_Accepted_Deliveries extends ArrayAdapter<PendingOrderBean> 
         viewHolder.start.setText(eventBean.getStart());
         viewHolder.end.setText(eventBean.getEnd());
         viewHolder.amount.setText("Rs. " + eventBean.getAmount());
-        viewHolder.count.setText(eventBean.getCount());
+        viewHolder.count.setText(eventBean.getCount() + " - Delivery");
         viewHolder.parcel_img.setTag(Constants.Image_IP + eventBean.getParcel_img());
         if (eventBean.getParcel_img().equals("noimage.jpg") || eventBean.getParcel_img().length() == 0) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -67,7 +68,7 @@ public class Adapter_Accepted_Deliveries extends ArrayAdapter<PendingOrderBean> 
         } else {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-         //   Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
+            //   Log.e("Position-Order id", position + "-" + eventBean.getOrder_id());
             Picasso.with(context)
                     .load(Constants.Image_IP + eventBean.getParcel_img())
                     .placeholder(R.drawable.photo)

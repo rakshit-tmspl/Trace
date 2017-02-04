@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EFEFEF"
-    android:orientation="vertical">
-
-    <ListView
-        android:id="@+id/lst_deliveries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:scrollbars="none" />
+        android:background="#EFEFEF"
+        android:orientation="vertical"
+        >
+
+    <com.tmspl.trace.extra.CustomTextView
+            android:id="@+id/tv_nothing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Nothing to show."
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="80dp"
+            />
+
+    <ListView
+            android:visibility="gone"
+            android:id="@+id/lst_deliveries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:scrollbars="vertical"
+            />
 </LinearLayout>

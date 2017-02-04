@@ -1,322 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fillViewport="true"
-    android:orientation="vertical">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@android:color/white"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:padding="12dp"
-                android:src="@drawable/iv_back"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
                 android:gravity="center"
-                android:text="DELIVERIES"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
 
             <ImageView
-                android:id="@+id/iv_next"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:padding="12dp"
-                android:src="@drawable/iv_next1"
-                android:textColor="@color/white" />
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:padding="12dp"
+                    android:src="@drawable/iv_back"
+                    android:textColor="@color/white"
+                    />
+
+            <com.tmspl.trace.extra.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="DELIVERIES"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:src="@drawable/iv_next1"
+                    android:textColor="@color/white"
+                    />
         </RelativeLayout>
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:src="@drawable/lin_black">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:src="@drawable/lin_black"
+                >
 
 
             <LinearLayout
-                android:id="@+id/from_address"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:weightSum="1.3">
+                    android:id="@+id/from_address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:weightSum="1.3"
+                    >
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        >
 
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/accepted_parcel_img"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
+                            android:id="@+id/accepted_parcel_img"
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
+                            android:gravity="center"
+                            android:src="@drawable/delivery"
+                            app:civ_border_color="#fff"
+                            app:civ_border_width="2dp"
+                            />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.2"
                         android:gravity="center"
-                        android:src="@drawable/delivery"
-                        app:civ_border_color="#fff"
-                        app:civ_border_width="2dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.2"
-                    android:gravity="center">
+                        >
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/current_location" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_my_location_black_48dp"
+                            />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical"
+                        >
+
+                    <TextView
+                            android:id="@+id/accepted_from_address"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:autoLink="all"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#CCC"
+                    />
+
+            <LinearLayout
+                    android:id="@+id/to_address_1"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:orientation="vertical">
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:weightSum="1.1"
+                    >
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        >
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_location_black_48dp"
+                            />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical"
+                        >
 
                     <TextView
-                        android:id="@+id/accepted_from_address"
-                        android:layout_width="fill_parent"
+                            android:id="@+id/accepted_to_address_1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:autoLink="all"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:autoLink="all"
-                        android:gravity="center_vertical"
-                        android:text=""
-                        android:textColor="@android:color/black" />
+                        android:layout_weight="0.1"
+                        android:gravity="center"
+                        >
+
+                    <ImageView
+                            android:id="@+id/accept_img_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/done"
+                            />
                 </LinearLayout>
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.1dp"
-                android:background="#CCC" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#CCC"
+                    />
 
             <LinearLayout
-                android:id="@+id/to_address_1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:weightSum="1.1">
+                    android:id="@+id/to_address_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="1.1"
+                    >
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.2"
-                    android:gravity="center">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        >
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/locations" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/locations"
+                            />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.8"
-                    android:orientation="vertical">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="horizontal"
+                        >
 
                     <TextView
-                        android:id="@+id/accepted_to_address_1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:autoLink="all"
-                        android:gravity="center_vertical"
-                        android:text=""
-                        android:textColor="@android:color/black" />
+                            android:id="@+id/accepted_to_address_2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:autoLink="all"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.1"
-                    android:gravity="center">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.1"
+                        android:gravity="center"
+                        >
 
                     <ImageView
-                        android:id="@+id/accept_img_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/done" />
+                            android:id="@+id/accept_img_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/done"
+                            />
                 </LinearLayout>
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.1dp"
-                android:background="#CCC" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#CCC"
+                    />
 
             <LinearLayout
-                android:id="@+id/to_address_2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:weightSum="1.1">
+                    android:id="@+id/to_address_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="1.1"
+                    >
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.2"
-                    android:gravity="center">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        >
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/locations" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/locations"
+                            />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.8"
-                    android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="horizontal"
+                        >
 
                     <TextView
-                        android:id="@+id/accepted_to_address_2"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:autoLink="all"
-                        android:gravity="center_vertical"
-                        android:text=""
-                        android:textColor="@android:color/black" />
+                            android:id="@+id/accepted_to_address_3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:autoLink="all"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.1"
-                    android:gravity="center">
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.1"
+                        android:gravity="center"
+                        >
 
                     <ImageView
-                        android:id="@+id/accept_img_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/done" />
+                            android:id="@+id/accept_img_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/done"
+                            />
                 </LinearLayout>
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.1dp"
-                android:background="#CCC" />
-
-            <LinearLayout
-                android:id="@+id/to_address_3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:weightSum="1.1">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/locations" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.8"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/accepted_to_address_3"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:autoLink="all"
-                        android:gravity="center_vertical"
-                        android:text=""
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.1"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/accept_img_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/done" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.1dp"
-                android:background="#CCC" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#CCC"
+                    />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f4f4f4"
-            android:gravity="center"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f4f4f4"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
 
             <ImageView
-                android:id="@+id/accepted_make_call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="20dp"
-                android:src="@drawable/call" />
+                    android:id="@+id/accepted_make_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/call"
+                    />
 
             <Button
-                android:id="@+id/btn_track_order"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/white"
-                android:drawableLeft="@drawable/add_track"
-                android:paddingLeft="40dp"
-                android:paddingRight="0dp"
-                android:text="TRACK YOUR ORDER" />
+                    android:id="@+id/btn_track_order"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/selectable_background"
+                    android:drawableLeft="@drawable/add_track"
+                    android:paddingLeft="40dp"
+                    android:paddingRight="0dp"
+                    android:text="TRACK YOUR ORDER"
+                    />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
