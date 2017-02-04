@@ -67,6 +67,7 @@ public class Fragment_From_To_Address extends Fragment {
     }
 
     int flg = 0;
+    String value;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +76,9 @@ public class Fragment_From_To_Address extends Fragment {
         context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_from_existing, container, false);
 
-        String value = Preferences.getSavedPreferences(context, "user_id");
+//       value = Preferences.getSavedPreferences(context, "user_id");
+
+        value = "1";
 
         Log.e(TAG, "onCreateView: VALUE" + value);
 
@@ -186,13 +189,15 @@ public class Fragment_From_To_Address extends Fragment {
 
             String url = Constants.API_BASE_URL;
             if (Constants.address_flag.equals("from")) {
-                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+//                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                if (value.equals("1")) {
                     url += "user_from_address";
                 } else {
                     url += "depot_from_address";
                 }
             } else {
-                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
+                if (value.equals("1")) {
                     url += "user_to_address";
                 } else {
                     url += "depot_to_address";
@@ -202,14 +207,16 @@ public class Fragment_From_To_Address extends Fragment {
 
             HashMap<String, String> params = new HashMap<String, String>();
             if (Constants.address_flag.equals("from")) {
-                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
-                    params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
+                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
+                if (value.equals("1")) {
+                    params.put("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id")*/);
                 } else {
                     params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                 }
             } else {
-                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
-                    params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
+                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
+                if (value.equals("1")) {
+                    params.put("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id")*/);
                 } else {
                     params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                 }
@@ -244,14 +251,16 @@ public class Fragment_From_To_Address extends Fragment {
                     HashMap<String, String> params = new HashMap<String, String>();
                     params.put("Content-Type", "application/x-www-form-urlencoded");
                     if (Constants.address_flag.equals("from")) {
-                        if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
-                            params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
+                        /*if (Preferences.getSavedPreferences(context, "usertype").equals("1")) */
+                        if (value.equals("1")) {
+                            params.put("user_id", "2" /*Preferences.getSavedPreferences(context, "user_id")*/);
                         } else {
                             params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                         }
                     } else {
-                        if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
-                            params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
+                        /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
+                        if (value.equals("1")) {
+                            params.put("user_id", "2" /*Preferences.getSavedPreferences(context, "user_id")*/);
                         } else {
                             params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                         }
@@ -362,7 +371,7 @@ public class Fragment_From_To_Address extends Fragment {
                 if (Constants.address_flag.equals("from")) {
                     if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                         Service = "user_from_address";
-                        nameValuePairs.add(new BasicNameValuePair("user_id", Preferences.getSavedPreferences(context, "user_id")));
+                        nameValuePairs.add(new BasicNameValuePair("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id"))*/));
                     } else {
 
                         Service = "depot_from_address";
@@ -371,7 +380,7 @@ public class Fragment_From_To_Address extends Fragment {
                 } else {
                     if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                         Service = "user_to_address";
-                        nameValuePairs.add(new BasicNameValuePair("user_id", Preferences.getSavedPreferences(context, "user_id")));
+                        nameValuePairs.add(new BasicNameValuePair("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id"))*/));
                     } else {
                         Service = "depot_to_address";
                         nameValuePairs.add(new BasicNameValuePair("depot_id", Preferences.getSavedPreferences(context, "depot_id")));
@@ -407,15 +416,27 @@ public class Fragment_From_To_Address extends Fragment {
                             if (Constants.address_flag.equals("from")) {
                                 if (Constants.data_city.length() > 0) {
                                     //  if( address_object.getString("data_city").equals(Data.data_city)) {
-                                    AddressList.add(new Address_bean(address_object.getString("key"), address_object.getString("name"), address_object.getString("value"), address_object.getString("lat_long"), address_object.getString("data_city")));
+                                    AddressList.add(new Address_bean(address_object.getString("key"),
+                                            address_object.getString("name"),
+                                            address_object.getString("value"),
+                                            address_object.getString("lat_long"),
+                                            address_object.getString("data_city")));
                                     //    }
                                 } else {
-                                    AddressList.add(new Address_bean(address_object.getString("key"), address_object.getString("name"), address_object.getString("value"), address_object.getString("lat_long"), address_object.getString("data_city")));
+                                    AddressList.add(new Address_bean(address_object.getString("key"),
+                                            address_object.getString("name"),
+                                            address_object.getString("value"),
+                                            address_object.getString("lat_long"),
+                                            address_object.getString("data_city")));
                                 }
 
                             } else {
                                 //   if( address_object.getString("data_city").equals(Data.data_city)) {
-                                AddressList.add(new Address_bean(address_object.getString("key"), address_object.getString("name"), address_object.getString("value"), address_object.getString("lat_long"), address_object.getString("data_city")));
+                                AddressList.add(new Address_bean(address_object.getString("key"),
+                                        address_object.getString("name"),
+                                        address_object.getString("value"),
+                                        address_object.getString("lat_long"),
+                                        address_object.getString("data_city")));
                                 //   }
                             }
                         }

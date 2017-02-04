@@ -167,7 +167,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:background="@drawable/user_btn_background"
                 android:text="Apply"
                 android:textColor="@android:color/white" />
 
@@ -197,7 +197,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@drawable/user_btn_background"
             android:text="CONFIRM"
             android:textColor="@android:color/white"
             android:textSize="18sp" />

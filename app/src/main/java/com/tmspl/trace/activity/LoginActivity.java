@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -194,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
      * Called when one or several {@link Rule}s fail.
      *
      * @param errors List containing references to the {@link View}s and
-     * {@link Rule}s that failed.
+     *               {@link Rule}s that failed.
      */
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
@@ -203,8 +202,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
             String message = error.getCollatedErrorMessage(this);
 
             // Display error messages ;)
-            if (view instanceof AutoCompleteTextView) {
-                ((AutoCompleteTextView) view).setError(message);
+            if (view instanceof EditText) {
+                ((TextView) (EditText) view).setError(message);
             } else {
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }

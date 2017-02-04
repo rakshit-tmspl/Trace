@@ -6,6 +6,7 @@ package com.tmspl.trace.extra;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,16 +57,16 @@ public class ServiceHandler {
     @SuppressLint("NewApi")
     public String makeServiceCall(String url, int method,
                                   List<NameValuePair> params) {
-        //  Log.e("URL", "->" + url);
+        Log.e("URL", "->" + url);
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             params.add(new BasicNameValuePair("auth", "4JW*BNtp2nX6AbJCAoksWi/1DHoJJGYw"));
             for (NameValuePair property : params) {
-                //  Log.e(property.getName(), "->" + property.getValue());
+                Log.e(property.getName(), "->" + property.getValue());
             }
-            //Log.e("ServiceHandler", "Service Call");
+            Log.e("ServiceHandler", "Service Call");
             HttpParams httpParameters = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParameters, 600000);
             // http client
@@ -97,9 +98,9 @@ public class ServiceHandler {
             }
             httpEntity = httpResponse.getEntity();
             response = EntityUtils.toString(httpEntity);
-            // Log.e("ServiceHandler", "Response->" + response);
+            Log.e("ServiceHandler", "Response->" + response);
         } catch (Exception e) {
-            //  Log.e("Service Handleer", "Error : " + e.toString());
+            Log.e("Service Handleer", "Error : " + e.toString());
             return "{\"error\":\"No Data Found!\"}";
         }
 
