@@ -1,15 +1,5 @@
 package com.tmspl.trace.fragment;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +26,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.MapWrapperLayout;
 import com.tmspl.trace.apimodel.maps_bean;
@@ -207,7 +206,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
         mMap.setOnCameraIdleListener(this);
 
-        //new getTrackData(getActivity()).execute();
+        new getTrackData(getActivity()).execute();
 
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
@@ -423,29 +422,29 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                            rider_name = jsonObject.optString("company_name");
-                            lat_long = jsonObject.getString("lat_long").replaceAll(" ", "");
+                            rider_name = jsonObject.optString("first_name");
+                            lat_long = jsonObject.getString("lat_lon")/*.replaceAll(" ", "")*/;
                             if (lat_long.length() != 0) {
                                 StringTokenizer tokens = new StringTokenizer(lat_long, ",");
                                 String first_lat = tokens.nextToken();
                                 String second_long = tokens.nextToken();
 
+                                Log.e(TAG, "onPostExecute: " + first_lat + " " + second_long);
+
                                 double lat = Double.parseDouble(first_lat);
                                 double longi = Double.parseDouble(second_long);
-                                VehicleName = jsonObject.getString("category");
+                                // VehicleName = jsonObject.getString("category");
                                 VehicleNumber = jsonObject.getString("mobile");
 
                                 maps_bean bean = new maps_bean();
 
                                 bean.setName(rider_name);
-                                bean.setVehicleName(VehicleName);
+                                // bean.setVehicleName(VehicleName);
                                 bean.setVehicleNumber(VehicleNumber);
                                 bean.setLatlong(new LatLng(lat, longi));
                                 storelist.add(bean);
-
-                                addItemsToMap(storelist);
                             }
-
+                            addItemsToMap(storelist);
                         }
                     } else {
                         Alert.showAlertWithFinish(context, jobj1.getString("responseMessage"));
@@ -467,10 +466,15 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
             for (maps_bean item : items) {
 
+                Log.e(TAG, "addItemsToMap: name" + item.getName());
+
                 if (bounds.contains(new LatLng(item.getLatlong().latitude, item
                         .getLatlong().longitude))) {
 
                     if (!courseMarkers.containsKey(item.getLatlong())) {
+
+                        Log.e(TAG, "addItemsToMap: " + "Name :" + item.getName() +
+                                "LAT-LANG" + item.getLatlong());
 
                         Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(item.getLatlong())

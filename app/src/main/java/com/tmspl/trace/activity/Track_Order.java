@@ -5,23 +5,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -74,6 +68,11 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
 
     SupportMapFragment mapFragment;
 
+    public static int getPixelsFromDp(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +82,10 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
         gps = new GPSTracker(Track_Order.this);
         storelist = new ArrayList<maps_bean>();
 
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.track_order_map);
+        mapFragment.getMapAsync(this);
+
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new OnClickListener() {
             @Override
@@ -90,6 +93,8 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
                 finish();
             }
         });
+
+
 
       /*  map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
@@ -135,12 +140,12 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
                 }
             }
         });*/
-        try {
+        /*try {
             switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)) {
                 case ConnectionResult.SUCCESS:
-                    mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                            .findFragmentById(R.id.track_order_map);
-                    mapFragment.getMapAsync(this);
+//                    mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                            .findFragmentById(R.id.track_order_map);
+//                    mapFragment.getMapAsync(this);
                     // Gets to GoogleMap from the MapView and does initialization stuff
                     if (map != null) {
                         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -199,8 +204,8 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+        }*/
+       /* map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
 
@@ -235,7 +240,7 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
                 }
 
             }
-        });
+        });*/
     }
 
     public boolean hasGPSDevice(Context context) {
@@ -346,7 +351,71 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        try {
+            switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)) {
+                case ConnectionResult.SUCCESS:
+//                    mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                            .findFragmentById(R.id.track_order_map);
+//                    mapFragment.getMapAsync(this);
+                    // Gets to GoogleMap from the MapView and does initialization stuff
+                    if (map != null) {
+                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        map.setMyLocationEnabled(true);
 
+                        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                            @Override
+                            public boolean onMyLocationButtonClick() {
+                                LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                                if (!mgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                                    Location location = mgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                    if (location != null) {
+                                        onLocationChanged(location);
+                                    }
+
+                                    boolean IsGPS = hasGPSDevice(Track_Order.this);
+
+                                    if (IsGPS) {
+                                        showSettingsAlert();
+                                    }
+                                }
+                                return false;
+                            }
+                        });
+                        if (gps.canGetLocation()) {
+                            startPosition = new LatLng(gps.getLatitude(), gps.getLongitude());
+                            if (NetworkUtil.isInternetConnencted(this)) {
+                                new track_order(Track_Order.this).execute();
+                            }
+                        }
+
+                        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+                            @Override
+                            public void onCameraChange(CameraPosition cameraposition) {
+                                // TODO Auto-generated method stub
+
+                                if (mBooleancamerapostion) {
+                                    addItemsToMap(storelist);
+                                }
+                            }
+                        });
+
+                    }
+
+                    break;
+                case ConnectionResult.SERVICE_MISSING:
+                    Toast.makeText(Track_Order.this, "SERVICE MISSING", Toast.LENGTH_SHORT).show();
+                    break;
+                case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+                    Toast.makeText(Track_Order.this, "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(Track_Order.this, GooglePlayServicesUtil.isGooglePlayServicesAvailable(Track_Order.this), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public class track_order extends AsyncTask<String, String, String> {

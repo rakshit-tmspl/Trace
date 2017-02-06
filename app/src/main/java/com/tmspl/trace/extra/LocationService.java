@@ -91,6 +91,8 @@ public class LocationService extends Service {
             double lat = bestLocation.getLatitude();
             double lng = bestLocation.getLongitude();
             Log.e("Location", "From Service" + lat + "---" + lng);
+            Constants.lat = lat;
+            Constants.lang = lng;
             if (NetworkUtil.isInternetConnencted(this) && Preferences.getSavedPreferences(this, "rider_id").length()>0) {
                 new update_rider_track(Preferences.getSavedPreferences(this, "rider_id"), lat + "," + lng).execute();
             }

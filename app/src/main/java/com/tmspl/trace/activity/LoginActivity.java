@@ -134,6 +134,9 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                         List<LoginNewResponse.ResponseJsonBean.RiderQueryResultBean> riderList = responseJsonBean
                                 .getRiderQueryResult();
 
+
+                        Log.e(TAG, "onResponse: " + type);
+
                         if (type.equals("user")) {
 
                             //set USER Data and go to User side Activity (HomeActivity)

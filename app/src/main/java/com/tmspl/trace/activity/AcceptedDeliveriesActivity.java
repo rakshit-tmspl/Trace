@@ -13,12 +13,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
+import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.NetworkUtil;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.extra.ServiceHandler;
@@ -44,6 +46,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
     public static ImageView done2, done3, iv_next;
     public static Activity context;
     public static ImageView done1;
+    public static TextView tvPicParcel;
 
     public static String rider_name, rider_vehicle_name, rider_vehicle_number, secret_code, order_track_id;
 
@@ -66,6 +69,8 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
             startActivity(new Intent(this, UserHomeActivity.class));
         }
 
+        startService();
+
         from_add = (LinearLayout) findViewById(R.id.from_address);
         to_add_1 = (LinearLayout) findViewById(R.id.to_address_1);
 //        to_add_2 = (LinearLayout) findViewById(R.id.to_address_2);
@@ -79,6 +84,8 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         done1 = (ImageView) findViewById(R.id.accept_img_1);
         done2 = (ImageView) findViewById(R.id.accept_img_2);
         done3 = (ImageView) findViewById(R.id.accept_img_3);
+
+        tvPicParcel = (TextView) findViewById(R.id.tv_pic_Parcel);
 
 
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
@@ -99,6 +106,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
             iv_next.setVisibility(View.INVISIBLE);
             btn_track_order.setText("Track Destination");
+            tvPicParcel.setVisibility(View.VISIBLE);
         }
 
         if (NetworkUtil.isInternetConnencted(context)) {
@@ -107,6 +115,14 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         } else {
             Alert.showInternetConnError(context);
         }
+
+
+        tvPicParcel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new picParcel(context).execute();
+            }
+        });
 
     }
 
@@ -443,5 +459,81 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         } else {
             // startActivity(new Intent(AcceptedDeliveriesActivity.this,UserHomeActivity.class));
         }
+    }
+
+    private class picParcel extends AsyncTask<String, String, String> {
+
+        Activity context;
+        AlertDialog pd;
+
+        public picParcel(Activity context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new SpotsDialog(context, "Update Data");
+            pd.show();
+            pd.setCancelable(false);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                ServiceHandler sh = new ServiceHandler();
+
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+                nameValuePairs.add(new BasicNameValuePair("order_id",
+                        Constants.order_id));
+                nameValuePairs.add(new BasicNameValuePair("auth", Constants.AUTH));
+                nameValuePairs.add(new BasicNameValuePair("pickup_location", Constants.lat + "," + Constants.lang));
+
+                String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
+                                + "update_pickup_location", ServiceHandler.POST,
+                        nameValuePairs);
+                if (jsonResponse.equals("")) {
+                    return "{\"error\":\"Fetching Addresses Goes Failed Please try again later\"}";
+                } else {
+                    return jsonResponse;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "{\"error\":\"Fetching Addresses Goes Failed Please try again later\"}";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+
+                if (jsonObject.has("error")) {
+                    Alert.ShowAlert(context, "Something Missing!");
+                } else {
+                    if (jsonObject.getInt("status") == 1) {
+                        Toast.makeText(context, jsonObject.getString("responseMessage"), Toast.LENGTH_SHORT).show();
+                        tvPicParcel.setVisibility(View.GONE);
+                        Constants.lang = 0.0;
+                        Constants.lat = 0.0;
+                    } else {
+                        Toast.makeText(context, jsonObject.getString("responseMessage"), Toast.LENGTH_SHORT).show();
+                        tvPicParcel.setVisibility(View.VISIBLE);
+                    }
+                }
+                if (pd.isShowing())
+                    pd.dismiss();
+
+            } catch (Exception e) {
+                if (pd.isShowing())
+                    pd.dismiss();
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void startService() {
+        startService(new Intent(this, LocationService.class));
     }
 }

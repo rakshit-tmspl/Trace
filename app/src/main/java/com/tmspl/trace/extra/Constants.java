@@ -77,4 +77,6 @@ public class Constants {
 
     public static int isCompleted = 0;
     public static String Image_IP = API_BASE_URL + "userimages/";
+    public static double lat;
+    public static double lang;
 }

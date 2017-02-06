@@ -2,6 +2,7 @@ package com.tmspl.trace.adapter;
 
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ public class Adapter_Accepted_Deliveries extends ArrayAdapter<PendingOrderBean> 
     public View getView(int position, View convertView, ViewGroup parent) {
 
         PendingOrderBean eventBean = getItem(position);
+
+        Log.e("IN ADAPTER", "getView: " + eventBean.getStart());
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {

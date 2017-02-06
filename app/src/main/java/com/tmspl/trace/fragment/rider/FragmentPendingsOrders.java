@@ -79,6 +79,8 @@ public class FragmentPendingsOrders extends Fragment {
         riderId = Preferences.getSavedPreferences(getActivity(), "rider_id");
         Log.e(TAG, "onCreateView:  riderId ->" + riderId);
 
+        //tvNothing = (TextView) rootView.findViewById(R.id.tv_nothing);
+
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -203,8 +205,8 @@ public class FragmentPendingsOrders extends Fragment {
                                 }
 
                                 if (listBean.size() > 0) {
-                                    tvNothing.setVisibility(View.GONE);
-                                    lst_deliveries.setVisibility(View.VISIBLE);
+                                    //  tvNothing.setVisibility(View.GONE);
+                                    // lst_deliveries.setVisibility(View.VISIBLE);
                                     adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, listBean);
                                     lst_deliveries.setAdapter(adapter_deliveries);
                                     lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -216,8 +218,8 @@ public class FragmentPendingsOrders extends Fragment {
                                         }
                                     });
                                 } else {
-                                    lst_deliveries.setVisibility(View.GONE);
-                                    tvNothing.setVisibility(View.VISIBLE);
+                                  //  lst_deliveries.setVisibility(View.GONE);
+                                    //  tvNothing.setVisibility(View.VISIBLE);
                                 }
 
 

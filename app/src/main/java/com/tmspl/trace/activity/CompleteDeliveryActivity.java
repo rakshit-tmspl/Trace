@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.tmspl.trace.R;
 import com.tmspl.trace.extra.Alert;
 import com.tmspl.trace.extra.Constants;
+import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.NetworkUtil;
 import com.tmspl.trace.extra.ServiceHandler;
 
@@ -32,7 +33,7 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
     public static ImageView complete_delivery_parcel_img;
     public static TextView complete_price_txt, complete_count_txt, complete_delivery_address_txt;
     public static Activity context;
-    public static Button btn_track_order,btn_return_parcel;
+    public static Button btn_track_order, btn_return_parcel;
     public static EditText complete_secret_edt;
 
     @Override
@@ -53,10 +54,10 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
         complete_count_txt = (TextView) findViewById(R.id.complete_count_txt);
         complete_delivery_address_txt = (TextView) findViewById(R.id.complete_delivery_address_txt);
         btn_track_order = (Button) findViewById(R.id.btn_track_order);
-        btn_return_parcel=(Button)findViewById(R.id.btn_return_parcel);
+        btn_return_parcel = (Button) findViewById(R.id.btn_return_parcel);
 
 
-
+        startService();
 
         if (AcceptedDeliveriesActivity.logo.equals("noimage.jpg") || AcceptedDeliveriesActivity.logo.length() == 0) {
             Picasso.with(context)
@@ -97,7 +98,7 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(context,Return_Parcel.class));
+                startActivity(new Intent(context, Return_Parcel.class));
             }
         });
     }
@@ -113,7 +114,7 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Updating Delivery..");
+            pd = new SpotsDialog(context, "Updating Delivery..");
             pd.show();
             pd.setCancelable(false);
 
@@ -130,6 +131,9 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
 
                 nameValuePairs.add(new BasicNameValuePair("id",
                         AcceptedDeliveriesActivity.to_id));
+                nameValuePairs.add(new BasicNameValuePair("auth", Constants.AUTH));
+                nameValuePairs.add(new BasicNameValuePair("order_id", Constants.order_id));
+                nameValuePairs.add(new BasicNameValuePair("drop_location", Constants.lat + "," + Constants.lang));
 
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
                                 + "make_delivery", ServiceHandler.POST,
@@ -158,7 +162,7 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
 
                         String res = jobj1.getString("responseJson");
                         if (res.equals("1")) {
-                            Constants.flgDelivery=1;
+                            Constants.flgDelivery = 1;
                             finish();
                             startActivity(new Intent(context, Rider_Complite.class));
                         } else {
@@ -178,6 +182,10 @@ public class CompleteDeliveryActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void startService() {
+        startService(new Intent(this, LocationService.class));
     }
 
 }

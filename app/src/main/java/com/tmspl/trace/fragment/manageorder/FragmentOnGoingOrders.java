@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
+
+import static com.google.android.gms.internal.zzs.TAG;
 
 /**
  * Created by rakshit.sathwara on 1/25/2017.
@@ -123,6 +126,8 @@ public class FragmentOnGoingOrders extends Fragment {
         @Override
         protected void onPostExecute(String result) {
 
+            Log.e(TAG, "onPostExecute: " + result);
+
             try {
                 JSONObject jobj1 = new JSONObject(result);
 
@@ -134,24 +139,38 @@ public class FragmentOnGoingOrders extends Fragment {
                         JSONObject responseObject = new JSONObject(jobj1.getString("responseJson"));
 
                         if (responseObject.getString("ongoing").equals("false")) {
-
+//                            Alert.ShowAlert(context, jobj1.getString("error"));
                         } else {
                             OngoingList.clear();
+                            Log.e(TAG, "onPostExecute: " + "IN1");
                             JSONArray ongoing = new JSONArray(responseObject.getString("ongoing"));
+                            Log.e(TAG, "onPostExecute: " + "IN2");
                             if (ongoing.length() > 0) {
-
+                                Log.e(TAG, "onPostExecute: " + "IN3");
                                 for (int i = 0; i < ongoing.length(); i++) {
                                     JSONObject pendingObject = ongoing.getJSONObject(i);
                                     String to_areaa[] = pendingObject.getString("to_area").split("\\*");
                                     String to_area = to_areaa[to_areaa.length - 1];
-                                    PendingOrderBean obj = new PendingOrderBean(pendingObject.getString("image"), pendingObject.getString("from_area"), to_area, pendingObject.getString("total_deliveries"), Math.round(Double.parseDouble(pendingObject.getString("total_amount"))) + "", pendingObject.getString("order_id"));
+                                    PendingOrderBean obj = new PendingOrderBean(pendingObject.getString("image"),
+                                            pendingObject.getString("from_area"),
+                                            to_area,
+                                            pendingObject.getString("total_deliveries"),
+                                            Math.round(Double.parseDouble(pendingObject.getString("total_amount"))) +
+                                                    "", pendingObject.getString("order_id"));
                                     OngoingList.add(obj);
                                 }
+                                for (PendingOrderBean pendingOrderBean : OngoingList) {
+                                    Log.e(TAG, "onPostExecute: getStart()" + pendingOrderBean.getStart());
+                                    Log.e(TAG, "onPostExecute: getEnd()" + pendingOrderBean.getEnd());
+                                    Log.e(TAG, "onPostExecute: getOrder_id()" + pendingOrderBean.getOrder_id());
+                                    Log.e(TAG, "onPostExecute: getAmount()" + pendingOrderBean.getAmount());
+                                    Log.e(TAG, "onPostExecute: getCount()" + pendingOrderBean.getCount());
+                                }
                             }
-
-
+                            Log.e(TAG, "onPostExecute: " + "IN4");
                             adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, OngoingList);
                             lst_deliveries.setAdapter(adapter_deliveries);
+                            Log.e(TAG, "onPostExecute: " + "IN5");
                             lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -163,7 +182,7 @@ public class FragmentOnGoingOrders extends Fragment {
 
                         }
                     } else {
-                        //Alert.ShowAlert(context,jobj1.getString("responseMessage"));
+                        Alert.ShowAlert(context, jobj1.getString("responseMessage"));
                     }
                 }
 
