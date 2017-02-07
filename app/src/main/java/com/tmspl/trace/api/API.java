@@ -31,9 +31,9 @@ public class API {
     }
 
     public void loginUser(final Context context, final String auth, final String email, final String password,
-                          final RetrofitCallbacks<LoginNewResponse> callback) {
+                          final String fcmToken, final RetrofitCallbacks<LoginNewResponse> callback) {
 
-        Call<LoginNewResponse> loginResponseCall = apiService.getLoginResponse(auth, email, password);
+        Call<LoginNewResponse> loginResponseCall = apiService.getLoginResponse(auth, email, password, fcmToken);
 
         loginResponseCall.enqueue(callback);
 

@@ -18,7 +18,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("login_authentiocation")
     Call<LoginNewResponse> getLoginResponse(@Field("auth") String auth, @Field("mobile") String email,
-                                            @Field("password") String password);
+                                            @Field("password") String password, @Field("gcm_id") String fcmToken);
 
     @FormUrlEncoded
     @POST("add_data")

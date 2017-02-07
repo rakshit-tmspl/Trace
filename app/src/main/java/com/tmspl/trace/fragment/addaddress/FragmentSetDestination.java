@@ -12,6 +12,8 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,7 +87,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
         view = inflater.inflate(R.layout.fragment_set_destination, container, false);
 
 
-        // ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Set Location");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Set Address");
         Constants.order_to_address.add(new Order_Detail_bean());
         Constants.order_to_address.add(new Order_Detail_bean());
         Constants.order_to_address.add(new Order_Detail_bean());

@@ -16,6 +16,7 @@ import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.Gravity;
@@ -125,6 +126,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
         mLatLngInterpolator = new LatLngInterpolator.Linear();
 
         storelist = new ArrayList<maps_bean>();
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Place Order");
 
 //        etCurrentLocation = (AppCompatEditText) view.findViewById(R.id.et_currentLocation);
 

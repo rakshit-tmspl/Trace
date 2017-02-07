@@ -30,6 +30,7 @@ import com.tmspl.trace.activity.LoginActivity;
 import com.tmspl.trace.activity.homeactivity.HomeActivity;
 import com.tmspl.trace.api.API;
 import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.apimodel.DbModel;
 import com.tmspl.trace.apimodel.LoginNewResponse;
 import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.LocationService;
@@ -41,6 +42,8 @@ import com.tmspl.trace.fragment.rider.FragmentPendingsOrders;
 
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -49,6 +52,9 @@ public class RiderHomeActivity extends AppCompatActivity
 
     FragmentPendingsOrders fragmentPendingsOrders;
     FragmentTransaction ft;
+
+    String fcmKey;
+    private Realm realm;
 
     private static final String TAG = MyApplication.APP_TAG + RiderHomeActivity.class.getSimpleName();
 
@@ -69,8 +75,18 @@ public class RiderHomeActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_rider_home3);
+
+        realm = Realm.getDefaultInstance();
+
+        RealmResults<DbModel> tagsBeanModelRealmResults = realm.where(DbModel.class).findAll();
+
+        for (DbModel model1 : tagsBeanModelRealmResults) {
+            Log.e(TAG, "IN Realm RIDER-HOME" + model1.getFcmToken());
+            fcmKey = model1.getFcmToken();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -146,7 +162,7 @@ public class RiderHomeActivity extends AppCompatActivity
                 Log.e(TAG, "onNavigationItemSelected: contact" + contact);
                 Log.e(TAG, "onNavigationItemSelected: password" + password);
 
-                API.getInstance().loginUser(RiderHomeActivity.this, Constants.AUTH, contact, password,
+                API.getInstance().loginUser(RiderHomeActivity.this, Constants.AUTH, contact, password, fcmKey,
                         new RetrofitCallbacks<LoginNewResponse>(RiderHomeActivity.this) {
                             @Override
                             public void onResponse(Call<LoginNewResponse> call, Response<LoginNewResponse> response) {

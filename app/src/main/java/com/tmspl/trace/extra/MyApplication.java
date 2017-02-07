@@ -12,6 +12,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by rakshit.sathwara on 1/18/2017.
  */
@@ -34,6 +37,16 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
 
         mInstance = this;
+
+        Realm.init(this);
+
+        final RealmConfiguration realmConfig = new RealmConfiguration
+                .Builder()
+                .name(Constants.REALM_DATABASE_NAME)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        Realm.setDefaultConfiguration(realmConfig);
 
       /*  traceComponent = DaggerTraceComponent.builder()
                 .appModule(new AppModule(this))

@@ -22,6 +22,7 @@ import com.tmspl.trace.activity.homeactivity.HomeActivity;
 import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
 import com.tmspl.trace.api.API;
 import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.apimodel.DbModel;
 import com.tmspl.trace.apimodel.LoginNewResponse;
 import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.LocationService;
@@ -32,6 +33,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -63,6 +66,10 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
     public static String type;
     private String password;
+    String fcmKey;
+    Realm realm;
+    DbModel dbModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +77,17 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
 
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        RealmResults<DbModel> tagsBeanModelRealmResults = realm.where(DbModel.class).findAll();
+
+        for (DbModel model1 : tagsBeanModelRealmResults) {
+            Log.e(TAG, "IN Realm LOGIN" + model1.getFcmToken());
+            fcmKey = model1.getFcmToken();
+        }
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
 
         //Login Api
-        API.getInstance().loginUser(LoginActivity.this, Constants.AUTH, email, password, new RetrofitCallbacks<LoginNewResponse>(LoginActivity.this) {
+        API.getInstance().loginUser(LoginActivity.this, Constants.AUTH, email, password, fcmKey, new RetrofitCallbacks<LoginNewResponse>(LoginActivity.this) {
             @Override
             public void onResponse(Call<LoginNewResponse> call, Response<LoginNewResponse> response) {
                 super.onResponse(call, response);
