@@ -470,9 +470,17 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
             for (maps_bean item : items) {
 
                 Log.e(TAG, "addItemsToMap: name" + item.getName());
+                Log.e(TAG, "addItemsToMap: Latlng " + item.getLatlong());
 
-                if (bounds.contains(new LatLng(item.getLatlong().latitude, item
+                MarkerOptions marker = new MarkerOptions().position(new LatLng(item.getLatlong().latitude,
+                        item.getLatlong().longitude)).title(item.getName());
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike));
+                mMap.addMarker(marker);
+
+                /*if (bounds.contains(new LatLng(item.getLatlong().latitude, item
                         .getLatlong().longitude))) {
+
+                    Log.e(TAG, "addItemsToMap: Latlng1 " + item.getLatlong());
 
                     if (!courseMarkers.containsKey(item.getLatlong())) {
 
@@ -497,7 +505,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
                         courseMarkers.remove(item.getLatlong());
                     }
-                }
+                }*/
             }
         }
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {

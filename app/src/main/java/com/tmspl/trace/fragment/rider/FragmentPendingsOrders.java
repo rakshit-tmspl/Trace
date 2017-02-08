@@ -14,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.ridersactivity.DeliveryDetails;
@@ -56,7 +56,7 @@ public class FragmentPendingsOrders extends Fragment {
     public static int position = 0;
     String riderId;
 
-    private TextView tvNothing;
+    private ImageView ivNoFeeds;
 
     public static FragmentPendingsOrders newInstance(int index, Activity context) {
         FragmentPendingsOrders fragmentMap = new FragmentPendingsOrders();
@@ -79,7 +79,7 @@ public class FragmentPendingsOrders extends Fragment {
         riderId = Preferences.getSavedPreferences(getActivity(), "rider_id");
         Log.e(TAG, "onCreateView:  riderId ->" + riderId);
 
-        //tvNothing = (TextView) rootView.findViewById(R.id.tv_nothing);
+        ivNoFeeds = (ImageView) rootView.findViewById(R.id.iv_no_feeds);
 
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -205,8 +205,8 @@ public class FragmentPendingsOrders extends Fragment {
                                 }
 
                                 if (listBean.size() > 0) {
-                                    //  tvNothing.setVisibility(View.GONE);
-                                    // lst_deliveries.setVisibility(View.VISIBLE);
+                                    ivNoFeeds.setVisibility(View.GONE);
+                                    lst_deliveries.setVisibility(View.VISIBLE);
                                     adapter_deliveries = new Adapter_Deliveries(context, R.layout.custom_item_for_dockier_deliveries, listBean);
                                     lst_deliveries.setAdapter(adapter_deliveries);
                                     lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,8 +218,8 @@ public class FragmentPendingsOrders extends Fragment {
                                         }
                                     });
                                 } else {
-                                  //  lst_deliveries.setVisibility(View.GONE);
-                                    //  tvNothing.setVisibility(View.VISIBLE);
+                                    lst_deliveries.setVisibility(View.GONE);
+                                    ivNoFeeds.setVisibility(View.VISIBLE);
                                 }
 
 

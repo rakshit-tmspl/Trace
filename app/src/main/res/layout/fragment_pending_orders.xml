@@ -15,6 +15,13 @@
             android:textSize="80dp"
             />-->
 
+    <ImageView
+        android:id="@+id/iv_no_feeds"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_feeds" />
+
     <ListView
         android:id="@+id/lst_deliveries"
         android:layout_width="match_parent"
@@ -22,5 +29,5 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:scrollbars="vertical"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </LinearLayout>
