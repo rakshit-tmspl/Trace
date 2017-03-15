@@ -155,22 +155,22 @@ public class FragmentAddNewAddress extends Fragment implements Validator.Validat
                 etNewaddPincode.setText(Constants.order_from_address.getPin());
             }
         } else {
-            if (Constants.order_to_address.get(Constants.toCount).getName() != null && Constants.order_to_address.get(Constants.toCount).getAddress_id().equals("0")) {
-                etNewaddName.setText(Constants.order_to_address.get(Constants.toCount).getName());
-                etNewaddAddress.setText(Constants.order_to_address.get(Constants.toCount).getAddress_line_1());
+            if (Constants.order_to_address.getName() != null && Constants.order_to_address.getAddress_id().equals("0")) {
+                etNewaddName.setText(Constants.order_to_address.getName());
+                etNewaddAddress.setText(Constants.order_to_address.getAddress_line_1());
                 //new_address_to_address_line_2.setText(Constants.order_to_address.get(Constants.toCount).getAddress_line_2());
-                city_key = Constants.order_to_address.get(Constants.toCount).getCity_key();
+                city_key = Constants.order_to_address.getCity_key();
 
-                area_key = Constants.order_to_address.get(Constants.toCount).getArea_key();
-                autotvNewaddArea.setText(Constants.order_to_address.get(Constants.toCount).getArea_value());
+                area_key = Constants.order_to_address.getArea_key();
+                autotvNewaddArea.setText(Constants.order_to_address.getArea_value());
 
-                r.setState(Constants.order_to_address.get(Constants.toCount).getState());
-                r.setLat_long(Constants.order_to_address.get(Constants.toCount).getLat_long());
+                r.setState(Constants.order_to_address.getState());
+                r.setLat_long(Constants.order_to_address.getLat_long());
                 lat_long = r.getLat_long();
 
-                etNewaddCity.setText(Constants.order_to_address.get(Constants.toCount).getCity_value());
-                etNewaddContact.setText(Constants.order_to_address.get(Constants.toCount).getMobile());
-                etNewaddPincode.setText(Constants.order_to_address.get(Constants.toCount).getPin());
+                etNewaddCity.setText(Constants.order_to_address.getCity_value());
+                etNewaddContact.setText(Constants.order_to_address.getMobile());
+                etNewaddPincode.setText(Constants.order_to_address.getPin());
             }
         }
     }
@@ -266,20 +266,20 @@ public class FragmentAddNewAddress extends Fragment implements Validator.Validat
                                     Constants.order_from_address.setMobile(etNewaddContact.getText().toString());
                                     Constants.order_from_address.setPin(etNewaddPincode.getText().toString());
                                 } else {
-                                    Constants.order_to_address.get(Constants.toCount).setAddress_id("0");
-                                    Constants.order_to_address.get(Constants.toCount).setName(etNewaddName.getText().toString());
-                                    Constants.order_to_address.get(Constants.toCount).setAddress_line_1(etNewaddAddress.getText().toString());
+                                    Constants.order_to_address.setAddress_id("0");
+                                    Constants.order_to_address.setName(etNewaddName.getText().toString());
+                                    Constants.order_to_address.setAddress_line_1(etNewaddAddress.getText().toString());
                                     // Constants.order_to_address.get(Constants.toCount).setAddress_line_2(new_address_to_address_line_2.getText().toString());
-                                    Constants.order_to_address.get(Constants.toCount).setCity_key(city_key);
-                                    Constants.order_to_address.get(Constants.toCount).setArea_key(autotvNewaddArea.getText() + "*" + r.getLat_long());
+                                    Constants.order_to_address.setCity_key(city_key);
+                                    Constants.order_to_address.setArea_key(autotvNewaddArea.getText() + "*" + r.getLat_long());
 
-                                    Constants.order_to_address.get(Constants.toCount).setCity_value(etNewaddCity.getText().toString());
-                                    Constants.order_to_address.get(Constants.toCount).setArea_value(autotvNewaddArea.getText().toString());
+                                    Constants.order_to_address.setCity_value(etNewaddCity.getText().toString());
+                                    Constants.order_to_address.setArea_value(autotvNewaddArea.getText().toString());
 
-                                    Constants.order_to_address.get(Constants.toCount).setLat_long(r.getLat_long());
-                                    Constants.order_to_address.get(Constants.toCount).setState(r.getState());
-                                    Constants.order_to_address.get(Constants.toCount).setMobile(etNewaddContact.getText().toString());
-                                    Constants.order_to_address.get(Constants.toCount).setPin(etNewaddPincode.getText().toString());
+                                    Constants.order_to_address.setLat_long(r.getLat_long());
+                                    Constants.order_to_address.setState(r.getState());
+                                    Constants.order_to_address.setMobile(etNewaddContact.getText().toString());
+                                    Constants.order_to_address.setPin(etNewaddPincode.getText().toString());
                                 }
                                 getActivity().onBackPressed();
                             } else {

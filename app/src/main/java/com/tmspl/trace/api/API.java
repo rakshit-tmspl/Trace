@@ -42,7 +42,7 @@ public class API {
     public void addData(final Context context, final String auth, final String fName, final String email,
                         final String contact, final String password, final String isValid, final String image,
                         final RetrofitCallbacks callback) {
-        Call<AddData> addDataCall = apiService.ADD_DATA_CALL(fName, email, contact, auth, password, image, isValid);
+        Call<AddData> addDataCall = apiService.ADD_DATA_CALL(fName, email, contact, auth, image, password, isValid);
         addDataCall.enqueue(callback);
     }
 

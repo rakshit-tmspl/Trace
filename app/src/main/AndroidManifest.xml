@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -76,16 +79,22 @@
         <activity android:name=".activity.Track_Order" />
 
         <activity android:name=".activity.UserHomeActivity" />
+
+        <activity
+            android:name=".activity.TrackOrderActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.homeactivity.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.CaptureActivity" />
         <activity android:name=".activity.AcceptedDeliveriesActivity" />
         <activity
             android:name=".activity.ridersactivity.RiderHomeActivity"
             android:label="@string/title_activity_rider_home"
             android:theme="@style/AppTheme" />
+
+        <activity android:name=".activity.Rider_details" />
 
         <activity
             android:name=".activity.Return_Parcel"
@@ -94,6 +103,12 @@
         <activity android:name=".activity.ridersactivity.DeliveryDetails" />
         <activity android:name=".activity.CompleteDeliveryActivity" />
         <activity android:name=".activity.RegisterActivity" />
+
+        <activity
+            android:name=".activity.CaptureActivity"
+            android:label="Capture Photo"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".activity.RiderRegistrationActivity" />
         <activity android:name=".activity.UserRegistrationActivity" />
         <activity android:name=".activity.OtpVerificationActivity" />

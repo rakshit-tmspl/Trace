@@ -14,8 +14,7 @@ import com.google.android.gms.maps.model.Marker;
  * Created by rakshit.sathwara on 1/23/2017.
  */
 
-public class MapWrapperLayout  extends RelativeLayout
-{
+public class MapWrapperLayout extends RelativeLayout {
     /**
      * Reference to a GoogleMap object
      */

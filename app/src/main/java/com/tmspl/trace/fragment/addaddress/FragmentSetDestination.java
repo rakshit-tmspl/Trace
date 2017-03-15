@@ -12,8 +12,9 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRadioButton;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -59,6 +61,7 @@ import java.util.Calendar;
 import dmax.dialog.SpotsDialog;
 
 import static com.tmspl.trace.extra.Constants.order_from_address;
+import static com.tmspl.trace.extra.Constants.order_to_address;
 
 /**
  * Created by rakshit.sathwara on 1/23/2017.
@@ -81,6 +84,13 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
     public static EditText edt_promo_code, edt_pickup_time;
     public static Button btn_apply_promo_code;
 
+    public static String duration;
+    public static String paymentBy;
+
+    AppCompatRadioButton rbPaymentByYou, rbPaymentByReceiver;
+    RadioGroup rgPaymentBy;
+    public static String timeDuration;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,9 +98,9 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
 
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Set Address");
-        Constants.order_to_address.add(new Order_Detail_bean());
-        Constants.order_to_address.add(new Order_Detail_bean());
-        Constants.order_to_address.add(new Order_Detail_bean());
+//        order_to_address.add(new Order_Detail_bean());
+//        order_to_address.add(new Order_Detail_bean());
+        //  Constants.order_to_address.add(new Order_Detail_bean());
 
 
         view.setFocusableInTouchMode(true);
@@ -134,9 +144,13 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
         txt_from_address = (TextView) view.findViewById(R.id.tv_sender_address);
         txt_to_address_1 = (TextView) view.findViewById(R.id.tv_receiver_address);
 
+        rgPaymentBy = (RadioGroup) view.findViewById(R.id.rg_payment_by);
+        rbPaymentByYou = (AppCompatRadioButton) view.findViewById(R.id.rb_payment_you);
+        rbPaymentByReceiver = (AppCompatRadioButton) view.findViewById(R.id.rb_payment_receiver);
 
-        edt_promo_code = (EditText) view.findViewById(R.id.edt_promo_code);
-        btn_apply_promo_code = (Button) view.findViewById(R.id.btn_promo_apply);
+
+//        edt_promo_code = (EditText) view.findViewById(R.id.edt_promo_code);
+//        btn_apply_promo_code = (Button) view.findViewById(R.id.btn_promo_apply);
 
 
         //btnAdd_first = (Button) rootView.findViewById(R.id.btnAdd_first);
@@ -151,8 +165,23 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((cost1 + cost2 + cost3) > 0) {
+                if ((cost1) > 0) {
+                    timeDuration = edt_pickup_time.getText().toString();
                     payment_option_dialog();
+//                    PaymentDialog paymentDialog = new PaymentDialog(getActivity());
+//                    paymentDialog.show();
+                }
+            }
+        });
+
+        rgPaymentBy.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.rb_payment_you) {
+                    paymentBy = "s";
+
+                } else {
+                    paymentBy = "r";
                 }
             }
         });
@@ -169,12 +198,12 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
 //        });
 
 
-        btn_apply_promo_code.setOnClickListener(new View.OnClickListener() {
+        /*btn_apply_promo_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new validate_promo_code(getActivity()).execute();
             }
-        });
+        });*/
 
         edt_pickup_time.setFocusable(false);
         edt_pickup_time.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
@@ -214,7 +243,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
     }
 
     public void payment_option_dialog() {
-        final CharSequence[] items = {"Pay by Cash", "Pay by Payumoney", "Cancel"};
+        final CharSequence[] items = {"Paytm", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select Payment Option!");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -224,14 +253,8 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                     Constants.payment_method = 1;
                     new PlaceOrder(getActivity()).execute();
                 } else if (item == 1) {
-                    if (Preferences.getSavedPreferences(getActivity(), "mobile").length() == 0) {
-                        Alert.ShowAlert(getActivity(), "Please update your mobile number first!");
-                    } else {
-                        Constants.payment_method = 2;
-                        //getActivity().startActivity(new Intent(getActivity(), PayumoneyActivity.class));
-                    }
-                } else if (item == 2) {
                     dialog.dismiss();
+                    //getActivity().startActivity(new Intent(getActivity(), PayumoneyActivity.class));
                 }
             }
         });
@@ -250,7 +273,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
             }
 
             if (Constants.promocode_disc > 0) {
-                edt_promo_code.setEnabled(false);
+                //edt_promo_code.setEnabled(false);
             }
 
             if (order_from_address.getAddress_id() != null) {
@@ -262,16 +285,16 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                     txt_from_address.setText(order_from_address.getAddress_line_1());
                 }
             }
-            if (Constants.order_to_address.get(0).getAddress_id() != null) {
-                if (Constants.order_to_address.get(0).getAddress_id().equals("0")) {
-                    txt_to_name_1.setText(Constants.order_to_address.get(0).getName());
-                    txt_to_address_1.setText(Constants.order_to_address.get(0).getAddress_line_1() + ", " + Constants.order_to_address.get(0).getAddress_line_2() + ", " + Constants.order_to_address.get(0).getArea_value() + ", " + Constants.order_to_address.get(0).getCity_value() + ", " + Constants.order_to_address.get(0).getPin());
+            if (order_to_address.getAddress_id() != null) {
+                if (order_to_address.getAddress_id().equals("0")) {
+                    txt_to_name_1.setText(order_to_address.getName());
+                    txt_to_address_1.setText(order_to_address.getAddress_line_1() + ", " + order_to_address.getAddress_line_2() + ", " + order_to_address.getArea_value() + ", " + order_to_address.getCity_value() + ", " + order_to_address.getPin());
                 } else {
-                    txt_to_name_1.setText(Constants.order_to_address.get(0).getName());
-                    txt_to_address_1.setText(Constants.order_to_address.get(0).getAddress_line_1());
+                    txt_to_name_1.setText(order_to_address.getName());
+                    txt_to_address_1.setText(order_to_address.getAddress_line_1());
                 }
             }
-            if (Constants.order_to_address.get(1).getAddress_id() != null) {
+       /*     if (Constants.order_to_address.get(1).getAddress_id() != null) {
                 ll_secondAddress.setVisibility(View.VISIBLE);
                 btnAdd_first.setVisibility(View.GONE);
                 btnAdd_second.setVisibility(View.VISIBLE);
@@ -283,19 +306,19 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                     txt_to_name_2.setText(Constants.order_to_address.get(1).getName());
                     txt_to_address_2.setText(Constants.order_to_address.get(1).getAddress_line_1());
                 }
-            }
-            if (Constants.order_to_address.get(2).getAddress_id() != null) {
-                ll_thirdAddress.setVisibility(View.VISIBLE);
-                btnAdd_second.setVisibility(View.GONE);
-
-                if (Constants.order_to_address.get(2).getAddress_id().equals("0")) {
-                    txt_to_name_3.setText(Constants.order_to_address.get(2).getName());
-                    txt_to_address_3.setText(Constants.order_to_address.get(2).getAddress_line_1() + ", " + Constants.order_to_address.get(2).getAddress_line_2() + ", " + Constants.order_to_address.get(2).getArea_value() + ", " + Constants.order_to_address.get(2).getCity_value() + ", " + Constants.order_to_address.get(2).getPin());
-                } else {
-                    txt_to_name_3.setText(Constants.order_to_address.get(2).getName());
-                    txt_to_address_3.setText(Constants.order_to_address.get(2).getAddress_line_1());
-                }
-            }
+            }*/
+//            if (Constants.order_to_address.get(2).getAddress_id() != null) {
+//                ll_thirdAddress.setVisibility(View.VISIBLE);
+//                btnAdd_second.setVisibility(View.GONE);
+//
+//                if (Constants.order_to_address.get(2).getAddress_id().equals("0")) {
+//                    txt_to_name_3.setText(Constants.order_to_address.get(2).getName());
+//                    txt_to_address_3.setText(Constants.order_to_address.get(2).getAddress_line_1() + ", " + Constants.order_to_address.get(2).getAddress_line_2() + ", " + Constants.order_to_address.get(2).getArea_value() + ", " + Constants.order_to_address.get(2).getCity_value() + ", " + Constants.order_to_address.get(2).getPin());
+//                } else {
+//                    txt_to_name_3.setText(Constants.order_to_address.get(2).getName());
+//                    txt_to_address_3.setText(Constants.order_to_address.get(2).getAddress_line_1());
+//                }
+//            }
             calculate();
         }
 
@@ -303,20 +326,20 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
 
     public void calculate() {
 
-        if (order_from_address.getAddress_id() != null && Constants.order_to_address.get(0).getAddress_id() != null) {
+        if (order_from_address.getAddress_id() != null && order_to_address.getAddress_id() != null) {
             dkm = Float.valueOf(0);
-            new getClassDistance(getActivity(), order_from_address.getLat_long(), Constants.order_to_address.get(0).getLat_long(), 0).execute();
+            new getClassDistance(getActivity(), order_from_address.getLat_long(), order_to_address.getLat_long(), 0).execute();
 
         }
-        if (Constants.order_to_address.get(0).getAddress_id() != null && Constants.order_to_address.get(1).getAddress_id() != null) {
+       /* if (order_to_address.getAddress_id() != null && order_to_address.getAddress_id() != null) {
             dkm = Float.valueOf(0);
-            new getClassDistance(getActivity(), Constants.order_to_address.get(0).getLat_long(), Constants.order_to_address.get(1).getLat_long(), 1).execute();
+            new getClassDistance(getActivity(), order_to_address.getLat_long(), order_to_address.getLat_long(), 0).execute();
 
-        }
-        if (Constants.order_to_address.get(1).getAddress_id() != null && Constants.order_to_address.get(2).getAddress_id() != null) {
+        }*/
+       /* if (Constants.order_to_address.get(1).getAddress_id() != null && Constants.order_to_address.get(2).getAddress_id() != null) {
             dkm = Float.valueOf(0);
             new getClassDistance(getActivity(), Constants.order_to_address.get(1).getLat_long(), Constants.order_to_address.get(2).getLat_long(), 2).execute();
-        }
+        }*/
 
 
     }
@@ -391,18 +414,38 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                     //  Log.e("Routs", dis.toString());
                     String Distance = dis.getJSONObject(0).getJSONObject("distance").getString("text").toString().split(" ")[0];
                     //  Log.e("Distance", "" + Distance);
+
+                    duration = dis.getJSONObject(0).getJSONObject("duration").getString("text").toString();
+                    Log.e("Duration", "onPostExecute: DURATION" + duration);
                     String ss = Distance.replace(",", "").trim();
                     dkm = Float.parseFloat(ss);
 
-                    if (cnt == 0) {
-                        if (Constants.order_from_address.getAddress_id() != null && Constants.order_to_address.get(0).getAddress_id() != null) {
-                            Float km = dkm;
-                            Constants.order_to_address.get(0).setKm(km + "");
-                            cost1 = (Constants.basic_cost + (km * Constants.pkm_cost));
-                            Constants.order_to_address.get(0).setIndividual_price(cost1 + "");
-                        }
+                    Float km = dkm;
+                    Log.e("KM", "onPostExecute: " + km);
+                    if (km <= 4) {
+
+                        Log.e("KM < 4", "onPostExecute: " + "in");
+                        order_to_address.setKm(km + "");
+                        cost1 = (Constants.basic_cost);
+                        Log.e("KM < 4", "onPostExecute: " + "in");
+                        order_to_address.setIndividual_price(cost1 + "");
+                        Log.e("KM < 4", "onPostExecute: " + "in");
+                    } else {
+                        Log.e("KM > 4", "onPostExecute: " + "in");
+                        order_to_address.setKm(km + "");
+//                                Log.e("BEFORE KM", "onPostExecute: " + km);
+                        Float remainKm = km - 4;
+//                                Log.e("KM", "onPostExecute: " + remainKm + "BASIC COST" + Constants.pkm_cost);
+                        Float remainPrice = remainKm * (Constants.pkm_cost);
+//                                Log.e("remainPrice", "onPostExecute: " + remainPrice);
+                        cost1 = Constants.basic_cost + remainPrice;
+                        Log.e("KM > 4", "onPostExecute: " + "in");
+                        Log.e("COST", "onPostExecute: " + cost1);
+                        Constants.order_to_address.setIndividual_price(cost1 + "");
                     }
-                    if (cnt == 1) {
+
+
+                  /*  if (cnt == 1) {
                         if (Constants.order_to_address.get(0).getAddress_id() != null && Constants.order_to_address.get(1).getAddress_id() != null) {
                             Float km = dkm;
                             Constants.order_to_address.get(1).setKm(km + "");
@@ -417,8 +460,8 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                             cost3 = ((km * Constants.pkm_cost));
                             Constants.order_to_address.get(2).setIndividual_price(cost3 + "");
                         }
-                    }
-                    if (Constants.promocode_disc > 0) {
+                    }*/
+                   /* if (Constants.promocode_disc > 0) {
                         //  Log.e("Discount", Data.promocode_disc + "");
                         cost1 = cost1 - (cost1 * Constants.promocode_disc) / 100;
                         cost2 = cost2 - (cost2 * Constants.promocode_disc) / 100;
@@ -427,13 +470,13 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                         Constants.order_to_address.get(0).setIndividual_price(cost1 + "");
                         Constants.order_to_address.get(1).setIndividual_price(cost2 + "");
                         Constants.order_to_address.get(2).setIndividual_price(cost3 + "");
-                    }
+                    }*/
                     //   Log.e("Cost 1", cost1 + "");
                     //  Log.e("Cost 2", cost2 + "");
                     // Log.e("Cost 3", cost3 + "");
 
-                    Preferences.savePreferences(getActivity(), "order_cost", (cost1 + cost2 + cost3) + "");
-                    txt_estimate.setText("Estimated Cost : " + (cost1 + cost2 + cost3));
+                    Preferences.savePreferences(getActivity(), "order_cost", cost1 + "");
+                    txt_estimate.setText("Estimated Cost : " + cost1);
                     if (pd.isShowing())
                         pd.dismiss();
                 }
@@ -557,7 +600,11 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 String Service = "";
 
-                nameValuePairs.add(new BasicNameValuePair("time", edt_pickup_time.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("time", timeDuration));
+                nameValuePairs.add(new BasicNameValuePair("payment_by", paymentBy));
+                nameValuePairs.add(new BasicNameValuePair("duration", duration));
+                nameValuePairs.add(new BasicNameValuePair("image", Utility.encodeTobase64(Constants.parcelBitmap)));
+                nameValuePairs.add(new BasicNameValuePair("individual_price", String.valueOf(cost1)));
                 nameValuePairs.add(new BasicNameValuePair("payment_method", Constants.payment_method + ""));
                 if (Preferences.getSavedPreferences(getActivity(), "usertype").equals("1")) {
                     Service = "add_order_user_data";
@@ -572,8 +619,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                 if (Constants.parcelBitmap != null)
                     nameValuePairs.add(new BasicNameValuePair("image", Utility.encodeTobase64(Constants.parcelBitmap)));
                 if (Constants.promocode_disc > 0) {
-                    nameValuePairs.add(new BasicNameValuePair("promo_code", edt_promo_code.getText().toString()
-                    ));
+                    //nameValuePairs.add(new BasicNameValuePair("promo_code", edt_promo_code.getText().toString());
                 }
                 if (Constants.payment_method == 2) {
                     //nameValuePairs.add(new BasicNameValuePair("payu_trans_id", PayumoneyActivity.payu_trans_id));
@@ -595,6 +641,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                     nameValuePairs.add(new BasicNameValuePair("area", order_from_address.getArea_key()));
                     nameValuePairs.add(new BasicNameValuePair("city", order_from_address.getCity_key()));
                     nameValuePairs.add(new BasicNameValuePair("from_state", order_from_address.getState()));
+
                 } else {
                     if (Preferences.getSavedPreferences(getActivity(), "usertype").equals("1")) {
                         nameValuePairs.add(new BasicNameValuePair("user_from_add_id", order_from_address.getAddress_id()));
@@ -605,47 +652,39 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
                 }
 
                 if (Preferences.getSavedPreferences(getActivity(), "usertype").equals("1")) {
-                    for (int i = 0; i < Constants.order_to_address.size(); i++) {
-                        if (Constants.order_to_address.get(i).getAddress_id() != null) {
-                            if (Constants.order_to_address.get(i).getAddress_id().equals("0")) {
-                                nameValuePairs.add(new BasicNameValuePair("user_to_address_id[" + i + "]", "0"));
-                                nameValuePairs.add(new BasicNameValuePair("to_name[" + i + "]", Constants.order_to_address.get(i).getName()));
-                                nameValuePairs.add(new BasicNameValuePair("to_address_line_1[" + i + "]", Constants.order_to_address.get(i).getAddress_line_1()));
-                                nameValuePairs.add(new BasicNameValuePair("to_address_line_2[" + i + "]", Constants.order_to_address.get(i).getAddress_line_2()));
-                                nameValuePairs.add(new BasicNameValuePair("pin[" + i + "]", Constants.order_to_address.get(i).getPin()));
-                                nameValuePairs.add(new BasicNameValuePair("to_area[" + i + "]", Constants.order_to_address.get(i).getArea_key()));
-                                nameValuePairs.add(new BasicNameValuePair("to_city[" + i + "]", Constants.order_to_address.get(i).getCity_key()));
-                                nameValuePairs.add(new BasicNameValuePair("to_state[" + i + "]", Constants.order_to_address.get(i).getState()));
-                                nameValuePairs.add(new BasicNameValuePair("to_mobile[" + i + "]", Constants.order_to_address.get(i).getMobile()));
-                            } else {
-                                nameValuePairs.add(new BasicNameValuePair("user_to_address_id[" + i + "]", Constants.order_to_address.get(i).getAddress_id()));
-                            }
-                            nameValuePairs.add(new BasicNameValuePair("individual_price[" + i + "]", Constants.order_to_address.get(i).getIndividual_price()));
-                            nameValuePairs.add(new BasicNameValuePair("km[" + i + "]", Constants.order_to_address.get(i).getKm()));
-                        }
+                    Log.e("IN ONE", "doInBackground: " + "IN ONE");
+                    if (order_to_address.getAddress_id().equals("0")) {
+                        nameValuePairs.add(new BasicNameValuePair("user_to_address_id", "0"));
+                        nameValuePairs.add(new BasicNameValuePair("to_name", order_to_address.getName()));
+                        nameValuePairs.add(new BasicNameValuePair("to_address_line_1", order_to_address.getAddress_line_1()));
+                        nameValuePairs.add(new BasicNameValuePair("pin", order_to_address.getPin()));
+                        nameValuePairs.add(new BasicNameValuePair("to_area", order_to_address.getArea_key()));
+                        nameValuePairs.add(new BasicNameValuePair("to_city", order_to_address.getCity_key()));
+                        nameValuePairs.add(new BasicNameValuePair("to_state", order_to_address.getState()));
+                        nameValuePairs.add(new BasicNameValuePair("to_mobile", order_to_address.getMobile()));
+                    } else {
+                        nameValuePairs.add(new BasicNameValuePair("user_to_address_id", order_to_address.getAddress_id()));
                     }
+
+                    nameValuePairs.add(new BasicNameValuePair("km", order_to_address.getKm()));
+
+
                 } else {
-                    for (int i = 0; i < Constants.order_to_address.size(); i++) {
-                        if (Constants.order_to_address.get(i).getAddress_id() != null) {
 
-                            if (Constants.order_to_address.get(i).getAddress_id().equals("0")) {
-                                nameValuePairs.add(new BasicNameValuePair("depot_to_address_id[]", "0"));
-                                nameValuePairs.add(new BasicNameValuePair("to_name[" + i + "]", Constants.order_to_address.get(i).getName()));
-                                nameValuePairs.add(new BasicNameValuePair("to_address_line_1[" + i + "]", Constants.order_to_address.get(i).getAddress_line_1()));
-                                nameValuePairs.add(new BasicNameValuePair("to_address_line_2[" + i + "]", Constants.order_to_address.get(i).getAddress_line_2()));
-                                nameValuePairs.add(new BasicNameValuePair("pin[" + i + "]", Constants.order_to_address.get(i).getPin()));
-                                nameValuePairs.add(new BasicNameValuePair("to_area[" + i + "]", Constants.order_to_address.get(i).getArea_key()));
-                                nameValuePairs.add(new BasicNameValuePair("to_city[" + i + "]", Constants.order_to_address.get(i).getCity_key()));
-                                nameValuePairs.add(new BasicNameValuePair("to_state[" + i + "]", Constants.order_to_address.get(i).getState()));
-                                nameValuePairs.add(new BasicNameValuePair("to_mobile[" + i + "]", Constants.order_to_address.get(i).getMobile()));
-                            } else {
-                                nameValuePairs.add(new BasicNameValuePair("depot_to_address_id[" + i + "]", Constants.order_to_address.get(i).getAddress_id()));
-                            }
-                            nameValuePairs.add(new BasicNameValuePair("individual_price[" + i + "]", Constants.order_to_address.get(i).getIndividual_price()));
-                            nameValuePairs.add(new BasicNameValuePair("km[" + i + "]", Constants.order_to_address.get(i).getKm()));
-
-                        }
+                    if (order_to_address.getAddress_id().equals("0")) {
+                        nameValuePairs.add(new BasicNameValuePair("depot_to_address_id", "0"));
+                        nameValuePairs.add(new BasicNameValuePair("to_name", order_to_address.getName()));
+                        nameValuePairs.add(new BasicNameValuePair("to_address_line_1", order_to_address.getAddress_line_1()));
+                        nameValuePairs.add(new BasicNameValuePair("pin", order_to_address.getPin()));
+                        nameValuePairs.add(new BasicNameValuePair("to_area", order_to_address.getArea_key()));
+                        nameValuePairs.add(new BasicNameValuePair("to_city", order_to_address.getCity_key()));
+                        nameValuePairs.add(new BasicNameValuePair("to_state", order_to_address.getState()));
+                        nameValuePairs.add(new BasicNameValuePair("to_mobile", order_to_address.getMobile()));
+                    } else {
+                        nameValuePairs.add(new BasicNameValuePair("depot_to_address_id", order_to_address.getAddress_id()));
                     }
+                    nameValuePairs.add(new BasicNameValuePair("individual_price", order_to_address.getIndividual_price()));
+                    nameValuePairs.add(new BasicNameValuePair("km", order_to_address.getKm()));
                 }
 
 
@@ -738,7 +777,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
 
                     nameValuePairs.add(new BasicNameValuePair("depot_id", Preferences.getSavedPreferences(getActivity(), "depot_id")));
                 }
-                nameValuePairs.add(new BasicNameValuePair("promo_code", edt_promo_code.getText().toString().toUpperCase()));
+                //nameValuePairs.add(new BasicNameValuePair("promo_code", edt_promo_code.getText().toString().toUpperCase()));
 
 
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
@@ -804,8 +843,7 @@ public class FragmentSetDestination extends Fragment implements View.OnClickList
     public void resetAll() {
         edt_pickup_time.setText("");
         order_from_address = new Order_Detail_bean();
-        Constants.order_to_address.removeAll(Constants.order_to_address);
-        Constants.order_to_address.clear();
+        order_to_address = new Order_Detail_bean();
         Constants.parcelBitmap = null;
         Constants.data_city = "";
         Constants.payment_method = 0;

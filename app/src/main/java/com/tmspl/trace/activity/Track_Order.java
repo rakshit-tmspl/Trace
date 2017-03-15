@@ -82,9 +82,9 @@ public class Track_Order extends FragmentActivity implements LocationListener, O
         gps = new GPSTracker(Track_Order.this);
         storelist = new ArrayList<maps_bean>();
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        /*mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.track_order_map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
 
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new OnClickListener() {

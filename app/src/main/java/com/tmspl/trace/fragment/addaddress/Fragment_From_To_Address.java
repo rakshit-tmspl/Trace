@@ -78,7 +78,7 @@ public class Fragment_From_To_Address extends Fragment {
 
 //       value = Preferences.getSavedPreferences(context, "user_id");
 
-        value = "1";
+//        value = "1";
 
         Log.e(TAG, "onCreateView: VALUE" + value);
 
@@ -121,10 +121,10 @@ public class Fragment_From_To_Address extends Fragment {
                             Constants.order_from_address.setLat_long(AddressList.get(listPosition).getLatLong());
                             Constants.data_city = AddressList.get(listPosition).getData_city();
                         } else {
-                            Constants.order_to_address.get(Constants.toCount).setAddress_id(AddressList.get(listPosition).getKey());
-                            Constants.order_to_address.get(Constants.toCount).setName(AddressList.get(listPosition).getName());
-                            Constants.order_to_address.get(Constants.toCount).setAddress_line_1(AddressList.get(listPosition).getValue());
-                            Constants.order_to_address.get(Constants.toCount).setLat_long(AddressList.get(listPosition).getLatLong());
+                            Constants.order_to_address.setAddress_id(AddressList.get(listPosition).getKey());
+                            Constants.order_to_address.setName(AddressList.get(listPosition).getName());
+                            Constants.order_to_address.setAddress_line_1(AddressList.get(listPosition).getValue());
+                            Constants.order_to_address.setLat_long(AddressList.get(listPosition).getLatLong());
                         }
                         getActivity().onBackPressed();
                     } else {
@@ -143,7 +143,7 @@ public class Fragment_From_To_Address extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            // new getAddress(context).execute();
+            new getAddress(context).execute();
             if (flg == 1) {
                 flg = 0;
                 getAdd();
@@ -189,34 +189,29 @@ public class Fragment_From_To_Address extends Fragment {
 
             String url = Constants.API_BASE_URL;
             if (Constants.address_flag.equals("from")) {
-//                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
-                if (value.equals("1")) {
+                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                     url += "user_from_address";
                 } else {
                     url += "depot_from_address";
                 }
             } else {
-                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
-                if (value.equals("1")) {
+                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                     url += "user_to_address";
                 } else {
                     url += "depot_to_address";
                 }
             }
 
-
             HashMap<String, String> params = new HashMap<String, String>();
             if (Constants.address_flag.equals("from")) {
-                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
-                if (value.equals("1")) {
-                    params.put("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id")*/);
+                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                    params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
                 } else {
                     params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                 }
             } else {
-                /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
-                if (value.equals("1")) {
-                    params.put("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id")*/);
+                if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                    params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
                 } else {
                     params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                 }
@@ -251,16 +246,14 @@ public class Fragment_From_To_Address extends Fragment {
                     HashMap<String, String> params = new HashMap<String, String>();
                     params.put("Content-Type", "application/x-www-form-urlencoded");
                     if (Constants.address_flag.equals("from")) {
-                        /*if (Preferences.getSavedPreferences(context, "usertype").equals("1")) */
-                        if (value.equals("1")) {
-                            params.put("user_id", "2" /*Preferences.getSavedPreferences(context, "user_id")*/);
+                        if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                            params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
                         } else {
                             params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                         }
                     } else {
-                        /*if (Preferences.getSavedPreferences(context, "usertype").equals("1"))*/
-                        if (value.equals("1")) {
-                            params.put("user_id", "2" /*Preferences.getSavedPreferences(context, "user_id")*/);
+                        if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
+                            params.put("user_id", Preferences.getSavedPreferences(context, "user_id"));
                         } else {
                             params.put("depot_id", Preferences.getSavedPreferences(context, "depot_id"));
                         }
@@ -371,7 +364,7 @@ public class Fragment_From_To_Address extends Fragment {
                 if (Constants.address_flag.equals("from")) {
                     if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                         Service = "user_from_address";
-                        nameValuePairs.add(new BasicNameValuePair("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id"))*/));
+                        nameValuePairs.add(new BasicNameValuePair("user_id", Preferences.getSavedPreferences(context, "user_id")));
                     } else {
 
                         Service = "depot_from_address";
@@ -380,7 +373,7 @@ public class Fragment_From_To_Address extends Fragment {
                 } else {
                     if (Preferences.getSavedPreferences(context, "usertype").equals("1")) {
                         Service = "user_to_address";
-                        nameValuePairs.add(new BasicNameValuePair("user_id", "2"/*Preferences.getSavedPreferences(context, "user_id"))*/));
+                        nameValuePairs.add(new BasicNameValuePair("user_id", Preferences.getSavedPreferences(context, "user_id")));
                     } else {
                         Service = "depot_to_address";
                         nameValuePairs.add(new BasicNameValuePair("depot_id", Preferences.getSavedPreferences(context, "depot_id")));

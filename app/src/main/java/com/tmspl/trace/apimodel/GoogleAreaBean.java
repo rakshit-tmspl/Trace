@@ -4,7 +4,7 @@ package com.tmspl.trace.apimodel;
  * Created by Manan on 20/10/2015.
  */
 public class GoogleAreaBean {
-    String name,reference,lat_long,state;
+    String name, reference, lat_long, state;
 
     public GoogleAreaBean() {
     }

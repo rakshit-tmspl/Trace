@@ -5,7 +5,7 @@ package com.tmspl.trace.apimodel;
  */
 public class CityBean {
 
-    String Key,Value;
+    String Key, Value;
 
     public CityBean(String key, String value) {
         Key = key;

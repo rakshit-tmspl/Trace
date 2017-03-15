@@ -6,7 +6,7 @@
     android:background="@drawable/bg"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context="com.trace.dockier.com.trace.trace.dockier.Activities.MainActivity">
+    tools:context="com.tmspl.trace.activity.RiderRegistrationActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

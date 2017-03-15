@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -324,7 +325,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
 
         @Override
         public void run() {
-            Intent intent = new Intent(getActivity(), GeocodeAddressIntentService.class);
+            Intent intent = new Intent(context, GeocodeAddressIntentService.class);
             intent.putExtra(Constants.RECEIVER, mResultReceiver);
             intent.putExtra(Constants.FETCH_TYPE_EXTRA, Constants.USE_ADDRESS_LOCATION);
 
@@ -415,7 +416,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                 Log.e(TAG, "onPostExecute: " + result);
 
                 if (jobj1.has("error")) {
-                    //     Alert.ShowAlert(context, jobj1.getString("error"));
+                    Alert.ShowAlert(context, jobj1.getString("error"));
                 } else {
 
                     if (jobj1.getInt("status") == 1) {
@@ -450,6 +451,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
                             addItemsToMap(storelist);
                         }
                     } else {
+                        Toast.makeText(context, "Rider not available.", Toast.LENGTH_SHORT).show();
                         Alert.showAlertWithFinish(context, jobj1.getString("responseMessage"));
                     }
                 }
@@ -693,4 +695,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, GoogleM
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(addressFromIntentService);
+        mHandler.postDelayed(addressFromIntentService, 800);
+    }
 }

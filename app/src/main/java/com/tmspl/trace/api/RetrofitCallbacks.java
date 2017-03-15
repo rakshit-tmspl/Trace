@@ -21,8 +21,7 @@ public class RetrofitCallbacks<T> implements Callback<T> {
 
     final Context context;
 
-    public RetrofitCallbacks(Context context)
-    {
+    public RetrofitCallbacks(Context context) {
         this.context = context;
     }
 
@@ -46,8 +45,7 @@ public class RetrofitCallbacks<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (!call.isCanceled()) {
-            if (!call.isCanceled())
-            {
+            if (!call.isCanceled()) {
                 Toast.makeText(context, "Please Check Internet Connection.", Toast.LENGTH_SHORT).show();
                 System.out.println("INSIDE ON FAILURE");
                 System.out.println(t.toString());

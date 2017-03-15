@@ -96,8 +96,7 @@ public class Rider_Complite extends Activity {
                     }
                 }
             });
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
@@ -113,7 +112,7 @@ public class Rider_Complite extends Activity {
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Updating Feedback..");
+            pd = new SpotsDialog(context, "Updating Feedback..");
             pd.show();
             pd.setCancelable(false);
 

@@ -23,16 +23,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.LoginActivity;
-import com.tmspl.trace.activity.homeactivity.HomeActivity;
-import com.tmspl.trace.api.API;
-import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.activity.SplashActivity;
 import com.tmspl.trace.apimodel.DbModel;
-import com.tmspl.trace.apimodel.LoginNewResponse;
-import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.MemoryCache;
 import com.tmspl.trace.extra.MyApplication;
@@ -44,8 +39,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class RiderHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -156,7 +149,24 @@ public class RiderHomeActivity extends AppCompatActivity
             //Become user clear SharedPreferences and memory and set user data.
             try {
 
-                String contact = Preferences.getSavedPreferences(RiderHomeActivity.this, "mobile");
+                String userType = Preferences.getSavedPreferences(RiderHomeActivity.this, "usertype");
+
+                if (userType.equals("3")) {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(RiderHomeActivity.this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    //Preferences.savePreferences(HomeActivity.this, "usertype", "3");
+                    Intent intent = new Intent(RiderHomeActivity.this, SplashActivity.class);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+
+                /*String contact = Preferences.getSavedPreferences(RiderHomeActivity.this, "mobile");
                 String password = Preferences.getSavedPreferences(RiderHomeActivity.this, "password");
 
                 Log.e(TAG, "onNavigationItemSelected: contact" + contact);
@@ -210,7 +220,7 @@ public class RiderHomeActivity extends AppCompatActivity
                                 Log.i(TAG, call.toString());
                                 Toast.makeText(RiderHomeActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        });*/
             } catch (Exception e) {
                 e.printStackTrace();
             }

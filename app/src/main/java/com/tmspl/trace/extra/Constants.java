@@ -4,14 +4,13 @@ import android.graphics.Bitmap;
 
 import com.tmspl.trace.apimodel.Order_Detail_bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by rakshit.sathwara on 1/18/2017.
  */
 
 public class Constants {
     public static final String API_BASE_URL = "http://demo.tmsys.co.in:9092/trace/api_mobile/";
+    public static final String IMAGE_URL = "http://demo.tmsys.co.in:9092/trace/userimages/";
     //    public static final String API_BASE_URL_TRACE = "http://demo.tmsys.co.in:9092/trace/api_mobile/";
     public static final String AUTH = "4JW*BNtp2nX6AbJCAoksWi/1DHoJJGYw";
     public static final String AUTH_TOKEN = "Authtoken";
@@ -50,7 +49,8 @@ public class Constants {
 
 
     public static Order_Detail_bean order_from_address = new Order_Detail_bean();
-    public static ArrayList<Order_Detail_bean> order_to_address = new ArrayList<Order_Detail_bean>();
+    //    public static ArrayList<Order_Detail_bean> order_to_address = new ArrayList<Order_Detail_bean>();
+    public static Order_Detail_bean order_to_address = new Order_Detail_bean();
 
     public static float basic_cost = 0, pkm_cost = 0;
 

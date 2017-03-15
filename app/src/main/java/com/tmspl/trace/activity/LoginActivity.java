@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,12 +72,19 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     Realm realm;
     DbModel dbModel;
 
+    private FrameLayout flProcessing;
+    private LinearLayout llUserLoginOptions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        flProcessing = (FrameLayout) findViewById(R.id.fl_processing);
+        llUserLoginOptions = (LinearLayout) findViewById(R.id.ll_loginOptions);
+
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
 
@@ -109,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.rb_user) {
                     type = "user";
+
                 } else {
                     type = "rider";
                 }
@@ -126,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
         String email = etUsername.getText().toString().trim();
         password = etPassword.getText().toString().trim();
 
+        showProcessingView(true);
 
         //Login Api
         API.getInstance().loginUser(LoginActivity.this, Constants.AUTH, email, password, fcmKey, new RetrofitCallbacks<LoginNewResponse>(LoginActivity.this) {
@@ -137,6 +148,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
                     if (response.body() == null) {
                         Toast.makeText(LoginActivity.this, "Null", Toast.LENGTH_SHORT).show();
+                        showProcessingView(false);
                     } else {
                         LoginNewResponse.ResponseJsonBean responseJsonBean = response.body().getResponseJson();
 
@@ -167,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                                 Preferences.savePreferences(LoginActivity.this, "email", userBean.getEmail());
                                 Preferences.savePreferences(LoginActivity.this, "mobile", userBean.getMobile());
                                 Preferences.savePreferences(LoginActivity.this, "user_id", userBean.getUserId());
-                                Preferences.savePreferences(LoginActivity.this, "password", password);
+                                Preferences.savePreferences(LoginActivity.this, "password", userBean.getPassword());
                             }
 
                             finish();
@@ -186,6 +198,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                                 Preferences.savePreferences(LoginActivity.this, "mobile", riderBean.getMobile());
                                 Preferences.savePreferences(LoginActivity.this, "email", riderBean.getEmail());
                                 Preferences.savePreferences(LoginActivity.this, "rider_id", riderBean.getRiderId());
+                                Preferences.savePreferences(LoginActivity.this, "password", riderBean.getPassword());
                             }
 
                             startService();
@@ -203,6 +216,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                 Log.i(TAG, t.toString());
                 Log.i(TAG, call.toString());
                 Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                showProcessingView(false);
             }
         });
     }
@@ -230,5 +244,19 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
     public void startService() {
         startService(new Intent(this, LocationService.class));
+    }
+
+    public void showProcessingView(boolean show) {
+        if (llUserLoginOptions != null && flProcessing != null) {
+
+            if (show) {
+                flProcessing.setVisibility(View.VISIBLE);
+                llUserLoginOptions.setVisibility(View.GONE);
+            } else {
+                flProcessing.setVisibility(View.GONE);
+                llUserLoginOptions.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 }

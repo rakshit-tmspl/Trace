@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.tmspl.trace.R;
@@ -43,10 +44,13 @@ public class FragmentPendingOrders extends Fragment {
     ListView lst_deliveries;
     Adapter_Accepted_Deliveries adapter_deliveries;
 
+    private ImageView ivNoFeeds;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
+
 
         PendingList = new ArrayList<PendingOrderBean>();
 
@@ -56,6 +60,7 @@ public class FragmentPendingOrders extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_pending_orders, container, false);
 //        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Orders");
         lst_deliveries = (ListView) rootView.findViewById(R.id.lst_deliveries);
+        ivNoFeeds = (ImageView) rootView.findViewById(R.id.iv_no_feeds);
         Constants.isSignCom = 0;
         return rootView;
 
@@ -138,18 +143,23 @@ public class FragmentPendingOrders extends Fragment {
                                     //    Log.e("Record", PendingList.get(i).getAmount());
                                 }
                             }
-
-                            adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, PendingList);
-                            lst_deliveries.setAdapter(adapter_deliveries);
-                            lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Constants.order_id = PendingList.get(position).getOrder_id();
-                                    Constants.isCompleted = 0;
-                                    context.startActivity(new Intent(context, AcceptedDeliveriesActivity.class));
-                                }
-                            });
-
+                            if (PendingList.size() > 0) {
+                                ivNoFeeds.setVisibility(View.GONE);
+                                lst_deliveries.setVisibility(View.VISIBLE);
+                                adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, PendingList);
+                                lst_deliveries.setAdapter(adapter_deliveries);
+                                lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Constants.order_id = PendingList.get(position).getOrder_id();
+                                        Constants.isCompleted = 0;
+                                        context.startActivity(new Intent(context, AcceptedDeliveriesActivity.class));
+                                    }
+                                });
+                            } else {
+                                lst_deliveries.setVisibility(View.GONE);
+                                ivNoFeeds.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }

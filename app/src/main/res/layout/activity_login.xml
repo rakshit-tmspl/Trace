@@ -9,112 +9,297 @@
     android:orientation="vertical"
     tools:context="com.tmspl.trace.activity.LoginActivity">
 
-    <LinearLayout
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:orientation="vertical">
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="20dp"
+             android:gravity="center"
+             android:text="Sign-In"
+             android:textColor="@android:color/white"
+             android:textSize="18sp"
+             android:textStyle="bold" />
+
+         <android.support.design.widget.TextInputLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="30dp">
+
+             <EditText
+                 android:id="@+id/et_username"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:digits="1234567890"
+                 android:hint="Contact Number"
+                 android:inputType="number"
+                 android:textColor="@android:color/white"
+                 android:textColorHint="@android:color/white" />
+
+         </android.support.design.widget.TextInputLayout>
+
+         <android.support.design.widget.TextInputLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="20dp">
+
+             <EditText
+                 android:id="@+id/et_password"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:hint="Password"
+                 android:inputType="textPassword"
+                 android:textColor="@android:color/white"
+                 android:textColorHint="@android:color/white" />
+
+         </android.support.design.widget.TextInputLayout>
+
+
+         <RadioGroup
+             android:id="@+id/rg_user_type"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:orientation="horizontal">
+
+             <android.support.v7.widget.AppCompatRadioButton
+                 android:id="@+id/rb_user"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:text="User"
+                 android:textColor="@android:color/white"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
+                 app:buttonTint="@android:color/white" />
+
+             <android.support.v7.widget.AppCompatRadioButton
+                 android:id="@+id/rb_rider"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:text="Rider"
+                 android:textColor="@android:color/white"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
+                 app:buttonTint="@android:color/white" />
+
+         </RadioGroup>
+
+
+
+
+
+         <Button
+             android:id="@+id/btn_sign_in"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="30dp"
+             android:layout_marginRight="30dp"
+             android:layout_marginTop="40dp"
+             android:background="@drawable/user_btn_background"
+             android:text="Sign-in"
+             android:textColor="@android:color/white"
+             android:textSize="18sp" />
+
+     </LinearLayout>-->
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context="com.unbeatable.vidhyadaan.MainActivity">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_logoText"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Sign-In"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
 
-        <android.support.design.widget.TextInputLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:layout_below="@+id/iv_cardItem"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_username"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:digits="1234567890"
-                android:hint="Contact Number"
-                android:inputType="number"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <RadioGroup
-            android:id="@+id/rg_user_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_user"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="User"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:buttonTint="@android:color/white" />
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:alpha=".8"
+                app:cardCornerRadius="8dp">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_rider"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rider"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:buttonTint="@android:color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-        </RadioGroup>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="50dp">
+
+                        <EditText
+                            android:id="@+id/et_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="1234567890"
+                            android:drawableLeft="@drawable/ic_phone_android_black_24dp"
+                            android:drawablePadding="15dp"
+                            android:hint="Contact No."
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimary" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="8dp">
+
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
+                            android:drawablePadding="15dp"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimary" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <RadioGroup
+                        android:id="@+id/rg_user_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/rb_user"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="User"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/rb_rider"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Rider"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </RadioGroup>
+
+                    <com.tmspl.trace.extra.CustomTextView
+                        android:id="@+id/tv_forgot_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:text="Forgot password?"
+                        android:textSize="14sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/ll_loginOptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <Button
+                                android:id="@+id/btn_sign_in"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginRight="5dp"
+                                android:background="@color/colorAccent"
+                                android:gravity="center"
+                                android:text="Sign-in"
+                                android:textAllCaps="true"
+                                android:textColor="@android:color/white"
+                                android:textSize="16dp" />
 
 
-        <TextView
-            android:id="@+id/tv_forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="20dp"
-            android:text="Forgot password?"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/fl_processing"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone">
+
+                            <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:indeterminate="true" />
+
+                        </FrameLayout>
+
+                    </FrameLayout>
 
 
-        <Button
-            android:id="@+id/btn_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/user_btn_background"
-            android:text="Sign-in"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+                </LinearLayout>
 
-    </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_cardItem"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@id/iv_logoText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-55dp"
+            android:src="@drawable/trace_bg" />
+
+
+    </RelativeLayout>
 
 </ScrollView>

@@ -22,16 +22,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/ic_my_location_black_48dp" />
+                android:src="@drawable/ic_home_black_36dp" />
 
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:orientation="vertical">
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/tv_sender_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,12 +41,11 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/tv_sender_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:maxLines="3"
                     android:text="Sender Address"
                     android:textSize="13sp"
                     android:textStyle="bold" />
@@ -73,16 +72,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/ic_add_location_black_48dp" />
+                android:src="@drawable/ic_work_black_36dp" />
 
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:orientation="vertical">
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/tv_receiver_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,13 +91,11 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/tv_receiver_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:lines="3"
-                    android:maxLines="3"
                     android:text="Receiver Address"
                     android:textSize="13sp"
                     android:textStyle="bold" />
@@ -111,6 +108,36 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#CCC" />
+
+
+        <RadioGroup
+            android:id="@+id/rg_payment_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_payment_you"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payment By You"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_payment_receiver"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payment By Receiver"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </RadioGroup>
 
 
         <EditText
@@ -134,52 +161,13 @@
             android:background="#CCC" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9">
-
-                <EditText
-                    android:id="@+id/edt_promo_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-                    android:gravity="center"
-                    android:hint="Promo Code"
-                    android:inputType="textCapCharacters"
-                    android:singleLine="true"
-                    android:textSize="14dp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <Button
-                android:id="@+id/btn_promo_apply"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/user_btn_background"
-                android:text="Apply"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:background="#CCC" />
 
-        <TextView
+        <com.tmspl.trace.extra.CustomTextView
             android:id="@+id/txt_estimate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -197,12 +185,12 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:background="@drawable/user_btn_background"
+            android:background="@drawable/rounded_btn"
             android:text="CONFIRM"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-        <TextView
+        <com.tmspl.trace.extra.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -210,7 +198,6 @@
             android:layout_marginTop="10dp"
             android:text="*Parcel weight must be less then 5 K.G."
             android:textColor="#000" />
-
 
     </LinearLayout>
 

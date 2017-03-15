@@ -6,14 +6,14 @@ package com.tmspl.trace.apimodel;
 
 public class Address_bean {
 
-    String Key,Name,Value,LatLong,data_city;
+    String Key, Name, Value, LatLong, data_city;
 
-    public Address_bean(String key, String name, String value, String latLong,String data_city) {
+    public Address_bean(String key, String name, String value, String latLong, String data_city) {
         Key = key;
         Name = name;
         Value = value;
         LatLong = latLong;
-        this.data_city=data_city;
+        this.data_city = data_city;
     }
 
     public String getName() {

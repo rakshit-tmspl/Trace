@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.tmspl.trace.R;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
 
+import static com.tmspl.trace.fragment.manageorder.FragmentOnGoingOrders.OngoingList;
+
 /**
  * Created by rakshit.sathwara on 1/25/2017.
  */
@@ -43,6 +46,8 @@ public class FragmentCompleteOrders extends Fragment {
     ListView lst_deliveries;
     Adapter_Accepted_Deliveries adapter_deliveries;
 
+    private ImageView ivNoFeeds;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class FragmentCompleteOrders extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_pending_orders, container, false);
 //        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Orders");
         lst_deliveries = (ListView) rootView.findViewById(R.id.lst_deliveries);
+        ivNoFeeds = (ImageView) rootView.findViewById(R.id.iv_no_feeds);
 
         Constants.isSignCom = 1;
         return rootView;
@@ -138,16 +144,25 @@ public class FragmentCompleteOrders extends Fragment {
                                     CompletedList.add(obj);
                                 }
                             }
-                            adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, CompletedList);
-                            lst_deliveries.setAdapter(adapter_deliveries);
-                            lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Constants.order_id = CompletedList.get(position).getOrder_id();
-                                    Constants.isCompleted = 1;
-                                    context.startActivity(new Intent(context, AcceptedDeliveriesActivity.class));
-                                }
-                            });
+
+                            if (OngoingList.size() > 0) {
+                                ivNoFeeds.setVisibility(View.GONE);
+                                lst_deliveries.setVisibility(View.VISIBLE);
+                                adapter_deliveries = new Adapter_Accepted_Deliveries(context, R.layout.custom_item_for_dockier_accepted_deliveries, CompletedList);
+                                lst_deliveries.setAdapter(adapter_deliveries);
+                                lst_deliveries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Constants.order_id = CompletedList.get(position).getOrder_id();
+                                        Constants.isCompleted = 1;
+                                        context.startActivity(new Intent(context, AcceptedDeliveriesActivity.class));
+                                    }
+                                });
+
+                            } else {
+                                lst_deliveries.setVisibility(View.GONE);
+                                ivNoFeeds.setVisibility(View.VISIBLE);
+                            }
 
                         }
                     } else {

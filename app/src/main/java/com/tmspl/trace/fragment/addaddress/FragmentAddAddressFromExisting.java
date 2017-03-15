@@ -113,10 +113,10 @@ public class FragmentAddAddressFromExisting extends Fragment {
                             Constants.order_from_address.setLat_long(AddressList.get(listPosition).getLatLong());
                             Constants.data_city = AddressList.get(listPosition).getData_city();
                         } else {
-                            Constants.order_to_address.get(Constants.toCount).setAddress_id(AddressList.get(listPosition).getKey());
-                            Constants.order_to_address.get(Constants.toCount).setName(AddressList.get(listPosition).getName());
-                            Constants.order_to_address.get(Constants.toCount).setAddress_line_1(AddressList.get(listPosition).getValue());
-                            Constants.order_to_address.get(Constants.toCount).setLat_long(AddressList.get(listPosition).getLatLong());
+                            Constants.order_to_address.setAddress_id(AddressList.get(listPosition).getKey());
+                            Constants.order_to_address.setName(AddressList.get(listPosition).getName());
+                            Constants.order_to_address.setAddress_line_1(AddressList.get(listPosition).getValue());
+                            Constants.order_to_address.setLat_long(AddressList.get(listPosition).getLatLong());
                         }
                         getActivity().onBackPressed();
                     } else {

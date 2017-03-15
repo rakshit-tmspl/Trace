@@ -5,13 +5,13 @@ package com.tmspl.trace.apimodel;
  */
 public class Order_Detail_bean {
 
-    String name,address_id,address_line_1,address_line_2,area_key,city_key,area_value,city_value,state,pin,mobile,individual_price,km,lat_long;
+    String name, address_id, address_line_1, address_line_2, area_key, city_key, area_value, city_value, state, pin, mobile, individual_price, km, lat_long;
     int index;
 
     public Order_Detail_bean() {
     }
 
-    public Order_Detail_bean(String name, String address_id, String address_line_1, String address_line_2, String area_key, String city_key, String area_value, String city_value, String state, String pin, String mobile, String individual_price, String km, String lat_long,int index) {
+    public Order_Detail_bean(String name, String address_id, String address_line_1, String address_line_2, String area_key, String city_key, String area_value, String city_value, String state, String pin, String mobile, String individual_price, String km, String lat_long, int index) {
         this.name = name;
         this.address_id = address_id;
         this.address_line_1 = address_line_1;
@@ -26,7 +26,7 @@ public class Order_Detail_bean {
         this.individual_price = individual_price;
         this.km = km;
         this.lat_long = lat_long;
-        this.index=index;
+        this.index = index;
     }
 
     public int getIndex() {

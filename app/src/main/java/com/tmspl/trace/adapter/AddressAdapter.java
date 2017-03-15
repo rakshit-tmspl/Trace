@@ -47,9 +47,6 @@ public class AddressAdapter extends ArrayAdapter<Address_bean> {
             viewHolder.address_radio = (RadioButton) convertView.findViewById(R.id.address_radio);
 
 
-
-
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -58,7 +55,7 @@ public class AddressAdapter extends ArrayAdapter<Address_bean> {
         viewHolder.title.setText(eventBean.getName() + " - " + eventBean.getValue());
 
 
-        if(mSelectedVariation==position)viewHolder.address_radio.setChecked(true);
+        if (mSelectedVariation == position) viewHolder.address_radio.setChecked(true);
         else viewHolder.address_radio.setChecked(false);
 
         viewHolder.address_radio.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +72,7 @@ public class AddressAdapter extends ArrayAdapter<Address_bean> {
             public void onClick(View v) {
 
                 FragmentAddAddressFromExisting.listPosition = position;
-                mSelectedVariation=position;
+                mSelectedVariation = position;
                 AddressAdapter.this.notifyDataSetChanged();
             }
         });

@@ -157,7 +157,7 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.setPositiveButton("Settings",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Preferences.savePreferences(mContext,"SFLG","1");
+                        Preferences.savePreferences(mContext, "SFLG", "1");
 
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         mContext.startActivity(intent);
@@ -178,7 +178,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        this.location=location;
+        this.location = location;
     }
 
     @Override

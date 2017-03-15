@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
     JSONObject Responce;
     String body;
     Activity context;
+
+    public static Bitmap registerImage = null;
+    public static int registerFlag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                         Constants.ut = 1;
                         if (gbitmap != null) {
                             Constants.rphoto = Utility.encodeTobase64(gbitmap);
+                            Log.e("IMAGE", "onClick: " + Constants.rphoto);
                         }
                         Constants.rfitst_name = et_fullname.getText().toString();
                         Constants.remail = et_username.getText().toString();
@@ -104,7 +109,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                         Alert.showInternetConnError(context);
                     }
                 }
-
+                // new sendImage(context).execute();
             }
         });
 
@@ -114,11 +119,34 @@ public class UserRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                gbitmap = BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.user_demo);
-                show_camera_gallery_popup(v);
+              /*  gbitmap = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.user_demo);*/
+//                show_camera_gallery_popup(v);
+                takeImageDialog();
             }
         });
+    }
+
+    public void takeImageDialog() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    Constants.camFlg = 1;
+                    startActivity(new Intent(UserRegistrationActivity.this, CaptureActivity.class));
+                } else if (items[item].equals("Choose from Library")) {
+                    Constants.camFlg = 0;
+                    startActivity(new Intent(UserRegistrationActivity.this, CaptureActivity.class));
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+
     }
 
     @SuppressLint("NewApi")
@@ -128,7 +156,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
         final String[] CType = new String[]{"CAMERA", "GALLERY"};
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle("Select Profile Picture")
-
                 .setItems(CType, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 1) {
@@ -146,7 +173,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,7 +189,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         }
         user_registration.buildDrawingCache();
         gbitmap = user_registration.getDrawingCache();
-    }
+    }*/
 
     public void InitConnection() {
         httphelper = new HttpHelper(context);
@@ -196,8 +223,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 ArrayList<NameValuePair> nameValuePairs = new
                         ArrayList<NameValuePair>();
 
-                nameValuePairs.add(new BasicNameValuePair("email",et_username.getText().toString()));
-                nameValuePairs.add(new BasicNameValuePair("mobile",et_mobile.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("email", et_username.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("mobile", et_mobile.getText().toString()));
 
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL + "check_otp", ServiceHandler.POST, nameValuePairs);
                 if (jsonResponse.equals("")) {
@@ -235,6 +262,86 @@ public class UserRegistrationActivity extends AppCompatActivity {
                         finish();
                         startActivity(new Intent(context,
                                 OtpVerificationActivity.class));
+                    } else {
+                        Alert.ShowAlert(context, jobj1.getString
+                                ("responseMessage"));
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if (user_registration != null) {
+                user_registration.setImageBitmap(Constants.parcelBitmap);
+                Log.e("Image Value -->", "onResume: " + Constants.parcelBitmap);
+                Log.e("Image BASE -->", "onResume: " + Utility.encodeTobase64(Constants.parcelBitmap));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class sendImage extends AsyncTask<String, String, String> {
+
+        Activity context;
+        AlertDialog pd;
+
+        @Override
+        protected void onPreExecute() {
+            pd = new SpotsDialog(context, "Confirming Signup..");
+            pd.show();
+            pd.setCancelable(false);
+
+        }
+
+        public sendImage(Activity context) {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                ServiceHandler sh = new ServiceHandler();
+
+                ArrayList<NameValuePair> nameValuePairs = new
+                        ArrayList<NameValuePair>();
+
+                nameValuePairs.add(new BasicNameValuePair("image", Utility.encodeTobase64(Constants.parcelBitmap)));
+
+                String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL + "save_image", ServiceHandler.POST, nameValuePairs);
+                if (jsonResponse.equals("")) {
+                    return "{\"error\":\"Sign up Failed Please try again later\"}";
+                } else {
+                    return jsonResponse;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "{\"error\":\"Sign up Failed Please try again later\"}";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (pd.isShowing())
+                pd.dismiss();
+            try {
+                JSONObject jobj1 = new JSONObject(result);
+
+                if (jobj1.has("error")) {
+                    Alert.ShowAlert(context, jobj1.getString
+                            ("error"));
+                } else {
+                    if (jobj1.getInt("status") == 1) {
+
+                        JSONObject ResponseObj = new JSONObject
+                                (jobj1.getString("responseJson"));
                     } else {
                         Alert.ShowAlert(context, jobj1.getString
                                 ("responseMessage"));

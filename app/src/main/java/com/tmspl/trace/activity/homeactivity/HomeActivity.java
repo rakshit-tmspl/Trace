@@ -22,25 +22,19 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.tmspl.trace.R;
 import com.tmspl.trace.activity.LoginActivity;
-import com.tmspl.trace.activity.ridersactivity.RiderHomeActivity;
-import com.tmspl.trace.api.API;
-import com.tmspl.trace.api.RetrofitCallbacks;
+import com.tmspl.trace.activity.SplashActivity;
 import com.tmspl.trace.apimodel.DbModel;
-import com.tmspl.trace.apimodel.LoginNewResponse;
-import com.tmspl.trace.extra.Constants;
 import com.tmspl.trace.extra.MemoryCache;
 import com.tmspl.trace.extra.MyApplication;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.fragment.FragmentMap;
+import com.tmspl.trace.fragment.addaddress.UpdateUserProfile;
 import com.tmspl.trace.fragment.manageorder.FragmentManageOrder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PermissionListener {
@@ -77,7 +71,10 @@ public class HomeActivity extends AppCompatActivity
         new TedPermission(this)
                 .setPermissionListener(this)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WAKE_LOCK)
                 .check();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -131,11 +128,31 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.drawer_myOrder) {
             fragment = FragmentManageOrder.newInstance(1, this);
         } else if (id == R.id.drawer_profile) {
-
+            fragment = UpdateUserProfile.newInstance(2, HomeActivity.this);
         } else if (id == R.id.drawer_type) {
             //Become Rider clear SharedPreferences and memory and set user data.
             try {
+                String userType = Preferences.getSavedPreferences(HomeActivity.this, "usertype");
 
+                Log.e(TAG, "onNavigationItemSelected: HOMEACTIVITY" + userType);
+
+                if (userType.equals("1")) {
+                    //Preferences.savePreferences(HomeActivity.this, "usertype", "3");
+
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    //Preferences.savePreferences(HomeActivity.this, "usertype", "3");
+                    Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+/*
                 String contact = Preferences.getSavedPreferences(HomeActivity.this, "mobile");
                 String password = Preferences.getSavedPreferences(HomeActivity.this, "password");
 
@@ -190,7 +207,7 @@ public class HomeActivity extends AppCompatActivity
                                 Log.i(TAG, call.toString());
                                 Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        });*/
             } catch (Exception e) {
                 e.printStackTrace();
             }

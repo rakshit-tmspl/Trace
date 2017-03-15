@@ -2,12 +2,13 @@ package com.tmspl.trace.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import com.tmspl.trace.extra.LocationService;
 import com.tmspl.trace.extra.NetworkUtil;
 import com.tmspl.trace.extra.Preferences;
 import com.tmspl.trace.extra.ServiceHandler;
+import com.tmspl.trace.extra.Utility;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -47,6 +49,10 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
     public static Activity context;
     public static ImageView done1;
     public static TextView tvPicParcel;
+
+    private LinearLayout linearRiderCalls, linearRiderParcelPic;
+    private Button btnCallSender, btnCallReceiver;
+    private ImageView ivRiderParcel;
 
     public static String rider_name, rider_vehicle_name, rider_vehicle_number, secret_code, order_track_id;
 
@@ -73,6 +79,13 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
         from_add = (LinearLayout) findViewById(R.id.from_address);
         to_add_1 = (LinearLayout) findViewById(R.id.to_address_1);
+
+        linearRiderCalls = (LinearLayout) findViewById(R.id.linear_rider_calls);
+        linearRiderParcelPic = (LinearLayout) findViewById(R.id.linear_rider_parcel_pic);
+        btnCallSender = (Button) findViewById(R.id.btn_call_sender);
+        btnCallReceiver = (Button) findViewById(R.id.btn_call_receiver);
+        ivRiderParcel = (ImageView) findViewById(R.id.iv_rider_parcel);
+
 //        to_add_2 = (LinearLayout) findViewById(R.id.to_address_2);
 //        to_add_3 = (LinearLayout) findViewById(R.id.to_address_3);
 
@@ -82,8 +95,8 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 //        txt_to_add_3 = (TextView) findViewById(R.id.accepted_to_address_3);
 
         done1 = (ImageView) findViewById(R.id.accept_img_1);
-        done2 = (ImageView) findViewById(R.id.accept_img_2);
-        done3 = (ImageView) findViewById(R.id.accept_img_3);
+        //done2 = (ImageView) findViewById(R.id.accept_img_2);
+        //done3 = (ImageView) findViewById(R.id.accept_img_3);
 
         tvPicParcel = (TextView) findViewById(R.id.tv_pic_Parcel);
 
@@ -97,7 +110,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         });
 
         parcel_img = (ImageView) findViewById(R.id.accepted_parcel_img);
-        accepted_make_call = (ImageView) findViewById(R.id.accepted_make_call);
+        //accepted_make_call = (ImageView) findViewById(R.id.accepted_make_call);
         iv_next = (ImageView) findViewById(R.id.iv_next);
 
         btn_track_order = (Button) findViewById(R.id.btn_track_order);
@@ -106,7 +119,8 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
         if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
             iv_next.setVisibility(View.INVISIBLE);
             btn_track_order.setText("Track Destination");
-            tvPicParcel.setVisibility(View.VISIBLE);
+            linearRiderParcelPic.setVisibility(View.VISIBLE);
+            //tvPicParcel.setVisibility(View.VISIBLE);
         }
 
         if (NetworkUtil.isInternetConnencted(context)) {
@@ -123,6 +137,40 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                 new picParcel(context).execute();
             }
         });
+
+        if (Constants.parcelBitmap != null) {
+            ivRiderParcel.setImageBitmap(Constants.parcelBitmap);
+        }
+
+        ivRiderParcel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeImageDialog();
+            }
+        });
+
+    }
+
+
+    public void takeImageDialog() {
+        final CharSequence[] items = {"Take Photo", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(AcceptedDeliveriesActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    Constants.camFlg = 1;
+                    startActivity(new Intent(AcceptedDeliveriesActivity.this, CaptureActivity.class));
+                } /*else if (items[item].equals("Choose from Library")) {
+                    Constants.camFlg = 0;
+                    startActivity(new Intent(getActivity(), CaptureActivity.class));
+                }*/ else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
 
     }
 
@@ -197,7 +245,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                     .into(parcel_img);
                         } else {
                             Picasso.with(context)
-                                    .load(Constants.Image_IP + object_to_1.getString("image"))
+                                    .load(Constants.IMAGE_URL + object_to_1.getString("image"))
                                     .placeholder(R.drawable.photo)
                                     .error(R.drawable.photo)
                                     .into(parcel_img);
@@ -207,11 +255,27 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
 
 
                         if (Preferences.getSavedPreferences(context, "usertype").equals("3")) {
-                            accepted_make_call.setVisibility(View.VISIBLE);
+                            //accepted_make_call.setVisibility(View.VISIBLE);
+                            linearRiderCalls.setVisibility(View.VISIBLE);
                         } else {
-                            accepted_make_call.setVisibility(View.GONE);
+                            //accepted_make_call.setVisibility(View.GONE);
+                            linearRiderCalls.setVisibility(View.GONE);
                         }
-                        accepted_make_call.setOnClickListener(new View.OnClickListener() {
+
+                        btnCallSender.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context, "Call Sender", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        btnCallReceiver.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context, "Call Receiver", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        /*accepted_make_call.setOnClickListener(new View.OnClickListener() {
 
                             @Override
                             public void onClick(View arg0) {
@@ -229,7 +293,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                                 }
 
                             }
-                        });
+                        });*/
                         if (object_to_1.getString("hasrider").equals("0") || Constants.isSignCom == 0) {
                             iv_next.setVisibility(View.INVISIBLE);
                         }
@@ -280,7 +344,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                         btn_track_order.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                context.startActivity(new Intent(context, Track_Order.class));
+                                context.startActivity(new Intent(context, TrackOrderActivity.class));
                             }
                         });
                         if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_1.getString("status").equals("2") == false) {
@@ -335,7 +399,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             final JSONObject object_to_2 = detailArray.getJSONObject(1);
                             txt_to_add_2.setText(object_to_2.getString("to_address"));
                             if (object_to_2.getString("status").equals("2") == false) {
-                                done2.setVisibility(View.GONE);
+                                //done2.setVisibility(View.GONE);
 
                             } else {
                                 deliverydate = object_to_2.getString("delivery_date_time");
@@ -387,7 +451,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                             final JSONObject object_to_3 = detailArray.getJSONObject(2);
                             txt_to_add_3.setText(object_to_3.getString("to_address"));
                             if (object_to_3.getString("status").equals("2") == false) {
-                                done3.setVisibility(View.GONE);
+                                //done3.setVisibility(View.GONE);
                             } else {
                                 deliverydate = object_to_3.getString("delivery_date_time");
                                 sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -489,6 +553,7 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                         Constants.order_id));
                 nameValuePairs.add(new BasicNameValuePair("auth", Constants.AUTH));
                 nameValuePairs.add(new BasicNameValuePair("pickup_location", Constants.lat + "," + Constants.lang));
+                nameValuePairs.add(new BasicNameValuePair("r_image", Utility.encodeTobase64(Constants.parcelBitmap)));
 
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL
                                 + "update_pickup_location", ServiceHandler.POST,
@@ -514,12 +579,14 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                 } else {
                     if (jsonObject.getInt("status") == 1) {
                         Toast.makeText(context, jsonObject.getString("responseMessage"), Toast.LENGTH_SHORT).show();
-                        tvPicParcel.setVisibility(View.GONE);
+                        linearRiderParcelPic.setVisibility(View.GONE);
+                        //tvPicParcel.setVisibility(View.GONE);
                         Constants.lang = 0.0;
                         Constants.lat = 0.0;
                     } else {
                         Toast.makeText(context, jsonObject.getString("responseMessage"), Toast.LENGTH_SHORT).show();
-                        tvPicParcel.setVisibility(View.VISIBLE);
+                        linearRiderParcelPic.setVisibility(View.VISIBLE);
+//                        tvPicParcel.setVisibility(View.VISIBLE);
                     }
                 }
                 if (pd.isShowing())
@@ -530,6 +597,19 @@ public class AcceptedDeliveriesActivity extends AppCompatActivity {
                     pd.dismiss();
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if (Constants.parcelBitmap != null) {
+                ivRiderParcel.setImageBitmap(Constants.parcelBitmap);
+                Log.e("Image Value -->", "onResume: " + Constants.parcelBitmap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

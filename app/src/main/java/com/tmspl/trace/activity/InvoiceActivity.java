@@ -37,7 +37,7 @@ public class InvoiceActivity extends Activity {
 
     public static LinearLayout from_add, to_add_1, to_add_2, to_add_3;
     public static TextView txt_from_add, txt_to_add_1, txt_to_add_2, txt_to_add_3;
-    public static TextView txt_invoice_name,txt_invoice_order_id,txt_invoice_order_date,txt_invoice_total_distance,txt_invoice_total_bill,txt_invoice_paid;
+    public static TextView txt_invoice_name, txt_invoice_order_id, txt_invoice_order_date, txt_invoice_total_distance, txt_invoice_total_bill, txt_invoice_paid;
     public static ImageView parcel_img;
     public static ImageView done1, done2, done3;
     public static Activity context;
@@ -47,17 +47,15 @@ public class InvoiceActivity extends Activity {
     public static String to_id, to_rs, to_count, to_address;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoice_deliveries);
         context = InvoiceActivity.this;
 
-        if(Constants.order_id==null)
-        {
+        if (Constants.order_id == null) {
             finish();
-            startActivity(new Intent(this,UserHomeActivity.class));
+            startActivity(new Intent(this, UserHomeActivity.class));
         }
 
         from_add = (LinearLayout) findViewById(R.id.from_address);
@@ -91,8 +89,6 @@ public class InvoiceActivity extends Activity {
         parcel_img = (ImageView) findViewById(R.id.accepted_parcel_img);
 
 
-
-
         if (NetworkUtil.isInternetConnencted(context)) {
             new view_order_detail(context).execute();
 
@@ -113,7 +109,7 @@ public class InvoiceActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            pd = new SpotsDialog(context,"Fetching Addresses..");
+            pd = new SpotsDialog(context, "Fetching Addresses..");
             pd.show();
             pd.setCancelable(false);
 
@@ -165,7 +161,6 @@ public class InvoiceActivity extends Activity {
                         final JSONObject object_to_1 = detailArray.getJSONObject(0);
 
 
-
                         if (object_to_1.getString("image").equals("noimage.jpg") || object_to_1.getString("image").length() == 0) {
                             Picasso.with(context)
                                     .load(R.drawable.photo)
@@ -182,40 +177,35 @@ public class InvoiceActivity extends Activity {
                         }
 
 
-
                         secret_code = object_to_1.getString("secret_code");
                         order_track_id = object_to_1.getString("order_track_id");
 
-                        if(Preferences.getSavedPreferences(context,"usertype").equals("2")) {
-                            txt_invoice_name.setText(Preferences.getSavedPreferences(context,"company_name"));
-                        }else
-                        {
-                            txt_invoice_name.setText(Preferences.getSavedPreferences(context,"first_name")+" "+Preferences.getSavedPreferences(context,"last_name"));
+                        if (Preferences.getSavedPreferences(context, "usertype").equals("2")) {
+                            txt_invoice_name.setText(Preferences.getSavedPreferences(context, "company_name"));
+                        } else {
+                            txt_invoice_name.setText(Preferences.getSavedPreferences(context, "first_name") + " " + Preferences.getSavedPreferences(context, "last_name"));
                         }
                         txt_invoice_order_id.setText(order_track_id);
 
-                        String deliverydate=object_to_1.getString("order_date_time");
-                        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date=sdf.parse(deliverydate);
-                        sdf=new SimpleDateFormat("dd-MM-yyyy");
+                        String deliverydate = object_to_1.getString("order_date_time");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = sdf.parse(deliverydate);
+                        sdf = new SimpleDateFormat("dd-MM-yyyy");
 
                         txt_invoice_order_date.setText(sdf.format(date));
-                        txt_invoice_total_distance.setText(Math.round(Double.parseDouble(object_to_1.getString("total_km")))+" km");
-                        txt_invoice_total_bill.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount")))+" Rs.");
-                        txt_invoice_paid.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount")))+" Rs.");
+                        txt_invoice_total_distance.setText(Math.round(Double.parseDouble(object_to_1.getString("total_km"))) + " km");
+                        txt_invoice_total_bill.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount"))) + " Rs.");
+                        txt_invoice_paid.setText(Math.round(Double.parseDouble(object_to_1.getString("total_amount"))) + " Rs.");
 
-                        deliverydate=object_to_1.getString("pickup_date_time");
-                        sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        date=sdf.parse(deliverydate);
-                        sdf=new SimpleDateFormat("HH:mm");
-                        String strFrom="";
-                        if(object_to_1.getString("payment_method").equals("1"))
-                        {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done by Cash!";
-                        }
-                        else
-                        {
-                            strFrom=object_to_1.getString("from_address")+"\nPickup Time : "+sdf.format(date)+"\n"+"Payment has been done by Paytm!";
+                        deliverydate = object_to_1.getString("pickup_date_time");
+                        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        date = sdf.parse(deliverydate);
+                        sdf = new SimpleDateFormat("HH:mm");
+                        String strFrom = "";
+                        if (object_to_1.getString("payment_method").equals("1")) {
+                            strFrom = object_to_1.getString("from_address") + "\nPickup Time : " + sdf.format(date) + "\n" + "Payment has been done by Cash!";
+                        } else {
+                            strFrom = object_to_1.getString("from_address") + "\nPickup Time : " + sdf.format(date) + "\n" + "Payment has been done by Paytm!";
                         }
 
                         txt_from_add.setText(strFrom);
@@ -241,7 +231,7 @@ public class InvoiceActivity extends Activity {
                                 }
                             });
                         }
-                        if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_1.getString("status").equals("2")) {
+                        if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false && object_to_1.getString("status").equals("2")) {
                             to_add_1.setOnClickListener(new OnClickListener() {
 
                                 @Override
@@ -254,20 +244,18 @@ public class InvoiceActivity extends Activity {
                                         // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
-                                   // startActivity(new Intent(context, Rider_Complite.class));
+                                    // startActivity(new Intent(context, Rider_Complite.class));
                                 }
                             });
                         }
                         if (object_to_1.getString("status").equals("2") == false) {
                             done1.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            deliverydate=object_to_1.getString("delivery_date_time");
-                            sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            date=sdf.parse(deliverydate);
-                            sdf=new SimpleDateFormat("HH:mm");
-                            txt_to_add_1.setText(txt_to_add_1.getText()+"\nDelivery Time : "+sdf.format(date));
+                        } else {
+                            deliverydate = object_to_1.getString("delivery_date_time");
+                            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            date = sdf.parse(deliverydate);
+                            sdf = new SimpleDateFormat("HH:mm");
+                            txt_to_add_1.setText(txt_to_add_1.getText() + "\nDelivery Time : " + sdf.format(date));
                         }
 
                         if (detailArray.length() > 1) {
@@ -278,14 +266,12 @@ public class InvoiceActivity extends Activity {
                             if (object_to_2.getString("status").equals("2") == false) {
                                 done2.setVisibility(View.GONE);
 
-                            }
-                            else
-                            {
-                                deliverydate=object_to_2.getString("delivery_date_time");
-                                sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                date=sdf.parse(deliverydate);
-                                sdf=new SimpleDateFormat("HH:mm");
-                                txt_to_add_2.setText(txt_to_add_2.getText()+"\nDelivery Time : "+sdf.format(date));
+                            } else {
+                                deliverydate = object_to_2.getString("delivery_date_time");
+                                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                date = sdf.parse(deliverydate);
+                                sdf = new SimpleDateFormat("HH:mm");
+                                txt_to_add_2.setText(txt_to_add_2.getText() + "\nDelivery Time : " + sdf.format(date));
                             }
 
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_2.getString("status").equals("2") == false) {
@@ -307,7 +293,7 @@ public class InvoiceActivity extends Activity {
                                     }
                                 });
                             }
-                            if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false  && object_to_2.getString("status").equals("2")) {
+                            if (Preferences.getSavedPreferences(context, "usertype").equals("3") == false && object_to_2.getString("status").equals("2")) {
                                 to_add_2.setOnClickListener(new OnClickListener() {
 
                                     @Override
@@ -315,7 +301,7 @@ public class InvoiceActivity extends Activity {
                                         // TODO Auto-generated method stub
                                         try {
                                             to_id = object_to_2.getString("to_id");
-                                           // startActivity(new Intent(context, Rider_Complite.class));
+                                            // startActivity(new Intent(context, Rider_Complite.class));
                                         } catch (JSONException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
@@ -331,14 +317,12 @@ public class InvoiceActivity extends Activity {
                             txt_to_add_3.setText(object_to_3.getString("to_address"));
                             if (object_to_3.getString("status").equals("2") == false) {
                                 done3.setVisibility(View.GONE);
-                            }
-                            else
-                            {
-                                deliverydate=object_to_3.getString("delivery_date_time");
-                                sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                date=sdf.parse(deliverydate);
-                                sdf=new SimpleDateFormat("HH:mm");
-                                txt_to_add_3.setText(txt_to_add_3.getText()+"\nDelivery Time : "+sdf.format(date));
+                            } else {
+                                deliverydate = object_to_3.getString("delivery_date_time");
+                                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                date = sdf.parse(deliverydate);
+                                sdf = new SimpleDateFormat("HH:mm");
+                                txt_to_add_3.setText(txt_to_add_3.getText() + "\nDelivery Time : " + sdf.format(date));
                             }
                             if (Preferences.getSavedPreferences(context, "usertype").equals("3") && object_to_3.getString("status").equals("2") == false) {
                                 to_add_3.setOnClickListener(new OnClickListener() {
@@ -367,7 +351,7 @@ public class InvoiceActivity extends Activity {
                                         // TODO Auto-generated method stub
                                         try {
                                             to_id = object_to_3.getString("to_id");
-                                          //  startActivity(new Intent(context, Rider_Complite.class));
+                                            //  startActivity(new Intent(context, Rider_Complite.class));
                                         } catch (JSONException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
@@ -376,7 +360,6 @@ public class InvoiceActivity extends Activity {
                                 });
                             }
                         }
-
 
 
                     } else {

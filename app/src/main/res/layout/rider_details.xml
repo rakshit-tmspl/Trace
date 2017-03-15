@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bike_name" />
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/txt_bike_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bike_number" />
 
-                <TextView
+                <com.tmspl.trace.extra.CustomTextView
                     android:id="@+id/txt_bike_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,13 +134,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.tmspl.trace.extra.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="YOUR DOCKIER CODE"
+                android:text="Your Trace Code"
                 android:textColor="@android:color/black" />
 
-            <TextView
+            <com.tmspl.trace.extra.CustomTextView
                 android:id="@+id/txt_dockier_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="32dp" />
 
-            <TextView
+            <com.tmspl.trace.extra.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

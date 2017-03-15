@@ -93,7 +93,7 @@ public class LocationService extends Service {
             Log.e("Location", "From Service" + lat + "---" + lng);
             Constants.lat = lat;
             Constants.lang = lng;
-            if (NetworkUtil.isInternetConnencted(this) && Preferences.getSavedPreferences(this, "rider_id").length()>0) {
+            if (NetworkUtil.isInternetConnencted(this) && Preferences.getSavedPreferences(this, "rider_id").length() > 0) {
                 new update_rider_track(Preferences.getSavedPreferences(this, "rider_id"), lat + "," + lng).execute();
             }
         } else {
@@ -150,7 +150,7 @@ public class LocationService extends Service {
                 nameValuePairs.add(new BasicNameValuePair("rider_id", this.rider_id));
                 nameValuePairs.add(new BasicNameValuePair("lat_lon", this.lat_long));
 
-                rider_lat_long=this.lat_long+"";
+                rider_lat_long = this.lat_long + "";
                 String jsonResponse = sh.makeServiceCall(Constants.API_BASE_URL + "update_rider_track", ServiceHandler.POST, nameValuePairs);
                 if (jsonResponse.equals("")) {
                     return "{\"error\":\"Update Location Failed Please try again later\"}";

@@ -42,10 +42,9 @@ public class Rider_details extends Activity {
         txt_bike_name.setText(AcceptedDeliveriesActivity.rider_vehicle_name);
         txt_bike_number.setText(AcceptedDeliveriesActivity.rider_vehicle_number);
         txt_dockier_code.setText(AcceptedDeliveriesActivity.secret_code);
-        if(Preferences.getSavedPreferences(this,"usertype").equals("3")) {
+        if (Preferences.getSavedPreferences(this, "usertype").equals("3")) {
             rider_image.setImageBitmap(RiderHomeActivity.getPhoto(Preferences.getSavedPreferences(this, "r_image")));
-        }else
-        {
+        } else {
             if (AcceptedDeliveriesActivity.rider_image.equals("noimage.jpg") || AcceptedDeliveriesActivity.rider_image.length() == 0) {
                 Picasso.with(this)
                         .load(R.drawable.icon_rider_image)
@@ -54,7 +53,7 @@ public class Rider_details extends Activity {
                         .into(rider_image);
             } else {
                 Picasso.with(this)
-                        .load(Constants.Image_IP +AcceptedDeliveriesActivity.rider_image)
+                        .load(Constants.IMAGE_URL + AcceptedDeliveriesActivity.rider_image)
                         .placeholder(R.drawable.icon_rider_image)
                         .error(R.drawable.icon_rider_image)
                         .into(rider_image);
@@ -93,7 +92,7 @@ public class Rider_details extends Activity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                startActivity(new Intent(Rider_details.this, Track_Order.class));
+                startActivity(new Intent(Rider_details.this, TrackOrderActivity.class));
 
             }
         });
